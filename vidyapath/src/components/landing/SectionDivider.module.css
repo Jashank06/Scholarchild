@@ -1,0 +1,202 @@
+.dividerContainer {
+  width: 100%;
+  padding: var(--space-8) 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: rgba(59, 130, 246, 0.02);
+  position: relative;
+}
+
+.contentWrapper {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* === Icons Flow === */
+.iconsFlow {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.iconsFlow span {
+  font-size: 32px;
+  animation: floatIcon 3s ease-in-out infinite;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+}
+
+.line {
+  width: 200px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #2563EB, transparent);
+  position: relative;
+}
+
+.line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 100%;
+  background: white;
+  filter: blur(4px);
+  animation: flowLight 2s linear infinite;
+}
+
+@keyframes flowLight {
+  from { left: 0; }
+  to { left: 100%; }
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* === Marquee === */
+.marquee {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  background: rgba(37, 99, 235, 0.05);
+  padding: 1rem 0;
+  border-top: 1px solid rgba(37, 99, 235, 0.1);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+}
+
+.marqueeInner {
+  display: inline-block;
+  animation: marqueeFlow 30s linear infinite;
+}
+
+.marqueeInner span {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: #2563EB;
+  opacity: 0.5;
+  padding-right: 50px;
+}
+
+@keyframes marqueeFlow {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* === Data Stream === */
+.dataStream {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dataNode {
+  font-family: monospace;
+  font-size: 12px;
+  color: #3B82F6;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 4px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  animation: flicker 2s infinite;
+}
+
+.dataLine {
+  width: 100px;
+  height: 1px;
+  background: rgba(59, 130, 246, 0.3);
+  position: relative;
+}
+
+.dataLine::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 4px;
+  height: 5px;
+  background: #3B82F6;
+  border-radius: 50%;
+  animation: flowLight 1s linear infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* === Pulse Wave === */
+.pulseWave {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.waveLine {
+  width: 150px;
+  height: 2px;
+  background: #2563EB;
+  border-radius: 100px;
+  opacity: 0.2;
+}
+
+.waveCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #2563EB;
+  position: relative;
+}
+
+.waveCircle::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 1px solid #2563EB;
+  opacity: 0;
+  animation: pulseOut 2s infinite;
+}
+
+@keyframes pulseOut {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* === Trust Strip === */
+.trustStrip {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #9CA3AF;
+  letter-spacing: 2px;
+}
+
+.smallPulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  animation: pulseMini 2s infinite;
+}
+
+@keyframes pulseMini {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+/* === Simple Line (Fallback) === */
+.simpleLine {
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.2), transparent);
+}

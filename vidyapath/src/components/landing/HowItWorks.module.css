@@ -1,0 +1,222 @@
+.section {
+  padding: var(--space-32) 0;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff; /* Switched to white */
+}
+
+.section::before, .section::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+  z-index: 0;
+  filter: blur(100px);
+}
+
+.section::before { top: -200px; left: -200px; }
+.section::after { bottom: -200px; right: -200px; }
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--space-20);
+  perspective: 1000px;
+}
+
+.blueHighlight {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.3));
+}
+
+/* === Steps Container === */
+.stepsContainer {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--space-10);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  position: relative;
+}
+
+/* === Dynamic Liquid Connector === */
+.connectLine {
+  position: absolute;
+  top: 90px;
+  left: 20%;
+  width: 60%;
+  height: 4px;
+  z-index: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.connectLine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #3B82F6, #60A5FA, transparent);
+  animation: liquidFlow 3s infinite linear;
+}
+
+@keyframes liquidFlow {
+  to { left: 100%; }
+}
+
+/* === Liquid Glass Card === */
+.stepCard {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-10) var(--space-8);
+  background: rgba(255, 255, 255, 0.7); /* Frosted White Glass */
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 40px;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
+  transform-style: preserve-3d;
+}
+
+.stepCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), transparent, rgba(59, 130, 246, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.8;
+}
+
+.stepCard:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-15px) rotateX(5deg);
+  box-shadow: 0 30px 60px rgba(59, 130, 246, 0.15);
+}
+
+/* === Luminous Step Number === */
+.stepNumber {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 900;
+  color: white;
+  margin-bottom: var(--space-8);
+  background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.stepNumber::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  animation: pulseIn 2s infinite;
+}
+
+@keyframes pulseIn {
+  0% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.1; }
+  100% { transform: scale(1); opacity: 0.5; }
+}
+
+/* === 3D Step Icon === */
+.stepIcon {
+  font-size: 56px;
+  margin-bottom: var(--space-6);
+  display: block;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+  animation: float3D 4s ease-in-out infinite;
+}
+
+@keyframes float3D {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* === Content Styling === */
+.stepTitle {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: #0B0B1A; /* Deep Navy */
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.5px;
+}
+
+.stepDescription {
+  font-size: var(--text-base);
+  color: #4B5563; /* Soft Dark Gray */
+  line-height: 1.6;
+  margin-bottom: var(--space-6);
+}
+
+.stepFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  text-align: left;
+}
+
+.stepFeature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 13px;
+  color: #374151; /* Dark Gray */
+  background: rgba(59, 130, 246, 0.05); /* Light Blue Tint */
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stepCard:hover .stepFeature {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #111827;
+}
+
+.check {
+  color: #3B82F6;
+  font-weight: 900;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+  .stepsContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-12);
+  }
+  .connectLine { display: none; }
+  .stepCard { width: 100%; max-width: 450px; }
+}

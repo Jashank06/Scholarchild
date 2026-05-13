@@ -1,0 +1,196 @@
+.section {
+  padding: var(--space-32) 0;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--space-20);
+}
+
+.highlightText {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
+
+/* === Testimonials Track === */
+.testimonialTrack {
+  display: flex;
+  gap: var(--space-8);
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-8);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  perspective: 2000px;
+}
+
+.testimonialTrack::-webkit-scrollbar {
+  display: none;
+}
+
+/* === Holographic Quote Card === */
+.card {
+  min-width: 380px;
+  max-width: 420px;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  padding: var(--space-12) var(--space-10);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 50px;
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-20px) rotateY(10deg);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 40px 80px rgba(59, 130, 246, 0.15);
+}
+
+/* === Stars === */
+.stars {
+  display: flex;
+  gap: 6px;
+  margin-bottom: var(--space-6);
+  transform: translateZ(20px);
+}
+
+.star {
+  color: #FACC15;
+  font-size: 18px;
+  filter: drop-shadow(0 0 5px rgba(250, 204, 21, 0.4));
+}
+
+/* === Quote === */
+.quote {
+  font-size: 18px;
+  color: #1F2937;
+  line-height: 1.7;
+  margin-bottom: var(--space-10);
+  flex: 1;
+  font-style: italic;
+  font-weight: 500;
+  transform: translateZ(30px);
+  position: relative;
+}
+
+.quote::before {
+  content: '“';
+  font-family: serif;
+  font-size: 80px;
+  position: absolute;
+  top: -40px;
+  left: -30px;
+  color: #3B82F6;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+/* === Author === */
+.author {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-top: var(--space-8);
+  border-top: 1px solid rgba(59, 130, 246, 0.1);
+  transform: translateZ(25px);
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.avatar::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  animation: rotateGlow 4s linear infinite;
+}
+
+@keyframes rotateGlow {
+  to { transform: rotate(360deg); }
+}
+
+.authorName {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 800;
+  color: #0B0B1A;
+}
+
+.authorMeta {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+/* === Achievement Badge === */
+.scholarshipBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5rem 1rem;
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #10B981;
+  margin-top: var(--space-6);
+  transform: translateZ(15px);
+}
+
+/* === Liquid Slider Dots === */
+.scrollDots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: var(--space-16);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.dot.active {
+  background: #2563EB;
+  width: 40px;
+  border-radius: 100px;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .card { min-width: 320px; padding: var(--space-10) var(--space-8); }
+}

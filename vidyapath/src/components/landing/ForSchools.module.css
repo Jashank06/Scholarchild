@@ -1,0 +1,227 @@
+.section {
+  padding: var(--space-32) 0;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--space-20);
+}
+
+.partnerHighlight {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
+
+/* === Partners Grid === */
+.partnersGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-10);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  perspective: 2000px;
+}
+
+/* === Extreme Partner Card (The Tower) === */
+.partnerCard {
+  position: relative;
+  padding: var(--space-16) var(--space-12);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 60px;
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+}
+
+.partnerCard::before {
+  content: '';
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 4px;
+  height: 80px;
+  border-radius: 4px 0 0 4px;
+  background: #3B82F6;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+  transition: all 0.4s ease;
+}
+
+.partnerCard:hover {
+  transform: translateY(-20px) rotateY(-10deg);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 40px 80px rgba(59, 130, 246, 0.15);
+}
+
+.partnerCard:hover::before {
+  height: 150px;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.8);
+}
+
+/* === Card Header === */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: var(--space-10);
+  transform: translateZ(40px);
+}
+
+.cardEmoji {
+  font-size: 56px;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+  animation: float3D 4s ease-in-out infinite;
+}
+
+@keyframes float3D {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+.cardHeaderText h3 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 800;
+  color: #0B0B1A;
+  letter-spacing: -0.5px;
+}
+
+.cardHeaderText p {
+  font-size: 14px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+/* === Card Description === */
+.cardDescription {
+  font-size: 16px;
+  color: #4B5563;
+  line-height: 1.7;
+  margin-bottom: var(--space-8);
+  transform: translateZ(20px);
+}
+
+/* === Luminous Feature List === */
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: var(--space-10);
+  transform: translateZ(10px);
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #374151;
+  font-weight: 600;
+  padding: 0.8rem 1.2rem;
+  background: rgba(59, 130, 246, 0.03);
+  border-radius: 15px;
+  border: 1px solid rgba(59, 130, 246, 0.05);
+  transition: all 0.3s ease;
+}
+
+.partnerCard:hover .featureItem {
+  background: white;
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: translateX(5px);
+}
+
+.featureIcon {
+  color: #3B82F6;
+  font-weight: 900;
+}
+
+/* === CTA Button === */
+.partnerCta {
+  width: 100%;
+  padding: 1.2rem;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  transform: translateZ(30px);
+}
+
+.ctaSchool {
+  background: #2563EB;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+}
+
+.ctaSchool:hover {
+  transform: translateZ(30px) scale(1.02);
+  background: #1D4ED8;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+}
+
+.ctaOrg {
+  background: white;
+  color: #2563EB;
+  border: 2px solid #2563EB;
+}
+
+.ctaOrg:hover {
+  background: #EFF6FF;
+  transform: translateZ(30px) scale(1.02);
+}
+
+/* === Trusted By === */
+.trustedBy {
+  text-align: center;
+  margin-top: var(--space-24);
+}
+
+.trustedLabel {
+  font-size: 11px;
+  font-weight: 900;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: var(--space-8);
+}
+
+.trustedLogos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+  opacity: 0.6;
+}
+
+.trustedLogo {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 800;
+  color: #6B7280;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.trustedLogo:hover {
+  color: #2563EB;
+  opacity: 1;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+  .partnersGrid { grid-template-columns: 1fr; gap: var(--space-10); }
+  .partnerCard { padding: var(--space-10); }
+}

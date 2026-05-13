@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  /* --- Premium Color Palette --- */
+  --vibrant-primary: #2563EB;
+  --vibrant-primary-hover: #1D4ED8;
+  --vibrant-accent: #6366F1;
+  --premium-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-blur: blur(12px);
+  
+  /* --- Dark Theme Accents --- */
+  --admin-dark: #0B0B1A;
+  --admin-card: rgba(17, 24, 39, 0.8);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #1F2937;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* --- Premium Utility Classes --- */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--premium-shadow);
+  border-radius: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--vibrant-primary);
+  box-shadow: 0 30px 60px -12px rgba(37, 99, 235, 0.15);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #1F2937 0%, #2563EB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.orb-glow {
+  position: absolute;
+  filter: blur(100px);
+  border-radius: 50%;
+  opacity: 0.15;
+  z-index: -1;
+  pointer-events: none;
+}

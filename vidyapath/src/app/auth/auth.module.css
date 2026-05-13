@@ -1,0 +1,318 @@
+.authPage {
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  z-index: 10;
+}
+
+.authBox {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  border-radius: 60px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.1);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* === Visual Pane === */
+.visualPane {
+  position: relative;
+  background: #0B0B1A;
+  min-height: 600px;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.authImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: all 1s ease;
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(11, 11, 26, 0.9) 0%, transparent 60%);
+  display: flex;
+  align-items: flex-end;
+  padding: 60px;
+}
+
+.quoteBox {
+  color: white;
+}
+
+.quoteIcon {
+  font-size: 80px;
+  font-family: serif;
+  color: #FACC15;
+  line-height: 1;
+  display: block;
+  margin-bottom: -20px;
+}
+
+.quoteText {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.quoteAuthor {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #60A5FA;
+}
+
+/* === Role Tabs === */
+.roleTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  background: #F3F4F6;
+  border-radius: 16px;
+  padding: 6px;
+}
+
+.roleTab {
+  flex: 1;
+  padding: 12px 10px;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.roleTab:hover {
+  color: #2563EB;
+}
+
+.activeTab {
+  background: white;
+  color: #2563EB;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* === Form Pane === */
+.formPane {
+  padding: 60px;
+  background: white;
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.formContent {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 900;
+  color: #0B0B1A;
+  letter-spacing: -2px;
+  margin-bottom: 12px;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+/* === Messages === */
+.message {
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  animation: slideIn 0.4s ease-out;
+}
+
+.success {
+  background: #ECFDF5;
+  color: #059669;
+  border: 1px solid #10B981;
+}
+
+.error {
+  background: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #EF4444;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-10px); opacity: 0; }
+}
+
+/* === Form === */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputGroup label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.inputGroup input,
+.inputGroup select {
+  padding: 1rem;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.inputGroup input:focus,
+.inputGroup select:focus {
+  background: white;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.submitBtn {
+  margin-top: 8px;
+  padding: 1.1rem;
+  background: #2563EB;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.submitBtn:hover {
+  background: #1D4ED8;
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.3);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* === Footer === */
+.footer {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.switchBtn {
+  background: none;
+  border: none;
+  color: #2563EB;
+  font-weight: 800;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+/* === Background Effects === */
+.backgroundEffects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.orbOne {
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+  filter: blur(60px);
+}
+
+.orbTwo {
+  position: absolute;
+  bottom: -10%;
+  left: -5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.05) 0%, transparent 70%);
+  filter: blur(60px);
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+  .authBox { grid-template-columns: 1fr; border-radius: 40px; }
+  .visualPane { height: 280px; min-height: auto; }
+  .formPane { padding: 32px; }
+  .title { font-size: 32px; }
+  .inputRow { grid-template-columns: 1fr; }
+}

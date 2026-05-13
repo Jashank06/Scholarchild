@@ -1,0 +1,181 @@
+.main {
+  background: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+.highlight {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === Mission Section === */
+.missionSection {
+  padding: 120px 0;
+  position: relative;
+}
+
+.missionGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.missionText {
+  font-size: 20px;
+  color: #4B5563;
+  line-height: 1.7;
+  margin-bottom: 50px;
+  font-weight: 500;
+}
+
+.missionList {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.missionItem {
+  display: flex;
+  gap: 24px;
+}
+
+.missionIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: #EFF6FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.missionItem h4 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0B0B1A;
+  margin-bottom: 4px;
+}
+
+.missionItem p {
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.5;
+}
+
+/* === Mission Visual (The Glass Orb) === */
+.missionVisual {
+  display: flex;
+  justify-content: center;
+}
+
+.glassOrb {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.05);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  position: relative;
+  backdrop-filter: blur(20px);
+  animation: orbPulse 6s ease-in-out infinite;
+}
+
+.innerCore {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2563EB, transparent);
+  filter: blur(20px);
+  opacity: 0.6;
+}
+
+.orbitLine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 200px;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: orbitRotate 10s linear infinite;
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(37, 99, 235, 0.1); }
+  50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(37, 99, 235, 0.2); }
+}
+
+@keyframes orbitRotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* === Values Section === */
+.valuesSection {
+  padding: 120px 0;
+  background: #F9FAFB;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.valueCard {
+  background: white;
+  padding: 50px 40px;
+  border-radius: 40px;
+  border: 1px solid #E5E7EB;
+  text-align: center;
+  transition: all 0.4s ease;
+}
+
+.valueCard:hover {
+  transform: translateY(-10px);
+  border-color: #2563EB;
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1);
+}
+
+.valueEmoji {
+  font-size: 48px;
+  margin-bottom: 24px;
+}
+
+.valueCard h3 {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 800;
+  color: #0B0B1A;
+  margin-bottom: 16px;
+}
+
+.valueCard p {
+  font-size: 15px;
+  color: #6B7280;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .missionGrid { grid-template-columns: 1fr; }
+  .valuesGrid { grid-template-columns: 1fr; }
+}

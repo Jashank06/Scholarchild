@@ -1,0 +1,254 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 2rem 0;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  justify-content: center;
+}
+
+/* === Adaptive Command Pill (Apple Style) === */
+.navbar.scrolled {
+  top: 20px;
+  padding: 0.5rem 0;
+}
+
+.navContent {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 4rem;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scrolled .navContent {
+  max-width: 900px; /* Shrinks into a pill */
+  background: rgba(11, 11, 26, 0.4);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  padding: 0.6rem 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* === Spotlight Wrapper === */
+.spotlightWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden; /* Contains the spotlight */
+  border-radius: inherit;
+}
+
+/* === Luminous Spotlight (Google Style) === */
+.spotlight {
+  position: absolute;
+  top: 50%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(
+    circle, 
+    rgba(250, 204, 21, 0.15) 0%, 
+    rgba(99, 102, 241, 0.05) 50%, 
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+  filter: blur(20px);
+}
+
+/* === Branding === */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: white;
+  z-index: 1;
+}
+
+.light .logo {
+  color: #0B0B1A;
+}
+
+.logoIcon {
+  font-size: 24px;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+}
+
+.logoText span {
+  background: linear-gradient(135deg, #FDE047 0%, #FACC15 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === Navigation Links === */
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* Reduced from 2rem */
+  z-index: 1;
+}
+
+.navLink {
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 0.5rem 0.8rem; /* Reduced padding */
+  transition: all 0.3s ease;
+  border-radius: 50px;
+}
+
+.light .navLink {
+  color: #2563EB;
+}
+
+.navLink:hover {
+  color: #FACC15; /* Added a gold touch on hover */
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.light .navLink:hover {
+  background: rgba(37, 99, 235, 0.05);
+}
+
+/* === Actions === */
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  z-index: 1;
+}
+
+.searchIcon {
+  font-size: 16px;
+  color: white; /* Changed to white */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.light .searchIcon {
+  color: #2563EB;
+}
+
+.searchIcon:hover {
+  color: #FACC15;
+}
+
+.loginBtn {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.light .loginBtn {
+  color: #2563EB;
+  background: rgba(37, 99, 235, 0.05);
+  border-color: rgba(37, 99, 235, 0.1);
+}
+
+.signupBtn {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #0B0B1A;
+  background: #FACC15;
+  padding: 0.6rem 1.6rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(250, 204, 21, 0.2);
+}
+
+/* === Mobile === */
+.menuBtn {
+  display: none;
+  z-index: 1001;
+  background: none;
+  border: none;
+}
+
+.menuBtn span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: white;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.light .menuBtn span {
+  background: #0B0B1A;
+}
+
+@media (max-width: 1024px) {
+  .navLinks, .navActions { display: none; }
+  .menuBtn { display: block; }
+  .navContent { padding: 0 2rem; }
+  .scrolled .navContent { max-width: 100%; border-radius: 0; top: 0; }
+
+  .mobileMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(11, 11, 26, 0.95);
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    z-index: 1000;
+  }
+
+  .light .mobileMenu {
+    background: rgba(255, 255, 255, 0.98);
+  }
+
+  .mobileNavLink {
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .light .mobileNavLink {
+    color: #0B0B1A;
+  }
+
+  .mobileActions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+}

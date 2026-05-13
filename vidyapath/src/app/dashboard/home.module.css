@@ -1,0 +1,347 @@
+.dashboardHome {
+  padding: 10px;
+}
+
+/* === HERO SECTION === */
+.welcomeCard {
+  background: linear-gradient(135deg, #2563EB 0%, #6366F1 100%);
+  border-radius: 40px;
+  padding: 60px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 40px;
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+}
+
+.welcomeCard::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.welcomeContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.welcomeText h1 {
+  font-size: 42px;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+}
+
+.welcomeText p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  max-width: 500px;
+}
+
+.welcomeStats {
+  display: flex;
+  gap: 20px;
+}
+
+.welcomeStat {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 24px;
+  border-radius: 28px;
+  text-align: center;
+  min-width: 120px;
+  transition: transform 0.3s ease;
+}
+
+.welcomeStat:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.welcomeStatNum {
+  font-size: 32px;
+  font-weight: 900;
+  color: white;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.welcomeStatLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* === STATS ROW === */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.statWidget {
+  background: white;
+  padding: 30px;
+  border-radius: 32px;
+  border: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.statWidget:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border-color: #2563EB;
+}
+
+.statWidgetIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.statWidgetIcon.purple { background: #F5F3FF; color: #7C3AED; }
+.statWidgetIcon.amber { background: #FFFBEB; color: #D97706; }
+.statWidgetIcon.teal { background: #F0FDFA; color: #0D9488; }
+.statWidgetIcon.rose { background: #FFF1F2; color: #E11D48; }
+
+.statWidgetNum {
+  font-size: 28px;
+  font-weight: 900;
+  color: #0F172A;
+}
+
+.statWidgetLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748B;
+}
+
+.statWidgetInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+/* === SECTIONS === */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.sectionCard {
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 36px;
+  padding: 36px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.sectionTitle {
+  font-size: 22px;
+  font-weight: 900;
+  color: #0F172A;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.viewAllBtn {
+  background: none;
+  border: none;
+  color: #2563EB;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.viewAllBtn:hover {
+  transform: translateX(5px);
+}
+
+/* Recommendations List */
+.recoList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.recoCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 24px;
+  background: #F8FAFC;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.recoCard:hover {
+  background: white;
+  border-color: #2563EB;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.recoIcon {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.recoIcon.scholarship { background: #EFF6FF; color: #2563EB; }
+.recoIcon.competition { background: #FFFBEB; color: #D97706; }
+
+.recoInfo { flex: 1; }
+
+.recoTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1E293B;
+  margin-bottom: 4px;
+}
+
+.recoMeta {
+  font-size: 12px;
+  color: #64748B;
+  font-weight: 600;
+}
+
+.matchScore {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 3px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.matchHigh { border-color: #10B981; color: #10B981; }
+.matchMed { border-color: #F59E0B; color: #F59E0B; }
+
+/* Deadlines */
+.deadlineItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.deadlineDot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+
+.deadlineDot.urgent { background: #EF4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+.deadlineDot.soon { background: #F59E0B; }
+.deadlineDot.later { background: #10B981; }
+
+.deadlineInfo { flex: 1; }
+
+.deadlineName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.deadlineDate {
+  font-size: 12px;
+  color: #94A3B8;
+}
+
+.deadlineBadge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+.deadlineBadge.urgent { background: #FEF2F2; color: #EF4444; }
+.deadlineBadge.soon { background: #FFFBEB; color: #D97706; }
+.deadlineBadge.later { background: #ECFDF5; color: #10B981; }
+
+/* Badges Grid */
+.badgeRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 20px;
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.badgeIcon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border: 1px solid #F1F5F9;
+  transition: all 0.3s ease;
+}
+
+.badge.locked .badgeIcon {
+  filter: grayscale(1);
+  opacity: 0.3;
+}
+
+.badgeName {
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748B;
+  text-align: center;
+}
+
+@media (max-width: 1200px) {
+  .twoCol { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .welcomeCard { padding: 30px; }
+  .welcomeContent { flex-direction: column; text-align: center; }
+  .welcomeStats { justify-content: center; width: 100%; }
+}

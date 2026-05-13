@@ -1,0 +1,139 @@
+.section {
+  padding: 100px 0;
+  background: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+.header {
+  margin-bottom: 60px;
+  border-bottom: 1px solid #E5E7EB;
+  padding-bottom: 24px;
+}
+
+.filters {
+  display: flex;
+  gap: 40px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.filters span {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filterActive {
+  color: #2563EB;
+  position: relative;
+}
+
+.filterActive::after {
+  content: '';
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #2563EB;
+}
+
+/* === Blog Grid === */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.articleCard {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  padding: 40px;
+  border-radius: 40px;
+  backdrop-filter: blur(40px);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.articleCard:hover {
+  transform: translateY(-10px);
+  background: white;
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 40px 80px rgba(59, 130, 246, 0.1);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.catBadge {
+  font-size: 11px;
+  font-weight: 900;
+  color: #2563EB;
+  letter-spacing: 1.5px;
+}
+
+.readTime {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9CA3AF;
+}
+
+.artTitle {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 800;
+  color: #0B0B1A;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.artDesc {
+  font-size: 15px;
+  color: #6B7280;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardFooter {
+  margin-top: auto;
+}
+
+.linkBtn {
+  font-size: 14px;
+  font-weight: 800;
+  color: #2563EB;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.linkBtn:hover {
+  transform: translateX(5px);
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+  .filters { gap: 20px; font-size: 12px; overflow-x: auto; padding-bottom: 10px; }
+}

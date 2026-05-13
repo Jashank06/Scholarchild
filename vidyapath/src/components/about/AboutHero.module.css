@@ -1,0 +1,109 @@
+.hero {
+  position: relative;
+  padding: 160px 0 100px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  position: relative;
+  z-index: 2;
+}
+
+.content {
+  max-width: 800px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 80px;
+  font-weight: 900;
+  color: #0B0B1A;
+  line-height: 1.1;
+  margin-top: 24px;
+  margin-bottom: 32px;
+  letter-spacing: -4px;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #4B5563;
+  line-height: 1.6;
+  font-weight: 500;
+  margin-bottom: 60px;
+}
+
+/* === Luminous Stats Vault === */
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 30px 50px;
+  border-radius: 40px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  backdrop-filter: blur(40px);
+  width: fit-content;
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.08);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.statNum {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 900;
+  color: #2563EB;
+  letter-spacing: -1px;
+}
+
+.statLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.divider {
+  width: 1px;
+  height: 40px;
+  background: #E5E7EB;
+}
+
+/* === Animated Background Mesh === */
+.backgroundMesh {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+  z-index: 1;
+  animation: meshFloat 10s ease-in-out infinite;
+}
+
+@keyframes meshFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, 50px) scale(1.1); }
+}
+
+@media (max-width: 900px) {
+  .title { font-size: 56px; letter-spacing: -2px; }
+  .stats { flex-direction: column; align-items: flex-start; padding: 30px; gap: 24px; }
+  .divider { display: none; }
+}

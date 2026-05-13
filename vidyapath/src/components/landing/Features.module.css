@@ -1,0 +1,226 @@
+.section {
+  padding: var(--space-32) 0;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--space-20);
+}
+
+.featureHighlight {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
+
+/* === Bento Grid === */
+.bentoGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-8);
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  perspective: 2000px;
+}
+
+/* === Holographic Bento Card === */
+.bentoCard {
+  position: relative;
+  padding: var(--space-10);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 40px;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+}
+
+.bentoCard::before {
+  content: '';
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  transform: rotate(-45deg);
+}
+
+.bentoCard:hover {
+  transform: translateY(-15px) rotateX(10deg);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 40px 80px rgba(59, 130, 246, 0.15);
+}
+
+.bentoCard:hover::before {
+  opacity: 1;
+  animation: shimmerFlow 3s infinite linear;
+}
+
+@keyframes shimmerFlow {
+  0% { transform: translate(-30%, -30%) rotate(-45deg); }
+  100% { transform: translate(30%, 30%) rotate(-45deg); }
+}
+
+/* Grid positions */
+.card1 { grid-column: span 7; }
+.card2 { grid-column: span 5; }
+.card3 { grid-column: span 4; }
+.card4 { grid-column: span 4; }
+.card5 { grid-column: span 4; }
+.card6 { grid-column: span 6; }
+.card7 { grid-column: span 6; }
+
+/* === Card Icon === */
+.cardIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin-bottom: var(--space-6);
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  transition: all 0.5s ease;
+  transform: translateZ(30px);
+}
+
+.bentoCard:hover .cardIcon {
+  transform: translateZ(50px) scale(1.1) rotate(-10deg);
+  background: white;
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+}
+
+/* === Card Title === */
+.cardTitle {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 800;
+  color: #0B0B1A;
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.5px;
+}
+
+/* === Card Description === */
+.cardDescription {
+  font-size: 15px;
+  color: #4B5563;
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* === Mini Feature Tags === */
+.miniFeatures {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.miniTag {
+  padding: 0.5rem 1rem;
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 100px;
+  font-size: 11px;
+  color: #2563EB;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.bentoCard:hover .miniTag {
+  background: white;
+  border-color: #2563EB;
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.1);
+}
+
+/* === AI Visual (Energy Tubes) === */
+.aiVisual {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: var(--space-8);
+  width: 100%;
+}
+
+.matchBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 1rem 1.5rem;
+  background: rgba(59, 130, 246, 0.03);
+  border-radius: 20px;
+  border: 1px solid rgba(59, 130, 246, 0.05);
+  transition: all 0.3s ease;
+}
+
+.matchBar span:first-child {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.matchBarFill {
+  flex: 1;
+  height: 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  position: relative;
+}
+
+.matchBarFill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #3B82F6, #60A5FA);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  animation: barGrow 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes barGrow {
+  from { width: 0; }
+}
+
+.matchHigh .matchBarFill::after { width: 92%; }
+.matchMed .matchBarFill::after { width: 75%; }
+.matchLow .matchBarFill::after { width: 60%; }
+
+.matchPercent {
+  font-size: 13px;
+  font-weight: 900;
+  color: #2563EB;
+}
+
+/* === Responsive === */
+@media (max-width: 1100px) {
+  .bentoGrid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+  .card1, .card2, .card3, .card4, .card5, .card6, .card7 { grid-column: span 1; }
+}
+
+@media (max-width: 650px) {
+  .bentoGrid { grid-template-columns: 1fr; }
+  .bentoCard { padding: var(--space-8); }
+}

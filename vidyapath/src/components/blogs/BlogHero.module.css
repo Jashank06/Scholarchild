@@ -1,0 +1,138 @@
+.hero {
+  padding: 160px 0 80px;
+  background: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+.content {
+  max-width: 700px;
+  margin-bottom: 80px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 72px;
+  font-weight: 900;
+  color: #0B0B1A;
+  line-height: 1.1;
+  margin-top: 24px;
+  margin-bottom: 32px;
+  letter-spacing: -3px;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #4B5563;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* === Featured Card === */
+.featuredCard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 60px;
+  padding: 80px;
+  backdrop-filter: blur(40px);
+  box-shadow: 0 40px 80px rgba(59, 130, 246, 0.1);
+  display: flex;
+  overflow: hidden;
+}
+
+.featuredCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), transparent);
+}
+
+.featuredBadge {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  background: #2563EB;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.featuredContent {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+}
+
+.category {
+  font-size: 13px;
+  font-weight: 800;
+  color: #2563EB;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.featuredContent h2 {
+  font-family: var(--font-heading);
+  font-size: 40px;
+  font-weight: 900;
+  color: #0B0B1A;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.featuredContent p {
+  font-size: 18px;
+  color: #4B5563;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.meta {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #9CA3AF;
+  margin-bottom: 40px;
+}
+
+.readBtn {
+  padding: 1.2rem 3rem;
+  background: #0B0B1A;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.readBtn:hover {
+  transform: translateY(-5px);
+  background: #2563EB;
+}
+
+@media (max-width: 900px) {
+  .title { font-size: 56px; letter-spacing: -2px; }
+  .featuredCard { padding: 40px; border-radius: 40px; }
+}
