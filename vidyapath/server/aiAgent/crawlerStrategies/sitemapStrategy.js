@@ -38,7 +38,7 @@ async function fetchSitemap(baseUrl) {
     try {
       const response = await axios.get(sitemapUrl, {
         timeout: 10000,
-        headers: { 'User-Agent': 'VidyaPath-AI-Agent/2.0' },
+        headers: { 'User-Agent': 'Kushaagra-AI-Agent/2.0' },
       });
 
       const $ = cheerio.load(response.data, { xmlMode: true });
@@ -51,7 +51,7 @@ async function fetchSitemap(baseUrl) {
         // Parse child sitemaps (max 3 to be polite)
         for (const childUrl of sitemapLocs.slice(0, 3)) {
           try {
-            const childResp = await axios.get(childUrl, { timeout: 10000, headers: { 'User-Agent': 'VidyaPath-AI-Agent/2.0' } });
+            const childResp = await axios.get(childUrl, { timeout: 10000, headers: { 'User-Agent': 'Kushaagra-AI-Agent/2.0' } });
             const child$ = cheerio.load(childResp.data, { xmlMode: true });
             child$('url loc').each((_, el) => urls.push(child$(el).text().trim()));
           } catch {}

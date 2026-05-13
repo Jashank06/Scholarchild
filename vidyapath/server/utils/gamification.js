@@ -1,5 +1,5 @@
 /**
- * VidyaPath Gamification System
+ * Kushaagra Gamification System
  * XP points, levels, badges, and streaks
  */
 

@@ -12,7 +12,7 @@ const TARGET_URLS = require('./targetUrls');
 
 const parser = new Parser({
   headers: {
-    'User-Agent': 'VidyaPath-AI-Agent/1.0',
+    'User-Agent': 'Kushaagra-AI-Agent/1.0',
     'Accept': 'application/rss+xml, application/xml, application/atom+xml, text/xml',
   }
 });

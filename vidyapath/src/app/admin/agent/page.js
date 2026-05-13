@@ -311,7 +311,7 @@ export default function AgentDashboardPage() {
           <div>
             <div className={styles.agentTitle} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <h1 style={{ fontSize: '2rem', margin: 0, background: 'linear-gradient(to right, #2563EB, #7C3AED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                VidyaPath Core AI
+                Kushaagra Core AI
               </h1>
               <span className={`${styles.statusBadge} ${stats.agentStatus?.isActive ? styles.statusActive : styles.statusIdle}`} style={{ padding: '6px 12px', borderRadius: '20px', fontSize: '14px', fontWeight: 600 }}>
                 <span className={styles.pulse} style={{ width: '10px', height: '10px' }}></span>

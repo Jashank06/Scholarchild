@@ -1,7 +1,7 @@
 import styles from './Team.module.css';
 
 const team = [
-  { name: 'Jay Kumar', role: 'Founder & CEO', bio: 'Visionary behind VidyaPath, passionate about education equity.', emoji: '👨‍💻' },
+  { name: 'Jay Kumar', role: 'Founder & CEO', bio: 'Visionary behind Kushaagra, passionate about education equity.', emoji: '👨‍💻' },
   { name: 'Priya Sharma', role: 'Head of Partnerships', bio: 'Connecting schools and NGOs to our elite ecosystem.', emoji: '🤝' },
   { name: 'Amit Singh', role: 'Chief Tech Architect', bio: 'Building the AI engines that power student success.', emoji: '⚙️' },
   { name: 'Sneha Patel', role: 'Community Lead', bio: 'Ensuring every student feels supported on their journey.', emoji: '🌍' },

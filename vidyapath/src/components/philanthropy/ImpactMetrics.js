@@ -3,7 +3,7 @@ import styles from './ImpactMetrics.module.css';
 const initiatives = [
   { title: 'The 100 Scholars Program', desc: 'Full-ride scholarships for 100 students from rural backgrounds every year.', icon: '🎓' },
   { title: 'Digital Empowerment Kit', desc: 'Providing high-speed tablets and data connectivity to remote villages.', icon: '💻' },
-  { title: 'VidyaPath Mentors', desc: 'Connecting students with industry experts for career guidance.', icon: '🧠' },
+  { title: 'Kushaagra Mentors', desc: 'Connecting students with industry experts for career guidance.', icon: '🧠' },
 ];
 
 export default function ImpactMetrics() {

@@ -135,8 +135,8 @@ async function callOpenRouter(prompt, systemInstruction) {
       headers: { 
         'Authorization': `Bearer ${OPENROUTER_KEY}`, 
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://vidyapath.in',
-        'X-Title': 'VidyaPath AI Agent',
+        'HTTP-Referer': 'https://kushaagra.in',
+        'X-Title': 'Kushaagra AI Agent',
       },
       timeout: 20000,
     });

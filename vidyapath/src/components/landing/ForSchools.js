@@ -77,7 +77,7 @@ export default function ForSchools() {
           </div>
           <p className={styles.cardDescription}>
             List your scholarships, competitions, or welfare schemes 
-            on VidyaPath and reach thousands of verified student profiles 
+            on Kushaagra and reach thousands of verified student profiles 
             across India — for free.
           </p>
           <div className={styles.featureList}>

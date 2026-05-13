@@ -73,7 +73,7 @@ export default function InstitutionDashboard() {
             <div>
               <h3 style={{ fontSize: '18px', fontWeight: '900', color: '#92400E', marginBottom: '4px' }}>Verification in Progress</h3>
               <p style={{ fontSize: '14px', color: '#B45309', fontWeight: '600' }}>
-                Your institution is being reviewed by the VidyaPath board. Some features like public scholarship posting will be live after approval.
+                Your institution is being reviewed by the Kushaagra board. Some features like public scholarship posting will be live after approval.
               </p>
             </div>
           </div>

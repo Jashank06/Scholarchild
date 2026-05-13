@@ -68,7 +68,7 @@ export default function Navbar() {
           <a href="#" className={styles.logo} onClick={() => handleNavigation('/')}>
             <span className={styles.logoIcon}>🎓</span>
             <div className={styles.logoTextWrapper}>
-              <div className={styles.logoText}>Vidya<span>Path</span></div>
+              <div className={styles.logoText}>Kusha<span>agra</span></div>
             </div>
           </a>
 

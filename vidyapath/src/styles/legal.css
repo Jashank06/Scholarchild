@@ -1,0 +1,123 @@
+.legalPage {
+  padding-top: 120px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0B0B1A 0%, #050510 100%);
+  color: #E2E8F0;
+  font-family: 'Inter', sans-serif;
+}
+
+.legalContainer {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem 80px;
+}
+
+.legalCard {
+  padding: 4rem 3rem;
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.legalTitle {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin-bottom: 1rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #fff 0%, #6366F1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.legalSubtitle {
+  opacity: 0.6;
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.legalSection {
+  margin-bottom: 3rem;
+}
+
+.legalSection h2 {
+  font-size: 1.8rem;
+  color: #818CF8;
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+}
+
+.legalSection p {
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  color: #94A3B8;
+}
+
+.legalList {
+  padding-left: 1.5rem;
+  line-height: 1.8;
+  color: #94A3B8;
+}
+
+.legalList li {
+  margin-bottom: 0.5rem;
+}
+
+.legalContactBox {
+  background: rgba(99, 102, 241, 0.05);
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  margin-top: 2rem;
+}
+
+.legalContactBox p {
+  margin-bottom: 0.5rem;
+  color: #E2E8F0 !important;
+}
+
+.alertBox {
+  background: rgba(239, 68, 68, 0.1);
+  padding: 2.5rem;
+  border-radius: 24px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  margin-bottom: 3rem;
+  text-align: left;
+}
+
+.alertBox h3 {
+  color: #F87171;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.optionCard {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.optionCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.optionCard h4 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .legalCard {
+    padding: 2.5rem 1.5rem;
+  }
+  .legalTitle {
+    font-size: 2.5rem;
+  }
+}

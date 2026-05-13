@@ -49,8 +49,8 @@ export default function ContactForm() {
               <div className={styles.iconVault}>📧</div>
               <div>
                 <h3>Email Support</h3>
-                <p>support@vidyapath.com</p>
-                <p>info@vidyapath.com</p>
+                <p>support@kushaagra.com</p>
+                <p>info@kushaagra.com</p>
               </div>
             </div>
             <div className={styles.infoCard}>

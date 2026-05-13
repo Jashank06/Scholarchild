@@ -4,7 +4,7 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 const check = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/vidyapath');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/kushaagra');
     console.log(`Connected to: ${mongoose.connection.name}`);
     
     const db = mongoose.connection.db;

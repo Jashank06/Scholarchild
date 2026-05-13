@@ -74,7 +74,7 @@ export default function Hero() {
       <div className={styles.heroBackground}>
         <img
           src="/hero-bg.png"
-          alt="VidyaPath Background"
+          alt="Kushaagra Background"
           className={styles.bgImage}
         />
         <div className={styles.videoOverlay}></div>

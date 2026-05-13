@@ -11,7 +11,7 @@ export default function AboutHero() {
           </h1>
           <p className={styles.subtitle}>
             We believe that financial constraints or lack of information should never stand 
-            between a talented student and their dreams. VidyaPath is more than a platform—it's a mission.
+            between a talented student and their dreams. Kushaagra is more than a platform—it's a mission.
           </p>
           <div className={styles.stats}>
             <div className={styles.statItem}>

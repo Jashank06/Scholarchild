@@ -35,8 +35,12 @@ class ApiConfig {
   // Admin Routes
   static const String adminStats = '/admin/stats';
   static const String adminUsers = '/admin/users';
-  static const String adminSchools = '/schools'; // or '/admin/schools' if that exists
+  static const String adminSchools = '/schools'; 
   static const String adminTickets = '/services';
+
+  // Parent Routes
+  static const String parentApplications = '/parent/applications';
+  static const String parentChildren = '/parent/children';
 }
 
 /// Dio-based HTTP client with JWT interceptor & error handling

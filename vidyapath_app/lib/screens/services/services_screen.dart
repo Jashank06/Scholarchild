@@ -153,17 +153,11 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      drawer: const KushaagraDrawer(),
       appBar: AppBar(
         title: const Text('Help & Support'),
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu_rounded),
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              Scaffold.of(context).openDrawer();
-            },
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Container(

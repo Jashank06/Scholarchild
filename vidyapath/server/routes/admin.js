@@ -151,7 +151,7 @@ router.put('/users/:id/approve', protect, adminOnly, async (req, res) => {
       type: 'system',
       title: approved ? 'Institution Approved! 🎉' : 'Verification Update',
       message: approved
-        ? 'Your institution has been verified by VidyaPath admin. All features are now unlocked.'
+        ? 'Your institution has been verified by Kushaagra admin. All features are now unlocked.'
         : 'Your institution verification was not approved. Please contact support.',
       icon: approved ? '✅' : '❌',
     });

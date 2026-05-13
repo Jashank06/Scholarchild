@@ -9,7 +9,7 @@ const cheerio = require('cheerio');
 
 const parser = new Parser({
   headers: {
-    'User-Agent': 'VidyaPath-AI-Agent/2.0 (Student Opportunity Finder)',
+    'User-Agent': 'Kushaagra-AI-Agent/2.0 (Student Opportunity Finder)',
     'Accept': 'application/rss+xml, application/xml, text/xml',
   },
   timeout: 15000,

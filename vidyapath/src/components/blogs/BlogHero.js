@@ -5,13 +5,13 @@ export default function BlogHero() {
     <section className={styles.hero}>
       <div className={styles.container}>
         <div className={styles.content}>
-          <span className="section-label">📢 VidyaPath Insights</span>
+          <span className="section-label">📢 Kushaagra Insights</span>
           <h1 className={styles.title}>
             Knowledge is the <span className={styles.highlight}>Greatest</span> Opportunity.
           </h1>
           <p className={styles.subtitle}>
             Explore the latest trends in education, tips for scholarship success, 
-            and inspiring stories from the VidyaPath community.
+            and inspiring stories from the Kushaagra community.
           </p>
         </div>
 

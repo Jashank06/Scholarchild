@@ -21,7 +21,7 @@ export default function AboutPage() {
                 <h2 className="section-title">Bridging the Gap Between <span className={styles.highlight}>Potential</span> and Opportunity.</h2>
                 <p className={styles.missionText}>
                   India is home to millions of talented students who often miss out on life-changing opportunities 
-                  simply because they didn't know they existed. VidyaPath was born in 2024 to solve this information 
+                  simply because they didn't know they existed. Kushaagra was born in 2024 to solve this information 
                   asymmetry once and for all.
                 </p>
                 <div className={styles.missionList}>
@@ -67,7 +67,7 @@ export default function AboutPage() {
           <div className={styles.container}>
             <div className={styles.header}>
               <span className="section-label">⚖️ Our Values</span>
-              <h2 className="section-title">What Drives <span className={styles.highlight}>VidyaPath</span></h2>
+              <h2 className="section-title">What Drives <span className={styles.highlight}>Kushaagra</span></h2>
             </div>
             <div className={styles.valuesGrid}>
               <div className={styles.valueCard}>

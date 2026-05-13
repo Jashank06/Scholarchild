@@ -1,5 +1,5 @@
 /**
- * VidyaPath AI Recommendation Engine
+ * Kushaagra AI Recommendation Engine
  * Rule-based match scoring system
  * Calculates a 0-100 match score between a user profile and an opportunity
  */
@@ -91,7 +91,50 @@ function calculateMatchScore(user, opportunity) {
  * Get recommended opportunities for a user
  * Sorted by match score descending
  */
+/**
+ * Get recommended opportunities for a user
+ * Sorted by match score descending
+ */
 async function getRecommendations(user, opportunities, limit = 20) {
+  const User = require('../models/User');
+
+  if (user.role === 'parent') {
+    // 1. Get linked children
+    const childIds = user.parentProfile?.children?.map(c => c.childId) || [];
+    if (childIds.length === 0) return [];
+
+    // 2. Fetch children profiles
+    const children = await User.find({ _id: { $in: childIds } }).lean();
+    
+    // 3. Aggregate recommendations for all children
+    let allRecommendations = [];
+    for (const child of children) {
+      const childRecs = opportunities.map(opp => ({
+        opportunity: opp,
+        matchScore: calculateMatchScore(child, opp),
+        forChild: {
+          id: child._id,
+          name: child.profile?.firstName || 'Child'
+        }
+      }));
+      allRecommendations = [...allRecommendations, ...childRecs];
+    }
+
+    // 4. Sort and limit
+    allRecommendations.sort((a, b) => b.matchScore - a.matchScore);
+    // Remove duplicates of same opportunity (keep highest score)
+    const unique = [];
+    const seen = new Set();
+    for (const rec of allRecommendations) {
+      if (!seen.has(rec.opportunity._id.toString())) {
+        unique.push(rec);
+        seen.add(rec.opportunity._id.toString());
+      }
+    }
+    return unique.slice(0, limit);
+  }
+
+  // Student role (default)
   const scored = opportunities.map(opp => ({
     opportunity: opp,
     matchScore: calculateMatchScore(user, opp),

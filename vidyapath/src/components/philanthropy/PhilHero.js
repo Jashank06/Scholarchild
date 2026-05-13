@@ -10,7 +10,7 @@ export default function PhilHero() {
             Investing in India's <span className={styles.highlight}>Human</span> Capital.
           </h1>
           <p className={styles.subtitle}>
-            Through the VidyaPath Foundation, we provide direct financial aid, 
+            Through the Kushaagra Foundation, we provide direct financial aid, 
             mentorship, and resources to underprivileged students who show 
             exceptional promise.
           </p>

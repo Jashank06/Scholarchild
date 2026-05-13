@@ -125,11 +125,11 @@ async function seed() {
     await User.deleteMany({});
 
     const admin = new User({
-      email: 'admin@vidyapath.in', phone: '+919999999999', role: 'admin', isVerified: true,
-      password: 'admin123', profile: { firstName: 'Admin', lastName: 'VidyaPath' },
+      email: 'admin@kushaagra.in', phone: '+919999999999', role: 'admin', isVerified: true,
+      password: 'admin123', profile: { firstName: 'Admin', lastName: 'Kushaagra' },
     });
     await admin.save();
-    console.log('✅ Created admin user: admin@vidyapath.in / admin123');
+    console.log('✅ Created admin user: admin@kushaagra.in / admin123');
 
     const student = new User({
       email: 'priya@test.com', phone: '+919876543210', role: 'student', isVerified: true,

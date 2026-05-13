@@ -6,7 +6,7 @@ export default function Features() {
   return (
     <section className={styles.section} id="features">
       <div className={styles.sectionHeader}>
-        <span className="section-label">⚡ The VidyaPath Toolkit</span>
+        <span className="section-label">⚡ The Kushaagra Toolkit</span>
         <h2 className="section-title">
           Everything You Need, <span className={styles.featureHighlight}>Nothing You Don&apos;t</span>
         </h2>
@@ -108,7 +108,7 @@ export default function Features() {
           <h3 className={styles.cardTitle}>Multi-Language Support</h3>
           <p className={styles.cardDescription}>
             Available in Hindi, English, Marathi, Tamil, Telugu, and more regional languages. 
-            Every student can use VidyaPath in their mother tongue.
+            Every student can use Kushaagra in their mother tongue.
           </p>
           <div className={styles.miniFeatures}>
             <span className={styles.miniTag}>हिंदी</span>

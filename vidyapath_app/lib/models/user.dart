@@ -221,9 +221,43 @@ class ParentProfile {
 class LinkedChild {
   final String childId;
   final String relationship;
-  LinkedChild({required this.childId, required this.relationship});
+  final String? name;
+  final int? grade;
+  final String? board;
+  final List<ChildApplication> applications;
+
+  LinkedChild({
+    required this.childId, 
+    required this.relationship,
+    this.name,
+    this.grade,
+    this.board,
+    this.applications = const [],
+  });
+
   factory LinkedChild.fromJson(Map<String, dynamic> json) => LinkedChild(
-    childId: json['childId'] ?? '', relationship: json['relationship'] ?? 'guardian',
+    childId: json['childId'] ?? json['id'] ?? '', 
+    relationship: json['relationship'] ?? 'guardian',
+    name: json['name'],
+    grade: json['grade'],
+    board: json['board'],
+    applications: (json['applications'] as List?)?.map((a) => ChildApplication.fromJson(a)).toList() ?? [],
+  );
+}
+
+class ChildApplication {
+  final String id;
+  final String status;
+  final String? appliedAt;
+  final String? opportunityTitle;
+
+  ChildApplication({required this.id, required this.status, this.appliedAt, this.opportunityTitle});
+
+  factory ChildApplication.fromJson(Map<String, dynamic> json) => ChildApplication(
+    id: json['id'] ?? json['_id'] ?? '',
+    status: json['status'] ?? 'applied',
+    appliedAt: json['appliedAt'] ?? json['createdAt'],
+    opportunityTitle: json['opportunityId'] is Map ? json['opportunityId']['title'] : null,
   );
 }
 

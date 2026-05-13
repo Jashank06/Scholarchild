@@ -54,7 +54,7 @@ export default function InstitutionStudentsPage() {
             No students enrolled yet
           </h3>
           <p style={{ color: '#6B7280', marginBottom: '24px', maxWidth: '400px', margin: '0 auto 24px' }}>
-            Invite students to join your institution on VidyaPath. They'll be able to discover scholarships matched to your school.
+            Invite students to join your institution on Kushaagra. They'll be able to discover scholarships matched to your school.
           </p>
           <button style={{
             padding: '14px 36px', background: '#2563EB', color: 'white',

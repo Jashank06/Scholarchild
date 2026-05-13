@@ -42,9 +42,9 @@ export default function HowItWorks() {
   return (
     <section className={styles.section} id="how-it-works">
       <div className={styles.sectionHeader}>
-        <span className="section-label">⚡ The VidyaPath Engine</span>
+        <span className="section-label">⚡ The Kushaagra Engine</span>
         <h2 className="section-title">
-          How <span className={styles.blueHighlight}>VidyaPath</span> Works
+          How <span className={styles.blueHighlight}>Kushaagra</span> Works
         </h2>
         <p className="section-subtitle" style={{ margin: '0 auto', opacity: 0.7 }}>
           Experience the most advanced scholarship matching engine in India.

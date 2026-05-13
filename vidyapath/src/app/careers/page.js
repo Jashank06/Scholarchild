@@ -49,7 +49,7 @@ export default function CareersPage() {
             <h2 style={{ fontSize: '40px', fontWeight: '900', color: '#0B0B1A', marginBottom: '24px' }}>Don't See a Role?</h2>
             <p style={{ fontSize: '18px', color: '#6B7280', marginBottom: '40px' }}>
               We're always looking for talented people. Drop us a mail at 
-              <span style={{ color: '#2563EB', fontWeight: '700' }}> careers@vidyapath.com</span>
+              <span style={{ color: '#2563EB', fontWeight: '700' }}> careers@kushaagra.com</span>
             </p>
             <button style={{ 
               padding: '1.2rem 3rem', 

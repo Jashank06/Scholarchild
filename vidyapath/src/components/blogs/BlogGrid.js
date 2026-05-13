@@ -6,7 +6,7 @@ const articles = [
   { title: 'Drafting the Perfect SOP', cat: 'ADMISSIONS', time: '7 min read', desc: 'How to write a Statement of Purpose that grabs attention.' },
   { title: 'The Future of AI in Education', cat: 'TECHNOLOGY', time: '12 min read', desc: 'Exploring how artificial intelligence is personalizing learning paths.' },
   { title: 'Philanthropy and Student Support', cat: 'COMMUNITY', time: '6 min read', desc: 'The role of corporate social responsibility in student welfare.' },
-  { title: 'Success Story: Meet Rahul S.', cat: 'SUCCESS', time: '4 min read', desc: 'How one student used VidyaPath to secure 3 simultaneous scholarships.' },
+  { title: 'Success Story: Meet Rahul S.', cat: 'SUCCESS', time: '4 min read', desc: 'How one student used Kushaagra to secure 3 simultaneous scholarships.' },
 ];
 
 export default function BlogGrid() {

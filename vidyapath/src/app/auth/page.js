@@ -12,21 +12,21 @@ const ROLE_CONFIG = {
     label: '🎓 Student',
     image: '/images/auth/login-hero.png',
     quote: 'Every scholarship is a step closer to your dreams. Start your journey today.',
-    quoteAuthor: 'VidyaPath Student Hub',
+    quoteAuthor: 'Kushaagra Student Hub',
     redirectPath: '/dashboard',
   },
   parent: {
     label: '👨‍👩‍👧 Parent',
     image: '/images/auth/signup-hero.png',
     quote: 'Guide your child towards the best opportunities India has to offer.',
-    quoteAuthor: 'VidyaPath Parent Hub',
+    quoteAuthor: 'Kushaagra Parent Hub',
     redirectPath: '/parent',
   },
   school: {
     label: '🏫 School',
     image: '/images/auth/school-hero.png',
     quote: 'Empower your students with access to thousands of scholarships and competitions.',
-    quoteAuthor: 'VidyaPath Institution Hub',
+    quoteAuthor: 'Kushaagra Institution Hub',
     redirectPath: '/institution',
   },
 };
@@ -131,7 +131,7 @@ export default function AuthPage() {
       const data = await res.json();
 
       if (data.success) {
-        localStorage.setItem('vidyapath_token', data.token);
+        localStorage.setItem('kushaagra_token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         setMessage({ text: 'Login Successful! Redirecting...', type: 'success' });
 
@@ -252,7 +252,7 @@ export default function AuthPage() {
           {/* Left Pane: Visual Impact */}
           <div className={styles.visualPane}>
             <div className={styles.imageWrapper}>
-              <img src={config.image} alt="VidyaPath" className={styles.authImage} />
+              <img src={config.image} alt="Kushaagra" className={styles.authImage} />
               <div className={styles.imageOverlay}>
                 <div className={styles.quoteBox}>
                   <span className={styles.quoteIcon}>"</span>

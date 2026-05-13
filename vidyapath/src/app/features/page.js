@@ -20,7 +20,7 @@ export default function FeaturesPage() {
             <span className="section-label">🛠️ Technical Blueprint</span>
             <h2 className="section-title">Built for <span style={{ color: '#2563EB' }}>Scale</span></h2>
             <p className="section-subtitle">
-              VidyaPath is built on a foundation of security, speed, and reliability. 
+              Kushaagra is built on a foundation of security, speed, and reliability. 
               Our infrastructure is designed to handle millions of concurrent applications 
               without a single second of downtime.
             </p>

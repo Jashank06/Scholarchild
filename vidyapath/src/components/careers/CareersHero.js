@@ -15,7 +15,7 @@ export default function CareersHero() {
           </p>
           <div className={styles.ctaGroup}>
             <button className={styles.primaryBtn}>View Open Roles</button>
-            <button className={styles.secondaryBtn}>Life at VidyaPath</button>
+            <button className={styles.secondaryBtn}>Life at Kushaagra</button>
           </div>
         </div>
       </div>

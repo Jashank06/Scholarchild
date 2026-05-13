@@ -58,7 +58,7 @@ app.get('/api/public-stats', async (req, res) => {
 // Health check
 app.get('/api/health', (req, res) => {
   const { getAgentStatus } = require('./aiAgent/scheduler');
-  res.json({ status: 'ok', message: 'VidyaPath API is running 🚀', timestamp: new Date().toISOString(), agent: getAgentStatus() });
+  res.json({ status: 'ok', message: 'Kushaagra API is running 🚀', timestamp: new Date().toISOString(), agent: getAgentStatus() });
 });
 
 
@@ -75,7 +75,7 @@ if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 VidyaPath API Server running on port ${PORT}`);
+  console.log(`🚀 Kushaagra API Server running on port ${PORT}`);
   console.log(`📡 Health check: http://localhost:${PORT}/api/health`);
 
   // Initialize AI Agent Scheduler

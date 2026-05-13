@@ -13,16 +13,16 @@ class ApiService {
   }
 
   getToken() {
-    if (typeof window !== 'undefined') return localStorage.getItem('vidyapath_token');
+    if (typeof window !== 'undefined') return localStorage.getItem('kushaagra_token');
     return null;
   }
 
   setToken(token) {
-    if (typeof window !== 'undefined') localStorage.setItem('vidyapath_token', token);
+    if (typeof window !== 'undefined') localStorage.setItem('kushaagra_token', token);
   }
 
   removeToken() {
-    if (typeof window !== 'undefined') localStorage.removeItem('vidyapath_token');
+    if (typeof window !== 'undefined') localStorage.removeItem('kushaagra_token');
   }
 
   async request(endpoint, options = {}) {

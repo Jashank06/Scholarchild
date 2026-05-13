@@ -3,30 +3,30 @@
 import styles from './Footer.module.css';
 
 const platformLinks = [
-  'Scholarships',
-  'Competitions',
-  'Government Schemes',
-  'Olympiads',
-  'Science Fairs',
-  'Art Competitions',
+  { name: 'Scholarships', href: '#' },
+  { name: 'Competitions', href: '#' },
+  { name: 'Government Schemes', href: '#' },
+  { name: 'Olympiads', href: '#' },
+  { name: 'Science Fairs', href: '#' },
+  { name: 'Art Competitions', href: '#' },
 ];
 
 const companyLinks = [
-  'About Us',
-  'Careers',
-  'Blog',
-  'Press',
-  'Partners',
-  'Contact',
+  { name: 'About Us', href: '/about' },
+  { name: 'Careers', href: '/careers' },
+  { name: 'Blog', href: '/blogs' },
+  { name: 'Press', href: '#' },
+  { name: 'Partners', href: '#' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 const supportLinks = [
-  'Help Center',
-  'FAQ',
-  'Community',
-  'Feedback',
-  'Report a Bug',
-  'Status',
+  { name: 'Help Center', href: '#' },
+  { name: 'FAQ', href: '#' },
+  { name: 'Privacy Policy', href: '/privacy' },
+  { name: 'Delete Account', href: '/delete' },
+  { name: 'Community', href: '#' },
+  { name: 'Feedback', href: '#' },
 ];
 
 export default function Footer() {
@@ -59,7 +59,7 @@ export default function Footer() {
             <div className={styles.logo}>
               <div className={styles.logoIcon}>🎓</div>
               <div className={styles.logoText}>
-                Vidya<span>Path</span>
+                Kusha<span>agra</span>
               </div>
             </div>
             <p className={styles.brandDescription}>
@@ -78,7 +78,7 @@ export default function Footer() {
           <div className={styles.linkCol}>
             <div className={styles.linkColTitle}>Platform</div>
             {platformLinks.map((link) => (
-              <a key={link} href="#" className={styles.footerLink}>{link}</a>
+              <a key={link.name} href={link.href} className={styles.footerLink}>{link.name}</a>
             ))}
           </div>
 
@@ -86,7 +86,7 @@ export default function Footer() {
           <div className={styles.linkCol}>
             <div className={styles.linkColTitle}>Company</div>
             {companyLinks.map((link) => (
-              <a key={link} href="#" className={styles.footerLink}>{link}</a>
+              <a key={link.name} href={link.href} className={styles.footerLink}>{link.name}</a>
             ))}
           </div>
 
@@ -94,7 +94,7 @@ export default function Footer() {
           <div className={styles.linkCol}>
             <div className={styles.linkColTitle}>Support</div>
             {supportLinks.map((link) => (
-              <a key={link} href="#" className={styles.footerLink}>{link}</a>
+              <a key={link.name} href={link.href} className={styles.footerLink}>{link.name}</a>
             ))}
           </div>
         </div>
@@ -102,12 +102,12 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className={styles.footerBottom}>
           <div className={styles.copyright}>
-            © 2026 VidyaPath. All rights reserved.
+            © 2026 Kushaagra. All rights reserved.
           </div>
           <div className={styles.bottomLinks}>
-            <a href="#" className={styles.bottomLink}>Privacy Policy</a>
+            <a href="/privacy" className={styles.bottomLink}>Privacy Policy</a>
+            <a href="/delete" className={styles.bottomLink}>Delete Account</a>
             <a href="#" className={styles.bottomLink}>Terms of Service</a>
-            <a href="#" className={styles.bottomLink}>Cookie Policy</a>
           </div>
           <div className={styles.madeWith}>
             Made with <span>❤️</span> in India 🇮🇳

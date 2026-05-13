@@ -33,7 +33,7 @@ export default function CorePillars() {
       <div className={styles.container}>
         <div className={styles.header}>
           <span className="section-label">⚙️ Operational Excellence</span>
-          <h2 className="section-title">The Four <span className={styles.highlight}>Pillars</span> of VidyaPath</h2>
+          <h2 className="section-title">The Four <span className={styles.highlight}>Pillars</span> of Kushaagra</h2>
           <p className="section-subtitle" style={{ margin: '0 auto' }}>
             The technological and ethical foundation that makes us India's most trusted platform.
           </p>

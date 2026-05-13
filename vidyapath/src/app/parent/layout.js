@@ -93,7 +93,7 @@ export default function ParentLayout({ children }) {
           {/* Logo Section */}
           <div className={styles.sidebarLogo}>
             <div className={styles.sLogoIcon}>🛡️</div>
-            <div className={styles.sLogoText}>Vidya<span>Path</span></div>
+            <div className={styles.sLogoText}>Kusha<span>agra</span></div>
           </div>
 
           {/* Navigation Links */}
