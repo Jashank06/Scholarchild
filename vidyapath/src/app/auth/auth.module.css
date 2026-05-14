@@ -316,3 +316,24 @@
   .title { font-size: 32px; }
   .inputRow { grid-template-columns: 1fr; }
 }
+
+.disclaimer {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #F3F4F6;
+  font-size: 11px;
+  color: #9CA3AF;
+  text-align: center;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.disclaimer a {
+  color: #2563EB;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.disclaimer a:hover {
+  text-decoration: underline;
+}

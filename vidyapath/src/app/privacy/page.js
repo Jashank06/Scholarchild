@@ -19,6 +19,13 @@ export default function PrivacyPolicy() {
             <p className="legalSubtitle">Last Updated: May 14, 2026</p>
 
             <section className="legalSection">
+              <div className="legalDisclaimer" style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid #EF4444', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem' }}>
+                <h3 style={{ color: '#EF4444', marginBottom: '0.5rem' }}>⚠️ Government Information Disclaimer</h3>
+                <p style={{ fontSize: '0.9rem', color: '#fff', lineHeight: '1.6' }}>
+                  Kushaagra is an independent information aggregator and is <strong>NOT affiliated with, authorized by, or endorsed by any government entity</strong>. We aggregate information from official government portals like <a href="https://scholarships.gov.in" target="_blank" rel="noreferrer" style={{ color: '#60A5FA' }}>scholarships.gov.in</a> for educational purposes. We do not represent any government agency.
+                </p>
+              </div>
+
               <h2>1. Introduction</h2>
               <p>
                 Welcome to Kushaagra ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and mobile application.
@@ -38,21 +45,18 @@ export default function PrivacyPolicy() {
             </section>
 
             <section className="legalSection">
-              <h2>3. How We Use Your Information</h2>
+              <h2>4. Data Sharing & Third Parties</h2>
               <p>
-                We use the information we collect to:
+                We do not sell your personal data. We only share information in the following circumstances:
               </p>
               <ul className="legalList">
-                <li>Provide, operate, and maintain our platform.</li>
-                <li>Improve, personalize, and expand our services.</li>
-                <li>Match you with relevant scholarship and competition opportunities.</li>
-                <li>Communicate with you regarding updates and support.</li>
-                <li>Prevent fraudulent transactions and monitor against theft.</li>
+                <li><strong>Application Submission:</strong> When you apply for a scholarship through our platform, your data is shared with the respective awarding body (Government or Private) to process your application.</li>
+                <li><strong>Compliance with Law:</strong> We may disclose information where we are legally required to do so in order to comply with applicable law or government requests.</li>
               </ul>
             </section>
 
             <section className="legalSection">
-              <h2>4. Data Security</h2>
+              <h2>5. Data Security</h2>
               <p>
                 We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable.
               </p>

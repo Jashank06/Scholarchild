@@ -294,7 +294,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> with SingleTickerProvid
                     ),
                   ],
                 ).animate().fadeIn(delay: 400.ms),
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Text(
+                    'Kushaagra is not a government entity. We aggregate data from official portals like scholarships.gov.in.',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      color: isDark ? Colors.white54 : Colors.black45,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

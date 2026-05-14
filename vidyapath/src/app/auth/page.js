@@ -348,6 +348,10 @@ export default function AuthPage() {
                   </button>
                 </p>
               </div>
+
+              <p className={styles.disclaimer}>
+                Kushaagra is not a government entity. We aggregate data from official portals like <a href="https://scholarships.gov.in" target="_blank" rel="noopener noreferrer">scholarships.gov.in</a>.
+              </p>
             </div>
           </div>
         </div>
