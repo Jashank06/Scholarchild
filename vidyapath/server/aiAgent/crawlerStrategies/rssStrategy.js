@@ -1,6 +1,7 @@
 /**
- * 📡 RSS Strategy — Enhanced Google News + Custom RSS feeds
- * Searches 25+ queries in English, Hindi, Marathi
+ * 📡 RSS Strategy v3.0 — Official Government & Scholarship RSS Feeds
+ * REMOVED: Google News (was bringing news articles, NOT actual scholarships)
+ * NOW: Direct official RSS/Atom feeds from scholarship portals
  */
 
 const Parser = require('rss-parser');
@@ -9,32 +10,52 @@ const cheerio = require('cheerio');
 
 const parser = new Parser({
   headers: {
-    'User-Agent': 'Kushaagra-AI-Agent/2.0 (Student Opportunity Finder)',
-    'Accept': 'application/rss+xml, application/xml, text/xml',
+    'User-Agent': 'Kushaagra-AI-Agent/3.0 (Student Opportunity Finder)',
+    'Accept': 'application/rss+xml, application/xml, text/xml, application/atom+xml',
   },
   timeout: 15000,
 });
 
-function getGoogleNewsUrl(query) {
-  return `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-IN&gl=IN&ceid=IN:en`;
-}
+// ═══ OFFICIAL RSS/ATOM FEEDS (actual scholarship data, NOT news) ═══
+const OFFICIAL_RSS_FEEDS = [
+  // ─── Scholarship Aggregators (most reliable) ───
+  { url: 'https://www.buddy4study.com/feed', name: 'Buddy4Study', priority: 'critical', category: 'scholarship' },
+  { url: 'https://www.careers360.com/scholarships/feed', name: 'Careers360 Scholarships', priority: 'high', category: 'scholarship' },
+  { url: 'https://www.shiksha.com/scholarships-in-india/feed', name: 'Shiksha Scholarships', priority: 'high', category: 'scholarship' },
+  { url: 'https://www.collegedekho.com/scholarships/feed', name: 'CollegeDekho', priority: 'medium', category: 'scholarship' },
+  { url: 'https://www.jagranjosh.com/scholarships/feed', name: 'JagranJosh Scholarships', priority: 'medium', category: 'scholarship' },
+
+  // ─── Government Portals ───
+  { url: 'https://scholarships.gov.in/rss.xml', name: 'NSP Portal', priority: 'critical', category: 'scholarship' },
+  { url: 'https://www.myscheme.gov.in/feed', name: 'MyScheme Govt', priority: 'critical', category: 'scheme' },
+  { url: 'https://www.india.gov.in/rss/scholarship-educational.xml', name: 'India.gov.in Education', priority: 'high', category: 'scheme' },
+
+  // ─── Competition/Olympiad Organizations ───
+  { url: 'https://www.sofworld.org/feed', name: 'SOF Olympiads', priority: 'high', category: 'olympiad' },
+  { url: 'https://unstop.com/feed', name: 'Unstop Competitions', priority: 'critical', category: 'competition' },
+
+  // ─── Education News (curated, not generic news) ───
+  { url: 'https://www.ndtv.com/education/feed', name: 'NDTV Education', priority: 'low', category: 'scholarship' },
+  { url: 'https://indianexpress.com/section/education/feed/', name: 'IE Education', priority: 'low', category: 'scholarship' },
+];
 
 /**
- * Fetch articles from a single RSS query
+ * Fetch articles from a single RSS feed
  */
-async function fetchRSSFeed(query, maxItems = 8) {
+async function fetchRSSFeed(feedConfig, maxItems = 10) {
   try {
-    const feedUrl = getGoogleNewsUrl(query);
-    const feed = await parser.parseURL(feedUrl);
+    const feed = await parser.parseURL(feedConfig.url);
     return (feed.items || []).slice(0, maxItems).map(item => ({
       title: item.title || '',
       url: item.link || '',
       snippet: item.contentSnippet || item.content || item.summary || '',
-      source: item.creator || item.source || 'Google News',
+      source: feedConfig.name,
       publishedAt: item.pubDate ? new Date(item.pubDate) : new Date(),
+      category: feedConfig.category,
+      priority: feedConfig.priority,
     }));
   } catch (error) {
-    console.error(`RSS fetch failed for "${query}":`, error.message);
+    console.error(`📡 RSS fetch failed for "${feedConfig.name}":`, error.message);
     return [];
   }
 }
@@ -53,16 +74,16 @@ async function scrapePageText(url, maxChars = 8000) {
       },
       maxRedirects: 3,
     });
-    
+
     const $ = cheerio.load(response.data);
-    $('script, style, nav, footer, header, iframe, noscript, .ad, .advertisement, .sidebar, .menu, .cookie').remove();
-    
+    $('script, style, nav, footer, header, iframe, noscript, .ad, .advertisement, .sidebar, .menu, .cookie, .popup, .modal').remove();
+
     const paragraphs = [];
-    $('p, h1, h2, h3, h4, li, td, th, dd, dt, blockquote, .content, .description, article').each((_, el) => {
+    $('p, h1, h2, h3, h4, li, td, th, dd, dt, blockquote, .content, .description, article, .scheme-details, .scholarship-info').each((_, el) => {
       const text = $(el).text().trim();
       if (text.length > 25) paragraphs.push(text);
     });
-    
+
     return paragraphs.join('\n\n').substring(0, maxChars);
   } catch (error) {
     return null;
@@ -70,24 +91,68 @@ async function scrapePageText(url, maxChars = 8000) {
 }
 
 /**
- * Run RSS strategy across all queries
- * @param {string[]} queries - Search queries
- * @param {Function} processCallback - Callback for each discovered item
- * @param {object} options - { maxPerQuery, delayMs }
+ * Filter: is this URL likely to be an actual scholarship/competition page?
+ * Rejects generic news articles, opinion pieces, etc.
  */
-async function runRSSStrategy(queries, processCallback, options = {}) {
-  const { maxPerQuery = 8, delayMs = 800 } = options;
-  const processedUrls = new Set();
-  const results = { found: 0, processed: 0, errors: 0 };
+function isLikelyScholarshipPage(item) {
+  const url = (item.url || '').toLowerCase();
+  const title = (item.title || '').toLowerCase();
 
-  for (const query of queries) {
+  // Reject generic news URLs
+  const newsPatterns = [
+    /\/opinion\//i, /\/editorial\//i, /\/blog\//i, /\/video\//i,
+    /\/podcast\//i, /\/gallery\//i, /\/live-updates\//i,
+    /twitter\.com/i, /youtube\.com/i, /facebook\.com/i,
+  ];
+  if (newsPatterns.some(p => p.test(url))) return false;
+
+  // Must have scholarship-related keywords in title
+  const scholarshipKeywords = [
+    'scholarship', 'competition', 'olympiad', 'scheme', 'yojana',
+    'exam', 'fellowship', 'internship', 'apply', 'registration',
+    'deadline', 'eligibility', 'award', 'stipend', 'grant',
+    'छात्रवृत्ति', 'योजना', 'प्रतियोगिता', 'परीक्षा',
+  ];
+  return scholarshipKeywords.some(kw => title.includes(kw));
+}
+
+/**
+ * Run RSS strategy across official feeds
+ * @param {Array} feeds - Array of feed configs (or uses OFFICIAL_RSS_FEEDS)
+ * @param {Function} processCallback - Callback for each discovered item
+ * @param {object} options - { maxPerFeed, delayMs }
+ */
+async function runRSSStrategy(feeds, processCallback, options = {}) {
+  // If old-style search queries are passed, use official feeds instead
+  const feedsToUse = Array.isArray(feeds) && feeds[0]?.url
+    ? feeds
+    : OFFICIAL_RSS_FEEDS;
+
+  const { maxPerFeed = 10, delayMs = 800 } = options;
+  const processedUrls = new Set();
+  const results = { found: 0, processed: 0, errors: 0, skippedNews: 0 };
+
+  // Sort by priority: critical first
+  const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
+  const sortedFeeds = [...feedsToUse].sort(
+    (a, b) => (priorityOrder[a.priority] || 4) - (priorityOrder[b.priority] || 4)
+  );
+
+  for (const feed of sortedFeeds) {
     try {
-      console.log(`📡 RSS: Searching "${query.substring(0, 40)}..."...`);
-      const items = await fetchRSSFeed(query, maxPerQuery);
-      
+      console.log(`📡 RSS: Fetching "${feed.name}"...`);
+      const items = await fetchRSSFeed(feed, maxPerFeed);
+
       for (const item of items) {
         if (!item.url || processedUrls.has(item.url)) continue;
         processedUrls.add(item.url);
+
+        // Filter out generic news articles
+        if (!isLikelyScholarshipPage(item)) {
+          results.skippedNews++;
+          continue;
+        }
+
         results.found++;
 
         try {
@@ -102,9 +167,10 @@ async function runRSSStrategy(queries, processCallback, options = {}) {
             title: item.title,
             text: fullText,
             url: item.url,
-            sourceType: 'web_scrape',
+            sourceType: 'official_rss',
             organizerName: item.source,
             strategy: 'rss',
+            category: item.category,
           });
           results.processed++;
         } catch (error) {
@@ -118,7 +184,8 @@ async function runRSSStrategy(queries, processCallback, options = {}) {
     }
   }
 
+  console.log(`📡 RSS Summary: Found ${results.found}, Processed ${results.processed}, Skipped News ${results.skippedNews}`);
   return results;
 }
 
-module.exports = { runRSSStrategy, fetchRSSFeed, scrapePageText };
+module.exports = { runRSSStrategy, fetchRSSFeed, scrapePageText, OFFICIAL_RSS_FEEDS };

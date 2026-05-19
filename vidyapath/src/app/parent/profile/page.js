@@ -12,7 +12,19 @@ export default function ParentProfilePage() {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [form, setForm] = useState({
     firstName: '', lastName: '', street: '', city: '', district: '', state: '', pincode: '',
-    occupation: ''
+    occupation: '',
+    religion: '',
+    parentAddressStreet: '',
+    parentAddressCity: '',
+    parentAddressPincode: '',
+    parentAddressState: '',
+    parentAddressCountry: '',
+    profession: '',
+    industry: '',
+    specialization: '',
+    reference: '',
+    jobBusiness: '',
+    nameOfCompany: ''
   });
 
   const handleAvatarChange = async (e) => {
@@ -57,7 +69,19 @@ export default function ParentProfilePage() {
             district: addr.district || '',
             state: addr.state || '',
             pincode: addr.pincode || '',
-            occupation: res.user.parentProfile?.occupation || ''
+            occupation: res.user.parentProfile?.occupation || '',
+            religion: res.user.parentProfile?.religion || '',
+            parentAddressStreet: res.user.parentProfile?.address?.street || '',
+            parentAddressCity: res.user.parentProfile?.address?.city || '',
+            parentAddressPincode: res.user.parentProfile?.address?.pincode || '',
+            parentAddressState: res.user.parentProfile?.address?.state || '',
+            parentAddressCountry: res.user.parentProfile?.address?.country || '',
+            profession: res.user.parentProfile?.profession || '',
+            industry: res.user.parentProfile?.industry || '',
+            specialization: res.user.parentProfile?.specialization || '',
+            reference: res.user.parentProfile?.reference || '',
+            jobBusiness: res.user.parentProfile?.jobBusiness || '',
+            nameOfCompany: res.user.parentProfile?.nameOfCompany || ''
           });
         }
       } catch (e) { console.error(e); }
@@ -79,7 +103,21 @@ export default function ParentProfilePage() {
           street: form.street, city: form.city, district: form.district,
           state: form.state, pincode: form.pincode
         },
-        occupation: form.occupation
+        occupation: form.occupation,
+        religion: form.religion,
+        parentAddress: {
+          street: form.parentAddressStreet,
+          city: form.parentAddressCity,
+          pincode: form.parentAddressPincode,
+          state: form.parentAddressState,
+          country: form.parentAddressCountry,
+        },
+        profession: form.profession,
+        industry: form.industry,
+        specialization: form.specialization,
+        reference: form.reference,
+        jobBusiness: form.jobBusiness,
+        nameOfCompany: form.nameOfCompany
       });
       setMessage({ text: '✅ Profile updated successfully!', type: 'success' });
     } catch (err) {
@@ -133,7 +171,30 @@ export default function ParentProfilePage() {
           <div className={styles.grid}>
             <div className={styles.inputGroup}><label>First Name</label><input name="firstName" value={form.firstName} onChange={handleChange} required /></div>
             <div className={styles.inputGroup}><label>Last Name</label><input name="lastName" value={form.lastName} onChange={handleChange} required /></div>
-            <div className={styles.inputGroup}><label>Occupation</label><input name="occupation" value={form.occupation} onChange={handleChange} placeholder="e.g. Teacher, Engineer" /></div>
+            <div className={styles.inputGroup}><label>Religion</label><input name="religion" value={form.religion} onChange={handleChange} /></div>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Address Info</h2>
+          <div className={styles.grid}>
+            <div className={styles.inputGroup}><label>Address (Street)</label><input name="parentAddressStreet" value={form.parentAddressStreet} onChange={handleChange} /></div>
+             <div className={styles.inputGroup}><label>City</label><input name="parentAddressCity" value={form.parentAddressCity} onChange={handleChange} /></div>
+             <div className={styles.inputGroup}><label>Pin Code</label><input name="parentAddressPincode" value={form.parentAddressPincode} onChange={handleChange} /></div>
+             <div className={styles.inputGroup}><label>State</label><input name="parentAddressState" value={form.parentAddressState} onChange={handleChange} /></div>
+             <div className={styles.inputGroup}><label>Country</label><input name="parentAddressCountry" value={form.parentAddressCountry} onChange={handleChange} /></div>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Professional Info</h2>
+          <div className={styles.grid}>
+            <div className={styles.inputGroup}><label>Profession</label><input name="profession" value={form.profession} onChange={handleChange} placeholder="e.g. Engineer, Doctor" /></div>
+            <div className={styles.inputGroup}><label>Industry</label><input name="industry" value={form.industry} onChange={handleChange} placeholder="e.g. IT, Healthcare" /></div>
+            <div className={styles.inputGroup}><label>Specialization</label><input name="specialization" value={form.specialization} onChange={handleChange} /></div>
+            <div className={styles.inputGroup}><label>Reference</label><input name="reference" value={form.reference} onChange={handleChange} /></div>
+            <div className={styles.inputGroup}><label>Job / Business</label><input name="jobBusiness" value={form.jobBusiness} onChange={handleChange} /></div>
+            <div className={styles.inputGroup}><label>Name of Company</label><input name="nameOfCompany" value={form.nameOfCompany} onChange={handleChange} /></div>
           </div>
         </section>
 

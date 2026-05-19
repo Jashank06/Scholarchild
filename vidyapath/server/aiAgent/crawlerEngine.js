@@ -5,11 +5,11 @@
 
 const AgentScanLog = require('../models/AgentScanLog');
 const AgentOpportunity = require('../models/AgentOpportunity');
-const { SOURCES, SEARCH_QUERIES, getSourcesByStrategy, getAllEnabledSources } = require('./sourceRegistry');
-const { runRSSStrategy } = require('./crawlerStrategies/rssStrategy');
+const { SOURCES, getSourcesByStrategy, getAllEnabledSources } = require('./sourceRegistry');
+const { runRSSStrategy, OFFICIAL_RSS_FEEDS } = require('./crawlerStrategies/rssStrategy');
 const { runSitemapStrategy } = require('./crawlerStrategies/sitemapStrategy');
 const { runDeepLinkStrategy } = require('./crawlerStrategies/deepLinkStrategy');
-const { runPuppeteerStrategy } = require('./crawlerStrategies/puppeteerStrategy');
+const { runPlaywrightStrategy } = require('./crawlerStrategies/playwrightStrategy');
 
 /**
  * Check if URL was already processed recently
@@ -31,7 +31,7 @@ async function isUrlProcessed(url) {
  * @param {object} options - { strategies: ['rss','sitemap','deeplink','puppeteer'], maxConcurrent }
  */
 async function runCrawlerEngine(userId = null, options = {}) {
-  const { strategies = ['rss', 'cheerio', 'puppeteer'], scanId = null } = options;
+  const { strategies = ['rss', 'cheerio', 'playwright'], scanId = null } = options;
 
   const scanLog = scanId ? await AgentScanLog.findById(scanId) : await AgentScanLog.create({
     scanType: 'bulk_sources',
@@ -85,9 +85,9 @@ async function runCrawlerEngine(userId = null, options = {}) {
   if (strategies.includes('rss')) {
     try {
       console.log('\n🤖 ═══ PHASE 1: RSS Strategy ═══');
-      const rssResults = await runRSSStrategy(SEARCH_QUERIES, processItem, { maxPerQuery: 5, delayMs: 800 });
+      const rssResults = await runRSSStrategy(OFFICIAL_RSS_FEEDS, processItem, { maxPerFeed: 5, delayMs: 800 });
       totals.found += rssResults.found;
-      totals.sourcesScanned += SEARCH_QUERIES.length;
+      totals.sourcesScanned += OFFICIAL_RSS_FEEDS.length;
       console.log(`📡 RSS: Found ${rssResults.found}, Processed ${rssResults.processed}`);
     } catch (error) {
       console.error('RSS Strategy failed:', error.message);
@@ -116,20 +116,21 @@ async function runCrawlerEngine(userId = null, options = {}) {
     }
   }
 
-  // ═══ PHASE 3: Puppeteer Sources (JS-heavy) ═══
-  if (strategies.includes('puppeteer')) {
+  // ═══ PHASE 3: Playwright Sources (JS-heavy) ═══
+  if (strategies.includes('playwright') || strategies.includes('puppeteer')) {
     try {
-      console.log('\n🤖 ═══ PHASE 3: Puppeteer Sources ═══');
-      const puppeteerSources = getSourcesByStrategy('puppeteer')
+      console.log('\n🤖 ═══ PHASE 3: Playwright Sources ═══');
+      // Still fetch sources marked as 'puppeteer' in the registry
+      const playwrightSources = getSourcesByStrategy('puppeteer')
         .filter(s => s.priority === 'critical' || s.priority === 'high')
         .slice(0, 10); // Limit to prevent long runs
       
-      const puppeteerResults = await runPuppeteerStrategy(puppeteerSources, processItem, { delayMs: 2000 });
-      totals.found += puppeteerResults.found;
-      totals.sourcesScanned += puppeteerSources.length;
-      console.log(`🖥️ Puppeteer: Found ${puppeteerResults.found}, Processed ${puppeteerResults.processed}`);
+      const playwrightResults = await runPlaywrightStrategy(playwrightSources, processItem, { delayMs: 2000 });
+      totals.found += playwrightResults.found;
+      totals.sourcesScanned += playwrightSources.length;
+      console.log(`🖥️ Playwright: Found ${playwrightResults.found}, Processed ${playwrightResults.processed}`);
     } catch (error) {
-      console.error('Puppeteer Strategy failed:', error.message);
+      console.error('Playwright Strategy failed:', error.message);
     }
   }
 

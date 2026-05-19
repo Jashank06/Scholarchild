@@ -6,7 +6,7 @@ import api from '@/lib/api';
 export default function ParentScholarshipsPage() {
   const [opportunities, setOpportunities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({ type: 'scholarship', category: '', grade: '', search: '', minAmount: '', maxAmount: '', deadlineDays: '' });
+  const [filters, setFilters] = useState({ type: 'scholarship', category: '', grade: '', search: '', organizer: '', deadlineDays: '' });
   const [activeTab, setActiveTab] = useState('scholarship');
 
   const fetchData = useCallback(async () => {
@@ -28,15 +28,9 @@ export default function ParentScholarshipsPage() {
   const handleSearch = (e) => { e.preventDefault(); fetchData(); };
 
   const filteredOpportunities = opportunities.filter((opp) => {
-    if (filters.minAmount) {
-      const minAmount = Number(filters.minAmount);
-      const amount = Number(opp.rewards?.cashAmount || 0);
-      if (amount < minAmount) return false;
-    }
-    if (filters.maxAmount) {
-      const maxAmount = Number(filters.maxAmount);
-      const amount = Number(opp.rewards?.cashAmount || 0);
-      if (amount > maxAmount) return false;
+    if (filters.organizer) {
+      const org = opp.organizer?.name || '';
+      if (!org.toLowerCase().includes(filters.organizer.toLowerCase())) return false;
     }
     if (filters.deadlineDays && opp.dates?.applicationDeadline) {
       const daysLeft = Math.ceil((new Date(opp.dates.applicationDeadline) - new Date()) / (1000*60*60*24));
@@ -96,20 +90,11 @@ export default function ParentScholarshipsPage() {
           <option value="quiz">Quiz</option><option value="olympiad">Olympiad</option>
         </select>
         <input
-          type="number"
-          min="0"
-          placeholder="Min ₹"
-          value={filters.minAmount}
-          onChange={(e) => setFilters({...filters, minAmount: e.target.value})}
-          style={{ width: '120px', padding: '12px', border: '1px solid #E5E7EB', borderRadius: '14px' }}
-        />
-        <input
-          type="number"
-          min="0"
-          placeholder="Max ₹"
-          value={filters.maxAmount}
-          onChange={(e) => setFilters({...filters, maxAmount: e.target.value})}
-          style={{ width: '120px', padding: '12px', border: '1px solid #E5E7EB', borderRadius: '14px' }}
+          type="text"
+          placeholder="Sponsored by..."
+          value={filters.organizer}
+          onChange={(e) => setFilters({...filters, organizer: e.target.value})}
+          style={{ width: '150px', padding: '12px', border: '1px solid #E5E7EB', borderRadius: '14px' }}
         />
         <select value={filters.deadlineDays} onChange={(e) => setFilters({...filters, deadlineDays: e.target.value})}
           style={{ padding: '12px', border: '1px solid #E5E7EB', borderRadius: '14px' }}>

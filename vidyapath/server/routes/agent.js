@@ -181,13 +181,13 @@ router.put('/approve/:id', protect, adminOnly, async (req, res) => {
 
     // Create live Opportunity from agent data
     const liveOpp = await Opportunity.create({
-      type: ['scholarship', 'competition', 'scheme'].includes(agentOpp.type) ? agentOpp.type : 'scholarship',
+      type: ['scholarship', 'competition', 'scheme', 'fellowship', 'internship', 'camp', 'workshop', 'other'].includes(agentOpp.type) ? agentOpp.type : 'scholarship',
       status: 'active',
       title: agentOpp.title,
       description: agentOpp.description,
-      shortDescription: agentOpp.shortDescription,
+      shortDescription: agentOpp.shortDescription ? agentOpp.shortDescription.substring(0, 248) : '',
       organizer: agentOpp.organizer,
-      category: ['academic', 'arts', 'science', 'quiz', 'olympiad', 'coding', 'writing', 'debate', 'general'].includes(agentOpp.category) ? agentOpp.category : 'general',
+      category: ['academic', 'arts', 'science', 'quiz', 'olympiad', 'coding', 'writing', 'debate', 'general', 'sports', 'music', 'other'].includes(agentOpp.category) ? agentOpp.category : 'general',
       tags: agentOpp.tags,
       eligibility: agentOpp.eligibility,
       rewards: agentOpp.rewards,
@@ -278,25 +278,49 @@ router.put('/edit/:id', protect, adminOnly, async (req, res) => {
 // @POST /api/agent/bulk-approve — Approve multiple
 router.post('/bulk-approve', protect, adminOnly, async (req, res) => {
   try {
-    const { ids } = req.body;
-    if (!ids || !Array.isArray(ids) || ids.length === 0) {
-      return res.status(400).json({ success: false, message: 'No IDs provided' });
+    const { ids, all, filter } = req.body;
+    let targetIds = [];
+
+    if (all) {
+      const query = { agentStatus: 'pending' };
+      if (filter && filter.type) {
+        query.type = filter.type;
+      }
+      const pendingOpps = await AgentOpportunity.find(query).select('_id');
+      targetIds = pendingOpps.map(o => o._id);
+    } else {
+      if (!ids || !Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ success: false, message: 'No IDs provided' });
+      }
+      targetIds = ids;
     }
 
-    let approved = 0, notified = 0;
-    for (const id of ids) {
+    if (targetIds.length === 0) {
+      return res.json({ success: true, message: 'No opportunities found to approve.' });
+    }
+
+    let approved = 0;
+    for (const id of targetIds) {
       try {
         const agentOpp = await AgentOpportunity.findById(id);
         if (!agentOpp || agentOpp.agentStatus === 'approved') continue;
 
         const liveOpp = await Opportunity.create({
-          type: ['scholarship', 'competition', 'scheme'].includes(agentOpp.type) ? agentOpp.type : 'scholarship',
-          status: 'active', title: agentOpp.title, description: agentOpp.description,
-          shortDescription: agentOpp.shortDescription, organizer: agentOpp.organizer,
-          category: ['academic', 'arts', 'science', 'quiz', 'olympiad', 'coding', 'writing', 'debate', 'general'].includes(agentOpp.category) ? agentOpp.category : 'general',
-          tags: agentOpp.tags, eligibility: agentOpp.eligibility, rewards: agentOpp.rewards,
-          dates: agentOpp.dates, application: agentOpp.application,
-          createdBy: req.user._id, verifiedBy: req.user._id, isVerified: true,
+          type: ['scholarship', 'competition', 'scheme', 'fellowship', 'internship', 'camp', 'workshop', 'other'].includes(agentOpp.type) ? agentOpp.type : 'scholarship',
+          status: 'active',
+          title: agentOpp.title,
+          description: agentOpp.description,
+          shortDescription: agentOpp.shortDescription ? agentOpp.shortDescription.substring(0, 248) : '',
+          organizer: agentOpp.organizer,
+          category: ['academic', 'arts', 'science', 'quiz', 'olympiad', 'coding', 'writing', 'debate', 'general', 'sports', 'music', 'other'].includes(agentOpp.category) ? agentOpp.category : 'general',
+          tags: agentOpp.tags,
+          eligibility: agentOpp.eligibility,
+          rewards: agentOpp.rewards,
+          dates: agentOpp.dates,
+          application: agentOpp.application,
+          createdBy: req.user._id,
+          verifiedBy: req.user._id,
+          isVerified: true,
         });
 
         agentOpp.agentStatus = 'approved';
@@ -304,14 +328,27 @@ router.post('/bulk-approve', protect, adminOnly, async (req, res) => {
         agentOpp.reviewedAt = new Date();
         agentOpp.approvedOpportunityId = liveOpp._id;
         await agentOpp.save();
-
-        const students = await findMatchingStudents(liveOpp);
-        notified += await notifyMatchedStudents(liveOpp, students);
         approved++;
-      } catch (e) { console.error('Bulk approve error for', id, e.message); }
+
+        // Defer matching & notifications asynchronously to prevent blocking/timeouts
+        setImmediate(async () => {
+          try {
+            const students = await findMatchingStudents(liveOpp);
+            await notifyMatchedStudents(liveOpp, students);
+          } catch (e) {
+            console.error('Async notification error for liveOpp', liveOpp._id, e.message);
+          }
+        });
+
+      } catch (e) {
+        console.error('Bulk approve error for', id, e.message);
+      }
     }
 
-    res.json({ success: true, message: `✅ ${approved} opportunities approved! ${notified} students notified.` });
+    res.json({ 
+      success: true, 
+      message: `✅ ${approved} opportunities approved! Student notifications are being processed in the background.` 
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

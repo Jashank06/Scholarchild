@@ -32,6 +32,7 @@ app.use('/api/files', require('./routes/files'));
 app.use('/api/results', require('./routes/results'));
 app.use('/api/news', require('./routes/news'));
 app.use('/api/school-config', require('./routes/schoolConfig'));
+app.use('/api/faqs', require('./routes/faqs'));
 
 // Public stats for landing page
 app.get('/api/public-stats', async (req, res) => {

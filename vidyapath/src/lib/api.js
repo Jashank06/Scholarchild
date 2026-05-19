@@ -69,6 +69,7 @@ class ApiService {
   async updateProfile(body) { return this.request('/users/profile', { method: 'PUT', body: JSON.stringify(body) }); }
   async updatePreferences(body) { return this.request('/users/preferences', { method: 'PUT', body: JSON.stringify(body) }); }
   async getGamification() { return this.request('/users/gamification'); }
+  async getStudentHistory() { return this.request('/users/history'); }
 
   // ─── Opportunities ───
   async getOpportunities(params = {}) { const q = new URLSearchParams(params).toString(); return this.request(`/opportunities?${q}`); }
@@ -137,6 +138,10 @@ class ApiService {
 
   async getParentHistory() {
     return this.request('/parent/history');
+  }
+
+  async getFAQs() {
+    return this.request('/faqs');
   }
 
   async createAchievement(body) {
@@ -218,7 +223,7 @@ class ApiService {
   async approveAgentOpportunity(id) { return this.request(`/agent/approve/${id}`, { method: 'PUT' }); }
   async rejectAgentOpportunity(id, reason) { return this.request(`/agent/reject/${id}`, { method: 'PUT', body: JSON.stringify({ reason }) }); }
   async editAgentOpportunity(id, data) { return this.request(`/agent/edit/${id}`, { method: 'PUT', body: JSON.stringify(data) }); }
-  async bulkApproveAgent(ids) { return this.request('/agent/bulk-approve', { method: 'POST', body: JSON.stringify({ ids }) }); }
+  async bulkApproveAgent(payload) { return this.request('/agent/bulk-approve', { method: 'POST', body: JSON.stringify(payload) }); }
   async scanAgentUrl(url) { return this.request('/agent/scan-url', { method: 'POST', body: JSON.stringify({ url }) }); }
   async scanAgentExcel(formData) {
     const url = `${this.baseUrl}/agent/scan-excel`;

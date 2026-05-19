@@ -96,37 +96,7 @@ const SOURCES = [
   { id: 'mu', name: 'Mumbai University', url: 'https://mu.ac.in/', strategy: 'cheerio', priority: 'low', scanInterval: 72, category: 'academic', region: 'Maharashtra', enabled: true },
 ];
 
-// ─── RSS Search Queries (25+ queries in multiple languages) ───
-const SEARCH_QUERIES = [
-  // English queries
-  'scholarships for students India 2025 2026',
-  'school student competitions India',
-  'government scholarship scheme students',
-  'olympiad exam students India registration',
-  'internships for school students India',
-  'STEM competitions students India',
-  'science fair competition school India',
-  'essay writing competition students',
-  'coding competition school students India',
-  'art competition school students India',
-  'NTSE KVPY scholarship 2025 2026',
-  'sports scholarship students India',
-  'merit scholarship school students',
-  'SC ST OBC scholarship students',
-  'girls scholarship India school',
-  'state government scholarship school',
-  'national level competition students',
-  'quiz competition school students India',
-  'mathematics olympiad India school',
-  'robotics competition students India',
-  // Hindi queries
-  'छात्रवृत्ति योजना विद्यार्थी भारत',
-  'विद्यार्थी प्रतियोगिता परीक्षा भारत',
-  'सरकारी छात्रवृत्ति स्कूल छात्र',
-  'ओलंपियाड परीक्षा छात्र पंजीकरण',
-  // Marathi queries
-  'शिष्यवृत्ती विद्यार्थी महाराष्ट्र योजना',
-];
+// ─── Removed SEARCH_QUERIES (Google News) as we now use OFFICIAL_RSS_FEEDS ───
 
 // ─── Helper Functions ───
 
@@ -165,7 +135,6 @@ function getSourcesDueForScan(lastScanTimes = {}) {
 
 module.exports = {
   SOURCES,
-  SEARCH_QUERIES,
   getSourcesByPriority,
   getSourcesByStrategy,
   getSourcesByRegion,

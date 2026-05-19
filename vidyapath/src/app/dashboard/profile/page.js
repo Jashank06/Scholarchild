@@ -16,8 +16,9 @@ export default function StudentProfilePage() {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [form, setForm] = useState({
     firstName: '', lastName: '', dateOfBirth: '', gender: '',
-    grade: '', board: '', schoolName: '',
-    street: '', city: '', district: '', state: '', pincode: '',
+    grade: '', board: '', schoolName: '', mediumOfInstruction: '',
+    street: '', city: '', district: '', state: '', pincode: '', country: '',
+    schoolStreet: '', schoolCity: '', schoolState: '', schoolPincode: '', schoolCountry: '',
     familyIncome: '', category: '', religion: '', parentOccupation: '',
     previousGradePercentage: '', achievements: '', interests: []
   });
@@ -63,6 +64,7 @@ export default function StudentProfilePage() {
         setUser(res.user);
         const p = res.user.profile || {};
         const addr = p.address || {};
+        const schoolAddr = p.schoolAddress || {};
         setForm({
           firstName: p.firstName || '',
           lastName: p.lastName || '',
@@ -71,11 +73,18 @@ export default function StudentProfilePage() {
           grade: p.grade || '',
           board: p.board || '',
           schoolName: p.schoolName || '',
+          mediumOfInstruction: p.mediumOfInstruction || '',
           street: addr.street || '',
           city: addr.city || '',
           district: addr.district || '',
           state: addr.state || '',
           pincode: addr.pincode || '',
+          country: addr.country || '',
+          schoolStreet: schoolAddr.street || '',
+          schoolCity: schoolAddr.city || '',
+          schoolState: schoolAddr.state || '',
+          schoolPincode: schoolAddr.pincode || '',
+          schoolCountry: schoolAddr.country || '',
           familyIncome: p.familyIncome || '',
           category: p.category || '',
           religion: p.religion || '',
@@ -119,12 +128,21 @@ export default function StudentProfilePage() {
         grade: parseInt(form.grade),
         board: form.board,
         schoolName: form.schoolName,
+        mediumOfInstruction: form.mediumOfInstruction,
         address: {
           street: form.street,
           city: form.city,
           district: form.district,
           state: form.state,
-          pincode: form.pincode
+          pincode: form.pincode,
+          country: form.country
+        },
+        schoolAddress: {
+          street: form.schoolStreet,
+          city: form.schoolCity,
+          state: form.schoolState,
+          pincode: form.schoolPincode,
+          country: form.schoolCountry,
         },
         familyIncome: parseInt(form.familyIncome),
         category: form.category,
@@ -252,8 +270,38 @@ export default function StudentProfilePage() {
               <input name="schoolName" value={form.schoolName} onChange={handleChange} placeholder="Current school" />
             </div>
             <div className={styles.inputGroup}>
+              <label>Medium of Instruction</label>
+              <input name="mediumOfInstruction" value={form.mediumOfInstruction} onChange={handleChange} placeholder="e.g. English, Hindi" />
+            </div>
+            <div className={styles.inputGroup}>
               <label>Previous Year %</label>
               <input name="previousGradePercentage" type="number" step="0.01" value={form.previousGradePercentage} onChange={handleChange} placeholder="e.g. 85.5" />
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>🏫 School Address</h2>
+          <div className={styles.grid}>
+            <div className={styles.inputGroup}>
+              <label>Address</label>
+              <input name="schoolStreet" value={form.schoolStreet} onChange={handleChange} placeholder="School address" />
+            </div>
+            <div className={styles.inputGroup}>
+              <label>City</label>
+              <input name="schoolCity" value={form.schoolCity} onChange={handleChange} />
+            </div>
+            <div className={styles.inputGroup}>
+              <label>State</label>
+              <input name="schoolState" value={form.schoolState} onChange={handleChange} />
+            </div>
+            <div className={styles.inputGroup}>
+              <label>Pin Code</label>
+              <input name="schoolPincode" value={form.schoolPincode} onChange={handleChange} />
+            </div>
+            <div className={styles.inputGroup}>
+              <label>Country</label>
+              <input name="schoolCountry" value={form.schoolCountry} onChange={handleChange} />
             </div>
           </div>
         </section>
@@ -284,9 +332,9 @@ export default function StudentProfilePage() {
           </div>
         </section>
 
-        {/* Address */}
+        {/* Home Address */}
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>📍 Location Details</h2>
+          <h2 className={styles.sectionTitle}>🏠 Home Address</h2>
           <div className={styles.grid}>
             <div className={styles.inputGroup}>
               <label>Street Address</label>
@@ -307,6 +355,10 @@ export default function StudentProfilePage() {
             <div className={styles.inputGroup}>
               <label>Pincode</label>
               <input name="pincode" value={form.pincode} onChange={handleChange} />
+            </div>
+            <div className={styles.inputGroup}>
+              <label>Country</label>
+              <input name="country" value={form.country} onChange={handleChange} />
             </div>
           </div>
         </section>

@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Achievement = require('../models/Achievement');
+const Review = require('../models/Review');
+const News = require('../models/News');
+const ServiceRequest = require('../models/ServiceRequest');
 const { protect } = require('../middleware/auth');
 const { awardBadge } = require('../utils/gamification');
 
@@ -20,7 +24,34 @@ router.get('/profile', protect, async (req, res) => {
 router.put('/profile', protect, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    const { firstName, lastName, dateOfBirth, gender, grade, board, schoolName, address, familyIncome, category, religion, parentOccupation, previousGradePercentage, achievements, interests } = req.body;
+    const {
+      firstName,
+      lastName,
+      dateOfBirth,
+      gender,
+      grade,
+      board,
+      schoolName,
+      address,
+      schoolAddress,
+      mediumOfInstruction,
+      familyIncome,
+      category,
+      religion,
+      parentOccupation,
+      previousGradePercentage,
+      achievements,
+      interests,
+      // Parent fields
+      parentAddress,
+      profession,
+      industry,
+      specialization,
+      reference,
+      jobBusiness,
+      nameOfCompany,
+      occupation
+    } = req.body;
 
     // Update profile fields
     if (firstName !== undefined) user.profile.firstName = firstName;
@@ -30,7 +61,9 @@ router.put('/profile', protect, async (req, res) => {
     if (grade) user.profile.grade = parseInt(grade);
     if (board) user.profile.board = board;
     if (schoolName) user.profile.schoolName = schoolName;
-    if (address) user.profile.address = { ...user.profile.address, ...address };
+  if (address) user.profile.address = { ...user.profile.address, ...address };
+  if (schoolAddress) user.profile.schoolAddress = { ...user.profile.schoolAddress, ...schoolAddress };
+  if (mediumOfInstruction !== undefined) user.profile.mediumOfInstruction = mediumOfInstruction;
     if (familyIncome !== undefined) user.profile.familyIncome = familyIncome;
     if (category) user.profile.category = category;
     if (religion) user.profile.religion = religion;
@@ -38,6 +71,19 @@ router.put('/profile', protect, async (req, res) => {
     if (previousGradePercentage !== undefined) user.profile.previousGradePercentage = previousGradePercentage;
     if (achievements) user.profile.achievements = achievements;
     if (interests) user.profile.interests = interests;
+
+    // Update Parent Profile fields
+    if (user.role === 'parent') {
+      if (religion) user.parentProfile.religion = religion;
+      if (parentAddress) user.parentProfile.address = { ...user.parentProfile.address, ...parentAddress };
+      if (profession) user.parentProfile.profession = profession;
+      if (industry) user.parentProfile.industry = industry;
+      if (specialization) user.parentProfile.specialization = specialization;
+      if (reference) user.parentProfile.reference = reference;
+      if (jobBusiness) user.parentProfile.jobBusiness = jobBusiness;
+      if (nameOfCompany) user.parentProfile.nameOfCompany = nameOfCompany;
+      if (occupation) user.parentProfile.occupation = occupation;
+    }
 
     user.calculateProfileScore();
 
@@ -83,6 +129,30 @@ router.get('/gamification', protect, async (req, res) => {
         xpToNextLevel: getXpToNextLevel(user.gamification.xp),
       },
       allBadges: Object.values(BADGES),
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @GET /api/users/history — Student's own history feed
+router.get('/history', protect, async (req, res) => {
+  try {
+    const [news, achievements, feedback, reviews] = await Promise.all([
+      News.find({ status: 'active' }).sort({ publishedAt: -1 }).limit(20),
+      Achievement.find({ childId: req.user._id }).sort({ achievedAt: -1 }).limit(20),
+      ServiceRequest.find({ userId: req.user._id, type: 'feedback' }).sort({ createdAt: -1 }).limit(20),
+      Review.find({ userId: req.user._id }).populate('schoolId', 'name').sort({ createdAt: -1 }).limit(20),
+    ]);
+
+    res.json({
+      success: true,
+      data: {
+        news,
+        achievements,
+        feedback,
+        reviews,
+      },
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

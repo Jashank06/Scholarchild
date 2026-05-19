@@ -125,7 +125,7 @@ function keywordDetect(text, metadata = {}) {
 async function aiDetect(text, metadata = {}) {
   try {
     const prompt = PROMPTS.detect(text, metadata.url);
-    const result = await callAI(prompt, { cacheKey: `detect:${text.substring(0, 200)}` });
+    const result = await callAI(prompt, { cacheKey: `detect:${text.substring(0, 200)}`, schemaName: 'detect' });
     
     if (result) {
       return {

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const { School } = require('../models/School');
+const FileNode = require('../models/FileNode');
 const { protect, generateToken } = require('../middleware/auth');
 const { awardBadge, updateStreak } = require('../utils/gamification');
 
@@ -66,6 +67,26 @@ router.post('/register', async (req, res) => {
     }
 
     const user = await User.create(userData);
+
+    // Create predefined folders for students and parents
+    if (user.role === 'student' || user.role === 'parent') {
+      const predefinedFolders = [
+        'Basic Documents',
+        'Academics',
+        'Sports & Other Activities',
+        'Awards / Rewards / Certifications',
+      ];
+
+      const folderPromises = predefinedFolders.map((folderName) =>
+        FileNode.create({
+          name: folderName,
+          type: 'folder',
+          user: user._id,
+          parent: null, // Top-level folders
+        })
+      );
+      await Promise.all(folderPromises);
+    }
 
     // If it's a school/institution, create a corresponding School document
     if (userRole === 'school' || userRole === 'university') {

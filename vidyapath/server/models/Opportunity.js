@@ -1,19 +1,19 @@
 const mongoose = require('mongoose');
 
 const opportunitySchema = new mongoose.Schema({
-  type: { type: String, enum: ['scholarship', 'competition', 'scheme'], required: true },
+  type: { type: String, enum: ['scholarship', 'competition', 'scheme', 'fellowship', 'internship', 'camp', 'workshop', 'other'], required: true },
   status: { type: String, enum: ['active', 'inactive', 'draft', 'expired'], default: 'active' },
 
   title: { type: String, required: true, trim: true },
   slug: { type: String, unique: true, lowercase: true },
   description: { type: String, required: true },
-  shortDescription: { type: String, maxlength: 250 },
+  shortDescription: { type: String, maxlength: 500 },
   coverImage: String,
 
   // Organizer
   organizer: {
     name: { type: String, required: true },
-    type: { type: String, enum: ['government', 'ngo', 'corporate', 'trust', 'institution', 'school'] },
+    type: { type: String, enum: ['government', 'ngo', 'corporate', 'trust', 'institution', 'school', 'unknown'] },
     logo: String,
     website: String,
     level: { type: String, enum: ['taluka', 'district', 'state', 'national', 'international'] },
@@ -22,7 +22,7 @@ const opportunitySchema = new mongoose.Schema({
   // Category
   category: {
     type: String,
-    enum: ['academic', 'arts', 'science', 'quiz', 'olympiad', 'coding', 'writing', 'debate', 'general'],
+    enum: ['academic', 'arts', 'science', 'quiz', 'olympiad', 'coding', 'writing', 'debate', 'general', 'sports', 'music', 'other'],
     required: true,
   },
   tags: [String],
@@ -43,7 +43,7 @@ const opportunitySchema = new mongoose.Schema({
 
   // Rewards
   rewards: {
-    type: { type: String, enum: ['cash', 'certificate', 'recognition', 'mixed'] },
+    type: { type: String, enum: ['cash', 'certificate', 'recognition', 'mixed', 'prize', 'other'] },
     cashAmount: Number,
     cashCurrency: { type: String, default: 'INR' },
     description: String,

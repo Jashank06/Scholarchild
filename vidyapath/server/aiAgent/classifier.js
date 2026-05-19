@@ -100,7 +100,7 @@ async function classify(text, existingData = {}) {
   // Use AI for better classification
   try {
     const prompt = PROMPTS.classify(text);
-    const aiResult = await callAI(prompt, { cacheKey: `classify:${text.substring(0, 200)}` });
+    const aiResult = await callAI(prompt, { cacheKey: `classify:${text.substring(0, 200)}`, schemaName: 'classify' });
 
     if (aiResult) {
       return {

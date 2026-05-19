@@ -102,7 +102,7 @@ async function extract(text, metadata = {}) {
   // Try AI extraction for richer data
   try {
     const prompt = PROMPTS.extract(text, metadata.url || '');
-    const aiResult = await callAI(prompt, { cacheKey: `extract:${text.substring(0, 200)}` });
+    const aiResult = await callAI(prompt, { cacheKey: `extract:${text.substring(0, 200)}`, schemaName: 'extract' });
 
     if (aiResult) {
       // Merge AI results with regex results (AI wins but regex fills gaps)

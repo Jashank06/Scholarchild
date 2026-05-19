@@ -34,7 +34,17 @@ const userSchema = new mongoose.Schema({
       taluka: String,
       state: String,
       pincode: String,
+      country: String,
     },
+
+    schoolAddress: {
+      street: String,
+      city: String,
+      state: String,
+      pincode: String,
+      country: String,
+    },
+    mediumOfInstruction: String,
 
     // Family Info
     familyIncome: Number,
@@ -50,8 +60,22 @@ const userSchema = new mongoose.Schema({
 
   // ─── Parent Profile ───
   parentProfile: {
+    religion: String,
+    address: {
+      street: String,
+      city: String,
+      pincode: String,
+      state: String,
+      country: String,
+    },
+    profession: String,
+    industry: String,
+    specialization: String,
+    reference: String,
+    jobBusiness: String,
+    nameOfCompany: String,
     occupation: String,
-    qualifications: String,
+
     children: [{
       childId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
       relationship: { type: String, enum: ['father', 'mother', 'guardian'], default: 'guardian' },

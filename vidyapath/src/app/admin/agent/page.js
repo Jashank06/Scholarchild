@@ -108,6 +108,7 @@ export default function AgentDashboardPage() {
   const [opportunities, setOpportunities] = useState([]);
   const [scanLogs, setScanLogs] = useState([]);
   const [selected, setSelected] = useState(new Set());
+  const [selectAllGlobal, setSelectAllGlobal] = useState(false);
   const [filter, setFilter] = useState({ status: 'pending', type: '', sort: 'priority' });
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -206,13 +207,18 @@ export default function AgentDashboardPage() {
   };
 
   const handleBulkApprove = async () => {
-    if (selected.size === 0) return showMessage('No items selected', 'error');
-    if (!confirm(`Approve ${selected.size} opportunities?`)) return;
+    const totalToApprove = selectAllGlobal ? stats.pending : selected.size;
+    if (totalToApprove === 0) return showMessage('No items selected', 'error');
+    if (!confirm(`Approve all ${totalToApprove} opportunities?`)) return;
     setScanning(true);
     try {
-      const res = await api.bulkApproveAgent([...selected]);
-      showMessage(res.message || `${selected.size} approved!`);
+      const payload = selectAllGlobal 
+        ? { all: true, filter: { type: filter.type } } 
+        : { ids: [...selected] };
+      const res = await api.bulkApproveAgent(payload);
+      showMessage(res.message || 'Approved!');
       setSelected(new Set());
+      setSelectAllGlobal(false);
       fetchData();
     } catch (e) {
       showMessage(e.message, 'error');
@@ -291,11 +297,16 @@ export default function AgentDashboardPage() {
       n.has(id) ? n.delete(id) : n.add(id);
       return n;
     });
+    setSelectAllGlobal(false);
   };
 
   const toggleSelectAll = () => {
-    if (selected.size === opportunities.length) setSelected(new Set());
-    else setSelected(new Set(opportunities.map(o => o._id)));
+    if (selected.size === opportunities.length) {
+      setSelected(new Set());
+      setSelectAllGlobal(false);
+    } else {
+      setSelected(new Set(opportunities.map(o => o._id)));
+    }
   };
 
   if (loading) return <div className={styles.loadingWrap}><div className={styles.spinner}></div></div>;
@@ -325,9 +336,9 @@ export default function AgentDashboardPage() {
           </div>
         </div>
         <div className={styles.headerActions}>
-          {selected.size > 0 && (
+          {(selected.size > 0 || selectAllGlobal) && (
             <button className={`${styles.actionBtn} ${styles.btnBulkApprove}`} onClick={handleBulkApprove} disabled={scanning} style={{ boxShadow: '0 10px 15px -3px rgba(16, 185, 129, 0.4)' }}>
-              ✅ Approve {selected.size} Selected
+              ✅ Approve {selectAllGlobal ? stats.pending : selected.size} Selected
             </button>
           )}
         </div>
@@ -399,11 +410,29 @@ export default function AgentDashboardPage() {
           <option value="newest">Sort: Newest</option>
         </select>
         {opportunities.length > 0 && filter.status === 'pending' && (
-          <label className={styles.selectAllCheckbox}>
-            <input type="checkbox" checked={selected.size === opportunities.length && opportunities.length > 0}
-              onChange={toggleSelectAll} />
-            Select All ({opportunities.length})
-          </label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
+            <label className={styles.selectAllCheckbox}>
+              <input type="checkbox" checked={(selected.size === opportunities.length || selectAllGlobal) && opportunities.length > 0}
+                onChange={toggleSelectAll} />
+              Select All ({opportunities.length})
+            </label>
+            {selected.size === opportunities.length && stats.pending > opportunities.length && !selectAllGlobal && (
+              <span style={{ fontSize: '14px', color: '#4B5563', fontWeight: 500 }}>
+                All {opportunities.length} items on this page are selected.{' '}
+                <button 
+                  onClick={() => setSelectAllGlobal(true)}
+                  style={{ background: 'none', border: 'none', color: '#2563EB', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer', padding: 0 }}
+                >
+                  Select all {stats.pending} pending opportunities
+                </button>
+              </span>
+            )}
+            {selectAllGlobal && (
+              <span style={{ fontSize: '14px', color: '#059669', fontWeight: 600 }}>
+                🎉 Selected all {stats.pending} opportunities across all pages!
+              </span>
+            )}
+          </div>
         )}
       </div>
 

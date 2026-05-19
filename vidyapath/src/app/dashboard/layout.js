@@ -21,7 +21,9 @@ const navSections = [
     items: [
       { icon: '📋', label: 'Applications', href: '/dashboard/applications', badge: null },
       { icon: '🔖', label: 'Bookmarks', href: '/dashboard/bookmarks', badge: null },
-      { icon: '🛠️', label: 'Support Center', href: '/dashboard/services', badge: null },
+      { icon: '🧾', label: 'Reports', href: '/dashboard/results', badge: null },
+      { icon: '📰', label: 'History', href: '/dashboard/history', badge: null },
+      { icon: '🗂️', label: 'Files & Folders', href: '/dashboard/documents', badge: null },
       { icon: '📅', label: 'Calendar', href: '/dashboard/calendar', badge: null },
     ],
   },
@@ -29,7 +31,7 @@ const navSections = [
     label: 'Account',
     items: [
       { icon: '👤', label: 'My Profile', href: '/dashboard/profile', badge: null },
-      { icon: '📁', label: 'Documents', href: '/dashboard/documents', badge: null },
+      { icon: '💁', label: 'Support Center', href: '/dashboard/services', badge: null },
       { icon: '⚙️', label: 'Settings', href: '/dashboard/settings', badge: null },
     ],
   },

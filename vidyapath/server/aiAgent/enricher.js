@@ -103,8 +103,8 @@ async function enrich(opportunity, rawText = '') {
   // 6. AI Enrichment (only for high-value opportunities)
   if (opportunity.priorityScore?.overall > 50 || !opportunity.shortDescription) {
     try {
-      const prompt = PROMPTS.enrich(opportunity);
-      const aiResult = await callAI(prompt, { cacheKey: `enrich:${opportunity.title}` });
+      const prompt = PROMPTS.enrich(JSON.stringify(opportunity));
+      const aiResult = await callAI(prompt, { cacheKey: `enrich:${opportunity.title}`, schemaName: 'enrich' });
       
       if (aiResult) {
         if (aiResult.shortDescription && !opportunity.shortDescription) {
