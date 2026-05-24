@@ -20,7 +20,7 @@ const addPredefinedFolders = async () => {
 
     for (const user of users) {
       console.log(`Processing user: ${user.email}`);
-      const existingFolders = await FileNode.find({ user: user._id, parent: null, type: 'folder' });
+      const existingFolders = await FileNode.find({ userId: user._id, parentId: null, type: 'folder' });
       const existingFolderNames = existingFolders.map(f => f.name);
 
       const foldersToCreate = predefinedFolders.filter(
@@ -34,7 +34,7 @@ const addPredefinedFolders = async () => {
             name: folderName,
             type: 'folder',
             userId: user._id,
-            parent: null, // Top-level folders
+            parentId: null, // Top-level folders
           })
         );
         await Promise.all(folderPromises);

@@ -29,6 +29,7 @@ app.use('/api/services', require('./routes/services'));
 app.use('/api/agent', require('./routes/agent'));
 app.use('/api/parent', require('./routes/parent'));
 app.use('/api/files', require('./routes/files'));
+app.use('/api/file-nodes', require('./routes/fileNodes'));
 app.use('/api/results', require('./routes/results'));
 app.use('/api/news', require('./routes/news'));
 app.use('/api/school-config', require('./routes/schoolConfig'));

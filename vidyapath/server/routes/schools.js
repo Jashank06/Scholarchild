@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 const { School } = require('../models/School');
 const Review = require('../models/Review');
 const User = require('../models/User');
@@ -67,36 +68,153 @@ router.get('/:id', async (req, res) => {
     const school = await School.findById(req.params.id);
     if (!school) return res.status(404).json({ success: false, message: 'School not found' });
 
-    const reviews = await Review.find({ schoolId: req.params.id, isApproved: true })
-      .populate('userId', 'profile.firstName profile.lastName')
-      .sort({ createdAt: -1 })
-      .limit(20);
+    const { sort = 'recent', page = 1, limit = 10 } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    
+    let sortQuery = { createdAt: -1 };
+    if (sort === 'highest') sortQuery = { 'ratings.overall': -1 };
+    if (sort === 'lowest') sortQuery = { 'ratings.overall': 1 };
+    if (sort === 'helpful') sortQuery = { helpfulCount: -1 };
 
-    res.json({ success: true, data: { school, reviews } });
+    const reviews = await Review.find({ schoolId: req.params.id, isApproved: true })
+      .populate('userId', 'profile.firstName profile.lastName profile.avatar')
+      .sort(sortQuery)
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    const totalReviews = await Review.countDocuments({ schoolId: req.params.id, isApproved: true });
+
+    // Get rating distribution
+    const ratingDistribution = await Review.aggregate([
+      { $match: { schoolId: new mongoose.Types.ObjectId(req.params.id), isApproved: true } },
+      { $group: { _id: '$ratings.overall', count: { $sum: 1 } } },
+      { $sort: { _id: -1 } }
+    ]);
+
+    res.json({ 
+      success: true, 
+      data: { 
+        school, 
+        reviews,
+        totalReviews,
+        ratingDistribution,
+        pagination: {
+          total: totalReviews,
+          page: parseInt(page),
+          limit: parseInt(limit),
+          pages: Math.ceil(totalReviews / parseInt(limit))
+        }
+      }
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// @POST /api/schools/:id/review — Parent submits a school review
-router.post('/:id/review', protect, multiRole('parent', 'admin'), async (req, res) => {
+// @POST /api/schools/:id/reviews/:reviewId/helpful — Mark review as helpful
+router.post('/:id/reviews/:reviewId/helpful', protect, async (req, res) => {
   try {
-    const { academics, infrastructure, faculty, extracurricular, safety, comment } = req.body;
+    const review = await Review.findById(req.params.reviewId);
+    if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
+    if (review.schoolId.toString() !== req.params.id) {
+      return res.status(400).json({ success: false, message: 'Review does not belong to this school' });
+    }
+
+    const userId = req.user._id;
+    const alreadyHelpful = review.helpfulBy.includes(userId);
+
+    if (alreadyHelpful) {
+      review.helpfulBy = review.helpfulBy.filter(id => id.toString() !== userId.toString());
+      review.helpfulCount = Math.max(0, review.helpfulCount - 1);
+    } else {
+      review.helpfulBy.push(userId);
+      review.helpfulCount += 1;
+    }
+    await review.save();
+
+    res.json({ success: true, helpfulCount: review.helpfulCount, marked: !alreadyHelpful });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @POST /api/schools/:id/reviews/:reviewId/report — Report a review
+router.post('/:id/reviews/:reviewId/report', protect, async (req, res) => {
+  try {
+    const review = await Review.findById(req.params.reviewId);
+    if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
+
+    review.reportCount += 1;
+    await review.save();
+
+    res.json({ success: true, message: 'Review reported. Thank you for your feedback.' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @POST /api/schools/:id/review — Parent or admin submits a school review
+router.post('/:id/review', protect, multiRole('parent', 'admin'), async (req, res, next) => {
+  try {
+    console.log('=== Review Submit Debug ===');
+    console.log('User:', req.user?._id, req.user?.role);
+    console.log('Body:', req.body);
+    
+    const { 
+      academics, infrastructure, faculty, extracurricular, safety, 
+      communication, valueForMoney,
+      title, comment, pros, cons, 
+      visitDate, childGrade, reviewType 
+    } = req.body;
 
     const school = await School.findById(req.params.id);
     if (!school) return res.status(404).json({ success: false, message: 'School not found' });
 
-    const review = await Review.create({
+    // Check if user already reviewed this school
+    const existingReview = await Review.findOne({ userId: req.user._id, schoolId: req.params.id });
+    if (existingReview) {
+      return res.status(400).json({ success: false, message: 'You have already reviewed this school. You can edit your existing review.' });
+    }
+
+    const reviewData = {
       userId: req.user._id,
       schoolId: req.params.id,
-      ratings: { academics, infrastructure, faculty, extracurricular, safety },
-      comment,
-    });
+      ratings: { 
+        academics: academics || 3, 
+        infrastructure: infrastructure || 3, 
+        faculty: faculty || 3, 
+        extracurricular: extracurricular || 3, 
+        safety: safety || 3,
+        communication: communication || 3,
+        valueForMoney: valueForMoney || 3,
+      },
+      title: title || '',
+      comment: comment || '',
+      pros: Array.isArray(pros) ? pros : (pros || []),
+      cons: Array.isArray(cons) ? cons : (cons || []),
+      visitDate: visitDate ? new Date(visitDate) : undefined,
+      childGrade: childGrade,
+      reviewType: reviewType || (req.user.role === 'admin' ? 'admin' : 'parent'),
+      isVerified: req.user.role === 'admin',
+    };
+
+    console.log('Creating review with data:', JSON.stringify(reviewData, null, 2));
+    const review = await Review.create(reviewData);
+    console.log('Review created:', review._id);
 
     // Update school aggregate ratings
     const allReviews = await Review.find({ schoolId: req.params.id, isApproved: true });
+    console.log('Total reviews after create:', allReviews.length);
+    
     const count = allReviews.length;
-    const avg = (field) => allReviews.reduce((sum, r) => sum + r.ratings[field], 0) / count;
+    const avg = (field) => {
+      if (count === 0) return 0;
+      const total = allReviews.reduce((sum, r) => {
+        const val = r.ratings && r.ratings[field];
+        return sum + (typeof val === 'number' ? val : 0);
+      }, 0);
+      return total / count;
+    };
 
     school.ratings = {
       overall: parseFloat(avg('overall').toFixed(1)),
@@ -104,15 +222,120 @@ router.post('/:id/review', protect, multiRole('parent', 'admin'), async (req, re
       infrastructure: parseFloat(avg('infrastructure').toFixed(1)),
       faculty: parseFloat(avg('faculty').toFixed(1)),
       extracurricular: parseFloat(avg('extracurricular').toFixed(1)),
+      safety: parseFloat(avg('safety').toFixed(1)),
+      communication: parseFloat(avg('communication').toFixed(1)),
+      valueForMoney: parseFloat(avg('valueForMoney').toFixed(1)),
+      totalReviews: count,
+    };
+    await school.save();
+    console.log('School ratings updated');
+
+    res.status(201).json({ success: true, data: review });
+  } catch (error) {
+    console.error('Review submit error:', error);
+    if (error.code === 11000) {
+      return res.status(400).json({ success: false, message: 'You have already reviewed this school' });
+    }
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @PUT /api/schools/:id/review — Update existing review
+router.put('/:id/review', protect, async (req, res) => {
+  try {
+    const review = await Review.findOne({ userId: req.user._id, schoolId: req.params.id });
+    if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
+
+    const { 
+      academics, infrastructure, faculty, extracurricular, safety,
+      communication, valueForMoney,
+      title, comment, pros, cons, visitDate, childGrade 
+    } = req.body;
+
+    if (academics) review.ratings.academics = academics;
+    if (infrastructure) review.ratings.infrastructure = infrastructure;
+    if (faculty) review.ratings.faculty = faculty;
+    if (extracurricular) review.ratings.extracurricular = extracurricular;
+    if (safety) review.ratings.safety = safety;
+    if (communication) review.ratings.communication = communication;
+    if (valueForMoney) review.ratings.valueForMoney = valueForMoney;
+    
+    if (title !== undefined) review.title = title;
+    if (comment !== undefined) review.comment = comment;
+    if (pros) review.pros = pros;
+    if (cons) review.cons = cons;
+    if (visitDate) review.visitDate = new Date(visitDate);
+    if (childGrade) review.childGrade = childGrade;
+
+    await review.save();
+
+    // Recalculate school ratings
+    const school = await School.findById(req.params.id);
+    const allReviews = await Review.find({ schoolId: req.params.id, isApproved: true });
+    const count = allReviews.length;
+    
+    const avg = (field) => {
+      const validReviews = allReviews.filter(r => r.ratings[field] != null);
+      return validReviews.length > 0 
+        ? validReviews.reduce((sum, r) => sum + r.ratings[field], 0) / validReviews.length 
+        : 0;
+    };
+
+    school.ratings = {
+      overall: parseFloat(avg('overall').toFixed(1)),
+      academics: parseFloat(avg('academics').toFixed(1)),
+      infrastructure: parseFloat(avg('infrastructure').toFixed(1)),
+      faculty: parseFloat(avg('faculty').toFixed(1)),
+      extracurricular: parseFloat(avg('extracurricular').toFixed(1)),
+      safety: parseFloat(avg('safety').toFixed(1)),
+      communication: parseFloat(avg('communication').toFixed(1)),
+      valueForMoney: parseFloat(avg('valueForMoney').toFixed(1)),
       totalReviews: count,
     };
     await school.save();
 
-    res.status(201).json({ success: true, data: review });
+    res.json({ success: true, data: review });
   } catch (error) {
-    if (error.code === 11000) {
-      return res.status(400).json({ success: false, message: 'You have already reviewed this school' });
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @DELETE /api/schools/:id/review — Delete own review
+router.delete('/:id/review', protect, async (req, res) => {
+  try {
+    const review = await Review.findOneAndDelete({ userId: req.user._id, schoolId: req.params.id });
+    if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
+
+    // Recalculate school ratings
+    const school = await School.findById(req.params.id);
+    const allReviews = await Review.find({ schoolId: req.params.id, isApproved: true });
+    const count = allReviews.length;
+    
+    if (count === 0) {
+      school.ratings = { overall: 0, academics: 0, infrastructure: 0, faculty: 0, extracurricular: 0, safety: 0, communication: 0, valueForMoney: 0, totalReviews: 0 };
+    } else {
+      const avg = (field) => {
+        const validReviews = allReviews.filter(r => r.ratings[field] != null);
+        return validReviews.length > 0 
+          ? validReviews.reduce((sum, r) => sum + r.ratings[field], 0) / validReviews.length 
+          : 0;
+      };
+      school.ratings = {
+        overall: parseFloat(avg('overall').toFixed(1)),
+        academics: parseFloat(avg('academics').toFixed(1)),
+        infrastructure: parseFloat(avg('infrastructure').toFixed(1)),
+        faculty: parseFloat(avg('faculty').toFixed(1)),
+        extracurricular: parseFloat(avg('extracurricular').toFixed(1)),
+        safety: parseFloat(avg('safety').toFixed(1)),
+        communication: parseFloat(avg('communication').toFixed(1)),
+        valueForMoney: parseFloat(avg('valueForMoney').toFixed(1)),
+        totalReviews: count,
+      };
     }
+    await school.save();
+
+    res.json({ success: true, message: 'Review deleted' });
+  } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 });

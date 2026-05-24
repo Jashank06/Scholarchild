@@ -19,12 +19,12 @@ export default function DashboardHome() {
       try {
         const [meRes, recRes, appRes] = await Promise.all([
           api.getMe(),
-          api.getRecommendations(4),
+          api.getOpportunities({ limit: 4 }),
           api.getApplications({ limit: 4 })
         ]);
         
         setUser(meRes.user);
-        setRecommendations(recRes.data || []);
+        setRecommendations(recRes.data || recRes.opportunities || []);
         setApplications(appRes.data || []);
       } catch (err) {
         console.error('Failed to fetch dashboard data', err);
@@ -146,14 +146,11 @@ export default function DashboardHome() {
           </div>
           <div className={styles.recoList}>
             {recommendations.map((r, i) => (
-              <div key={i} className={styles.recoCard} onClick={() => router.push(`/dashboard/${r.opportunity.type}s`)} style={{ cursor: 'pointer', padding: '16px', borderRadius: '20px' }}>
-                <div className={`${styles.recoIcon} ${styles[r.opportunity.type]}`} style={{ width: '44px', height: '44px' }}>{r.opportunity.type === 'scholarship' ? '🎓' : '🏆'}</div>
+              <div key={i} className={styles.recoCard} onClick={() => router.push(`/dashboard/${r.type}s`)} style={{ cursor: 'pointer', padding: '16px', borderRadius: '20px' }}>
+                <div className={`${styles.recoIcon} ${styles[r.type]}`} style={{ width: '44px', height: '44px' }}>{r.type === 'scholarship' ? '🎓' : '🏆'}</div>
                 <div className={styles.recoInfo}>
-                  <div className={styles.recoTitle} style={{ fontSize: '15px' }}>{r.opportunity.title}</div>
-                  <div className={styles.recoMeta} style={{ fontSize: '11px' }}>{r.opportunity.organizer?.name} • {r.opportunity.category}</div>
-                </div>
-                <div className={`${styles.matchScore} ${r.matchScore >= 85 ? styles.matchHigh : styles.matchMed}`} style={{ width: '40px', height: '40px', fontSize: '11px' }}>
-                  {r.matchScore}%
+                  <div className={styles.recoTitle} style={{ fontSize: '15px' }}>{r.title}</div>
+                  <div className={styles.recoMeta} style={{ fontSize: '11px' }}>{r.organizer?.name || r.organizer} • {r.category}</div>
                 </div>
               </div>
             ))}
@@ -166,15 +163,15 @@ export default function DashboardHome() {
             <button className={styles.viewAllBtn} style={{ fontSize: '12px' }} onClick={() => router.push('/dashboard/calendar')}>Calendar →</button>
           </div>
           <div className={styles.deadlineList}>
-            {recommendations.filter(r => r.opportunity.dates?.applicationDeadline).slice(0, 4).map((d, i) => {
-              const date = new Date(d.opportunity.dates.applicationDeadline);
+            {recommendations.filter(r => r.dates?.applicationDeadline).slice(0, 4).map((d, i) => {
+              const date = new Date(d.dates.applicationDeadline);
               const daysLeft = Math.ceil((date - new Date()) / (1000 * 60 * 60 * 24));
               const urgency = daysLeft < 7 ? 'urgent' : daysLeft < 30 ? 'soon' : 'later';
               return (
                 <div key={i} className={styles.deadlineItem} style={{ padding: '12px 0' }}>
                   <div className={`${styles.deadlineDot} ${styles[urgency]}`}></div>
                   <div className={styles.deadlineInfo}>
-                    <div className={styles.deadlineName} style={{ fontSize: '14px' }}>{d.opportunity.title}</div>
+                    <div className={styles.deadlineName} style={{ fontSize: '14px' }}>{d.title}</div>
                     <div className={styles.deadlineDate} style={{ fontSize: '11px' }}>{date.toLocaleDateString()}</div>
                   </div>
                   <span className={`${styles.deadlineBadge} ${styles[urgency]}`} style={{ fontSize: '9px' }}>{daysLeft}d</span>

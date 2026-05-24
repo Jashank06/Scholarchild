@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:22-alpine AS builder
+FROM node:22-slim AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm config set fetch-retries 5 && \
@@ -13,7 +13,7 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 RUN npm run build
 
 # Stage 2: Production
-FROM node:22-alpine AS runner
+FROM node:22-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 

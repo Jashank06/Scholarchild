@@ -89,7 +89,7 @@ const agentOpportunitySchema = new mongoose.Schema({
 
   // ─── Source Tracking ───
   source: {
-    type: { type: String, enum: ['excel_import', 'url_scan', 'api_fetch', 'manual', 'web_scrape', 'scheduled_scan'], default: 'manual' },
+    type: { type: String, enum: ['excel_import', 'url_scan', 'api_fetch', 'manual', 'web_scrape', 'scheduled_scan', 'official_rss', 'playwright_scrape'], default: 'manual' },
     url: String,
     domain: String,
     fileName: String,

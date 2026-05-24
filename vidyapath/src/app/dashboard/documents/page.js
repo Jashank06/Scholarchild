@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 
 const fileIcon = (item) => {
-  if (item.type === 'folder') return '�';
-  if (item.mimeType?.includes('pdf')) return '📄';
-  if (item.mimeType?.includes('image')) return '�️';
-  return '�';
+  const mimeType = item.mimeType || item.fileType || '';
+  if (mimeType?.includes('pdf')) return 'PDF';
+  if (mimeType?.includes('image')) return 'IMG';
+  return 'DOC';
 };
 
 export default function DocumentsPage() {
@@ -21,10 +21,11 @@ export default function DocumentsPage() {
   const [creating, setCreating] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
 
-  const loadItems = async (parentId) => {
+  const loadItems = async () => {
     setLoading(true);
     try {
-      const res = await api.getFileNodes({ parentId: parentId || 'root' });
+      const parentId = currentFolder || null;
+      const res = await api.getFileNodes({ parentId });
       setItems(res.data || []);
       setMessage({ text: '', type: '' });
     } catch (error) {
@@ -36,7 +37,7 @@ export default function DocumentsPage() {
   };
 
   useEffect(() => {
-    loadItems(currentFolder);
+    loadItems();
   }, [currentFolder]);
 
   const handleCreateFolder = async () => {
@@ -56,7 +57,7 @@ export default function DocumentsPage() {
     try {
       await api.createFolder({ name: folderName.trim(), parentId: currentFolder || null });
       setFolderName('');
-      await loadItems(currentFolder);
+      await loadItems();
       setMessage({ text: 'Folder created', type: 'success' });
     } catch (error) {
       console.error(error);
@@ -76,7 +77,7 @@ export default function DocumentsPage() {
       formData.append('file', file);
       formData.append('parentId', currentFolder || '');
       await api.uploadFileNode(formData);
-      await loadItems(currentFolder);
+      await loadItems();
       setMessage({ text: 'File uploaded', type: 'success' });
     } catch (error) {
       console.error(error);
@@ -106,7 +107,7 @@ export default function DocumentsPage() {
     if (!window.confirm(`Delete ${item.name}?`)) return;
     try {
       await api.deleteFileNode(item._id);
-      await loadItems(currentFolder);
+      await loadItems();
       setMessage({ text: 'Deleted successfully', type: 'success' });
     } catch (error) {
       console.error(error);
