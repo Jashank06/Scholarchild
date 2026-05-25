@@ -250,6 +250,18 @@ class ApiService {
     return this.request('/parent/applications');
   }
 
+  async getParentHistory() {
+    return this.request('/parent/history');
+  }
+
+  async linkChild(email, relationship) {
+    return this.request('/auth/link-child', { method: 'POST', body: JSON.stringify({ email, relationship }) });
+  }
+
+  async markNotificationRead(id) {
+    return this.markRead(id);
+  }
+
   // Admin
   async getAdminStats() {
     return this.request('/admin/stats');
@@ -345,6 +357,30 @@ class ApiService {
 
   async deleteSchoolField(id) {
     return this.request(`/school-config/fields/${id}`, { method: 'DELETE' });
+  }
+
+  // Services
+  async getServiceRequests() {
+    return this.request('/services');
+  }
+
+  async createServiceRequest(body) {
+    return this.request('/services', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  // FAQs
+  async getFAQs() {
+    return this.request('/faqs');
+  }
+
+  // Results
+  async getResultSources() {
+    return this.request('/results');
+  }
+
+  // Recommendations (AI Agent)
+  async getRecommendations(count) {
+    return this.request(`/agent/recommendations?limit=${count || 20}`);
   }
 
   // Logout
