@@ -71,9 +71,6 @@ router.post('/upload', protect, async (req, res) => {
     
     const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
     
-    // Handle upload manually since we're in router context
-    const { parentId } = req.query;
-    
     upload.single('file')(req, res, async (err) => {
       if (err) {
         return res.status(400).json({ success: false, message: err.message });
@@ -82,6 +79,8 @@ router.post('/upload', protect, async (req, res) => {
       if (!req.file) {
         return res.status(400).json({ success: false, message: 'No file uploaded' });
       }
+      
+      const parentId = req.body.parentId;
       
       const fileNode = await FileNode.create({
         name: req.file.originalname,
