@@ -11,7 +11,7 @@ router.get('/', protect, async (req, res) => {
     const query = { userId: req.user.id, isDeleted: false };
     
     // Handle parentId: null means root level, otherwise filter by parentId
-    if (!parentIdParam || parentIdParam === 'null' || parentIdParam === 'undefined') {
+    if (!parentIdParam || parentIdParam === 'null' || parentIdParam === 'undefined' || parentIdParam === 'root') {
       query.parentId = null;
     } else {
       query.parentId = parentIdParam;

@@ -25,7 +25,7 @@ export default function ParentFilesFoldersPage() {
   const loadItems = async (parentId) => {
     setLoading(true);
     try {
-      const res = await api.getFileNodes({ parentId: parentId || 'root' });
+      const res = await api.getFileNodes({ parentId });
       setItems(res.data || []);
       setMessage({ text: '', type: '' });
     } catch (error) {
