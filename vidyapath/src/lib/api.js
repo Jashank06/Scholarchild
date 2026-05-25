@@ -314,6 +314,39 @@ class ApiService {
     return this.request('/agent/scan-crawler', { method: 'POST' });
   }
 
+  // School Config
+  async getSchoolCategories() {
+    return this.request('/school-config/categories');
+  }
+
+  async createSchoolCategory(body) {
+    return this.request('/school-config/categories', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async updateSchoolCategory(id, body) {
+    return this.request(`/school-config/categories/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async deleteSchoolCategory(id) {
+    return this.request(`/school-config/categories/${id}`, { method: 'DELETE' });
+  }
+
+  async getSchoolFields() {
+    return this.request('/school-config/fields');
+  }
+
+  async createSchoolField(body) {
+    return this.request('/school-config/fields', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async updateSchoolField(id, body) {
+    return this.request(`/school-config/fields/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async deleteSchoolField(id) {
+    return this.request(`/school-config/fields/${id}`, { method: 'DELETE' });
+  }
+
   // Logout
   logout() {
     this.removeToken();
