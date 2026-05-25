@@ -264,6 +264,56 @@ class ApiService {
     return this.request(`/schools/${id}/verify`, { method: 'PUT' });
   }
 
+  // AI Agent
+  async getAgentDashboard() {
+    return this.request('/agent/dashboard');
+  }
+
+  async getAgentPending(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/agent/pending?${q}`);
+  }
+
+  async getAgentScanLogs(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/agent/scan-logs?${q}`);
+  }
+
+  async approveAgentOpportunity(id) {
+    return this.request(`/agent/approve/${id}`, { method: 'PUT' });
+  }
+
+  async rejectAgentOpportunity(id, reason) {
+    return this.request(`/agent/reject/${id}`, { method: 'PUT', body: JSON.stringify({ reason }) });
+  }
+
+  async bulkApproveAgent(payload) {
+    return this.request('/agent/bulk-approve', { method: 'POST', body: JSON.stringify(payload) });
+  }
+
+  async scanAgentExcel(formData) {
+    const token = this.getToken();
+    const url = `${this.baseUrl}/agent/scan-excel`;
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const res = await fetch(url, { method: 'POST', headers, body: formData });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Upload failed');
+    return data;
+  }
+
+  async scanAgentUrl(url) {
+    return this.request('/agent/scan-url', { method: 'POST', body: JSON.stringify({ url }) });
+  }
+
+  async scanAgentLocal() {
+    return this.request('/agent/scan-local', { method: 'POST' });
+  }
+
+  async scanAgentCrawler() {
+    return this.request('/agent/scan-crawler', { method: 'POST' });
+  }
+
   // Logout
   logout() {
     this.removeToken();
