@@ -89,6 +89,13 @@ app.listen(PORT, () => {
     console.log('🤖 Agent: Scheduled multi-strategy scan triggered');
     await runCrawlerEngine(null);
   });
+  
+  // Trigger first scan immediately instead of waiting 24 hours
+  console.log('🤖 Agent: Triggering initial scan on startup...');
+  setTimeout(() => {
+    runCrawlerEngine(null).catch(err => console.error('🤖 Initial scan failed:', err.message));
+  }, 5000); // 5s delay to let DB warm up
+
   console.log(`🤖 AI Agent v2.0 Scheduler initialized — Multi-Strategy Crawler active`);
   console.log(`🧠 AI Brain: Gemini 2.5 Flash (Primary) + Groq/Cerebras/OpenRouter (Fallback)`);
 });
