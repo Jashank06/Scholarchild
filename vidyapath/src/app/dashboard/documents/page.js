@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 
 const fileIcon = (item) => {
-  const mimeType = item.mimeType || item.fileType || '';
-  if (mimeType?.includes('pdf')) return 'PDF';
-  if (mimeType?.includes('image')) return 'IMG';
-  return 'DOC';
+  if (item.type === 'folder') return '📁';
+  if (item.mimeType?.includes('pdf')) return '📄';
+  if (item.mimeType?.includes('image')) return '🖼️';
+  return '📎';
 };
 
 export default function DocumentsPage() {
@@ -17,14 +17,14 @@ export default function DocumentsPage() {
   const [currentFolder, setCurrentFolder] = useState(null);
   const [breadcrumbs, setBreadcrumbs] = useState([{ id: null, name: 'Home' }]);
   const [folderName, setFolderName] = useState('');
+  const [showFolderInput, setShowFolderInput] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [creating, setCreating] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
 
-  const loadItems = async () => {
+  const loadItems = async (parentId) => {
     setLoading(true);
     try {
-      const parentId = currentFolder || null;
       const res = await api.getFileNodes({ parentId });
       setItems(res.data || []);
       setMessage({ text: '', type: '' });
@@ -37,7 +37,7 @@ export default function DocumentsPage() {
   };
 
   useEffect(() => {
-    loadItems();
+    loadItems(currentFolder);
   }, [currentFolder]);
 
   const handleCreateFolder = async () => {
@@ -57,12 +57,14 @@ export default function DocumentsPage() {
     try {
       await api.createFolder({ name: folderName.trim(), parentId: currentFolder || null });
       setFolderName('');
-      await loadItems();
+      setShowFolderInput(false);
+      await loadItems(currentFolder);
       setMessage({ text: 'Folder created', type: 'success' });
     } catch (error) {
       console.error(error);
       setItems((prev) => prev.filter((item) => item._id !== tempId));
       setMessage({ text: error.message || 'Failed to create folder', type: 'error' });
+      setShowFolderInput(false);
     } finally {
       setCreating(false);
     }
@@ -77,7 +79,7 @@ export default function DocumentsPage() {
       formData.append('file', file);
       formData.append('parentId', currentFolder || '');
       await api.uploadFileNode(formData);
-      await loadItems();
+      await loadItems(currentFolder);
       setMessage({ text: 'File uploaded', type: 'success' });
     } catch (error) {
       console.error(error);
@@ -107,7 +109,7 @@ export default function DocumentsPage() {
     if (!window.confirm(`Delete ${item.name}?`)) return;
     try {
       await api.deleteFileNode(item._id);
-      await loadItems();
+      await loadItems(currentFolder);
       setMessage({ text: 'Deleted successfully', type: 'success' });
     } catch (error) {
       console.error(error);
@@ -155,21 +157,39 @@ export default function DocumentsPage() {
       </div>
 
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
-        <input
-          type="text"
-          placeholder="New folder name"
-          value={folderName}
-          onChange={(e) => setFolderName(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Enter') handleCreateFolder(); }}
-          style={{ padding: '10px 14px', border: '1px solid #E5E7EB', borderRadius: '12px', minWidth: '220px' }}
-        />
-        <button
-          onClick={handleCreateFolder}
-          disabled={creating || !folderName.trim()}
-          style={{ padding: '10px 16px', background: '#2563EB', color: 'white', border: 'none', borderRadius: '999px', fontWeight: '800', cursor: 'pointer' }}
-        >
-          {creating ? 'Creating...' : 'Create Folder'}
-        </button>
+        {!showFolderInput ? (
+          <button
+            onClick={() => setShowFolderInput(true)}
+            style={{ padding: '10px 16px', background: '#2563EB', color: 'white', border: 'none', borderRadius: '999px', fontWeight: '800', cursor: 'pointer' }}
+          >
+            + Create Folder
+          </button>
+        ) : (
+          <>
+            <input
+              autoFocus
+              type="text"
+              placeholder="Enter folder name"
+              value={folderName}
+              onChange={(e) => setFolderName(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleCreateFolder(); if (e.key === 'Escape') { setShowFolderInput(false); setFolderName(''); } }}
+              style={{ padding: '10px 14px', border: '1px solid #E5E7EB', borderRadius: '12px', minWidth: '220px' }}
+            />
+            <button
+              onClick={handleCreateFolder}
+              disabled={creating || !folderName.trim()}
+              style={{ padding: '10px 16px', background: '#2563EB', color: 'white', border: 'none', borderRadius: '999px', fontWeight: '800', cursor: 'pointer' }}
+            >
+              {creating ? 'Creating...' : 'Create'}
+            </button>
+            <button
+              onClick={() => { setShowFolderInput(false); setFolderName(''); }}
+              style={{ padding: '10px 16px', background: '#F3F4F6', color: '#6B7280', border: 'none', borderRadius: '999px', fontWeight: '800', cursor: 'pointer' }}
+            >
+              Cancel
+            </button>
+          </>
+        )}
         <label style={{ padding: '10px 16px', background: '#0F172A', color: 'white', borderRadius: '999px', fontWeight: '800', cursor: 'pointer' }}>
           {uploading ? 'Uploading...' : 'Upload File'}
           <input type="file" onChange={handleUpload} style={{ display: 'none' }} />
