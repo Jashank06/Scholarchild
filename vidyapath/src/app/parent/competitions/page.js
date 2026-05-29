@@ -4,32 +4,32 @@ import { useState, useEffect } from 'react';
 import styles from '../../dashboard/listings.module.css';
 import api from '@/lib/api';
 
-const categories = ['All', 'academic', 'general'];
+const categories = ['All', 'academic', 'science', 'arts', 'coding', 'quiz', 'olympiad', 'general'];
 
-export default function ParentSchemesPage() {
+export default function ParentCompetitionsPage() {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [schemes, setSchemes] = useState([]);
+  const [competitions, setCompetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ total: 0 });
   const [filters, setFilters] = useState({ search: '', deadlineDays: '', rewardType: '' });
 
   useEffect(() => {
-    const fetchSchemes = async () => {
+    const fetchCompetitions = async () => {
       try {
         setLoading(true);
-        const params = { type: 'scheme' };
+        const params = { type: 'competition' };
         if (activeCategory !== 'All') params.category = activeCategory.toLowerCase();
         
         const res = await api.getOpportunities(params);
-        setSchemes(res.data || []);
+        setCompetitions(res.data || []);
         if (res.pagination) setStats({ total: res.pagination.total });
       } catch (err) {
-        console.error('Error fetching schemes:', err);
+        console.error('Error fetching competitions:', err);
       } finally {
         setLoading(false);
       }
     };
-    fetchSchemes();
+    fetchCompetitions();
   }, [activeCategory]);
 
   const getDaysLeft = (deadline) => {
@@ -38,7 +38,7 @@ export default function ParentSchemesPage() {
     return days > 0 ? `${days} days left` : 'Expired';
   };
 
-  const filteredSchemes = schemes.filter((item) => {
+  const filteredCompetitions = competitions.filter((item) => {
     if (filters.search) {
       const query = filters.search.toLowerCase();
       const matches = [item.title, item.organizer?.name, item.category]
@@ -59,8 +59,8 @@ export default function ParentSchemesPage() {
     <div className={styles.listingPage}>
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderLeft}>
-          <h1>🏛️ Govt. Schemes for Children <span className={styles.countBadge}>{stats.total}</span></h1>
-          <p>Verified state and central government schemes to support your child’s education.</p>
+          <h1>🏆 Competitions for Children <span className={styles.countBadge}>{stats.total}</span></h1>
+          <p>Olympiads, quizzes, science fairs, and more to challenge your child.</p>
         </div>
       </div>
 
@@ -80,7 +80,7 @@ export default function ParentSchemesPage() {
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}>
         <input
           type="text"
-          placeholder="Search schemes..."
+          placeholder="Search competitions..."
           value={filters.search}
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
           style={{ flex: '1', minWidth: '220px', padding: '12px 16px', border: '1px solid #E5E7EB', borderRadius: '14px', fontSize: '14px' }}
@@ -109,11 +109,11 @@ export default function ParentSchemesPage() {
 
       <div className={styles.listingGrid}>
         {loading ? (
-          <div style={{ padding: '2rem', textAlign: 'center', gridColumn: '1/-1' }}>Loading schemes...</div>
-        ) : filteredSchemes.length === 0 ? (
-          <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)', gridColumn: '1/-1' }}>No schemes found.</div>
+          <div style={{ padding: '2rem', textAlign: 'center', gridColumn: '1/-1' }}>Loading competitions...</div>
+        ) : filteredCompetitions.length === 0 ? (
+          <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)', gridColumn: '1/-1' }}>No competitions found.</div>
         ) : (
-          filteredSchemes.map((item) => {
+          filteredCompetitions.map((item) => {
             const deadline = getDaysLeft(item.dates?.applicationDeadline);
             return (
               <div key={item._id} className={styles.listCard}>

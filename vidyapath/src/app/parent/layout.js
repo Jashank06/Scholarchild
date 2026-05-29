@@ -6,14 +6,16 @@ import styles from '../dashboard/dashboard.module.css';
 import api from '@/lib/api';
 import NotificationCenter from '@/components/dashboard/NotificationCenter';
 
-const navSections = [
+	const navSections = [
 	{
 		label: 'Main',
 		items: [
 			{ icon: '🏠', label: 'Dashboard', href: '/parent' },
-			{ icon: '🏫', label: 'Schools', href: '/parent/schools' },
 			{ icon: '🎓', label: 'Scholarships', href: '/parent/scholarships' },
 			{ icon: '🏛️', label: 'Govt. Schemes', href: '/parent/schemes' },
+			{ icon: '🏆', label: 'Competitions', href: '/parent/competitions' },
+			{ icon: '⭐', label: 'Notable', href: '/parent/notable' },
+			{ icon: '🏪', label: 'Service Provider', href: '/parent/service-providers' },
 		],
 	},
 	{
@@ -32,6 +34,7 @@ const navSections = [
 	{
 		label: 'Activity',
 		items: [
+			{ icon: '🏫', label: 'Schools', href: '/parent/schools' },
 			{ icon: '🛠️', label: 'Support Center', href: '/parent/services' },
 			{ icon: '🔔', label: 'Notifications', href: '/parent/notifications' },
 			{ icon: '❓', label: 'FAQ\'s', href: '/parent/faqs' },

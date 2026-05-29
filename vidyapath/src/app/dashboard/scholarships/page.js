@@ -71,8 +71,8 @@ export default function ScholarshipsPage() {
       // The new AI pipeline sets application.externalLink or just url in some cases
       const link = item.application?.externalLink || item.url;
       if (link) {
-        // Track the click
-        await api.trackExternalClick(item._id);
+        // Submit application to backend so it persists
+        await api.apply({ opportunityId: item._id });
         
         // Show success states
         setApplyingSuccess(item._id);

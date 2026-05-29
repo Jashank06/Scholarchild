@@ -15,7 +15,7 @@ const categoryTextColors = {
   consultancy: '#0284C7', other: '#6B7280',
 };
 
-export default function StudentServicesPage() {
+export default function ParentServiceProvidersPage() {
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
@@ -54,10 +54,10 @@ export default function StudentServicesPage() {
     <div style={{ padding: '0 0 40px' }}>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: '900', color: '#0B0B1A', margin: '0 0 4px' }}>
-          🏪 Services
+          🏪 Services for Your Child
         </h1>
         <p style={{ color: '#6B7280', margin: 0, fontSize: '14px' }}>
-          Trusted schools, coaching centers, and educational services
+          Trusted schools, coaching centers, and educational services for your child
         </p>
       </div>
 
@@ -99,7 +99,7 @@ export default function StudentServicesPage() {
               <div style={{ display: 'grid', gap: '16px', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))' }}>
                 {featured.map(p => (
                   <div key={p._id} onClick={() => handleClick(p)}
-                    style={{ background: 'white', borderRadius: '20px', border: '2px solid #FEF3C7', padding: '24px', cursor: p.link ? 'pointer' : 'default', transition: 'all 0.3s ease', boxShadow: '0 4px 20px rgba(251, 191, 36, 0.1)' }}>
+                    style={{ background: 'white', borderRadius: '20px', border: '2px solid #FEF3C7', padding: '24px', cursor: p.link ? 'pointer' : 'default', boxShadow: '0 4px 20px rgba(251, 191, 36, 0.1)' }}>
                     <div style={{ display: 'flex', gap: '16px' }}>
                       <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: categoryColors[p.category] || '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', flexShrink: 0 }}>
                         {categoryEmoji[p.category] || '🏪'}
@@ -143,7 +143,7 @@ export default function StudentServicesPage() {
             <div style={{ display: 'grid', gap: '14px', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
               {regular.map(p => (
                 <div key={p._id} onClick={() => handleClick(p)}
-                  style={{ background: 'white', borderRadius: '16px', border: '1px solid #E5E7EB', padding: '20px', cursor: p.link ? 'pointer' : 'default', transition: 'all 0.3s ease' }}>
+                  style={{ background: 'white', borderRadius: '16px', border: '1px solid #E5E7EB', padding: '20px', cursor: p.link ? 'pointer' : 'default' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
                     <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: categoryColors[p.category] || '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>
                       {categoryEmoji[p.category] || '🏪'}

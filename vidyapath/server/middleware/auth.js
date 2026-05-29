@@ -18,7 +18,6 @@ const protect = async (req, res, next) => {
       console.log('Auth: User not found for token');
       return res.status(401).json({ success: false, message: 'User not found' });
     }
-    console.log('Auth: User authenticated:', req.user._id, req.user.role);
     next();
   } catch (error) {
     console.error('Auth error:', error.message);

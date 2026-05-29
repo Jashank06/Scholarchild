@@ -70,7 +70,8 @@ export default function SchemesPage() {
     try {
       const link = item.application?.externalLink || item.url;
       if (link) {
-        await api.trackExternalClick(item._id);
+        // Submit application to backend so it persists
+        await api.apply({ opportunityId: item._id });
         
         // Show success states
         setApplyingSuccess(item._id);

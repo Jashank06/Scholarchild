@@ -23,6 +23,8 @@ const navSections = [
     items: [
       { icon: '📋', label: 'Applications', href: '/admin/applications' },
       { icon: '🔔', label: 'Notifications', href: '/admin/notifications' },
+      { icon: '⭐', label: 'Notables', href: '/admin/notables' },
+      { icon: '🏪', label: 'Service Providers', href: '/admin/service-providers' },
       { icon: '⚙️', label: 'Settings', href: '/admin/settings' },
     ],
   },

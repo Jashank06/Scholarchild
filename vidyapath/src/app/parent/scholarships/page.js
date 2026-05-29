@@ -180,6 +180,22 @@ export default function ParentScholarshipsPage() {
                       ⏰ {daysLeft} days left
                     </span>
                   )}
+                  <button
+                    onClick={() => {
+                      const link = opp.application?.externalLink || opp.url;
+                      if (link) {
+                        window.open(link, '_blank', 'noopener,noreferrer');
+                      } else {
+                        window.location.href = `/dashboard/opportunities/${opp._id}`;
+                      }
+                    }}
+                    style={{
+                      padding: '8px 16px', border: 'none', borderRadius: '100px',
+                      background: '#2563EB', color: 'white', fontWeight: '800',
+                      fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap',
+                      marginLeft: 'auto',
+                    }}
+                  >View Details →</button>
                 </div>
               </div>
             );

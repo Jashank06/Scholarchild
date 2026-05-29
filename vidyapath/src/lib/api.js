@@ -126,6 +126,7 @@ class ApiService {
     return this.request('/opportunities/user/bookmarks');
   }
 
+
   // Applications
   async apply(body) {
     return this.request('/applications', { method: 'POST', body: JSON.stringify(body) });
@@ -381,6 +382,86 @@ class ApiService {
   // Recommendations (AI Agent)
   async getRecommendations(count) {
     return this.request(`/agent/recommendations?limit=${count || 20}`);
+  }
+
+  // Notables
+  async getNotables(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/notables?${q}`);
+  }
+
+  async getNotableCategories() {
+    return this.request('/notables/categories');
+  }
+
+  async trackNotableClick(id) {
+    return this.request(`/notables/${id}/click`, { method: 'POST' });
+  }
+
+  // Admin Notables
+  async getAdminNotables(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/notables/admin?${q}`);
+  }
+
+  async getAdminNotable(id) {
+    return this.request(`/notables/admin/${id}`);
+  }
+
+  async createNotable(body) {
+    return this.request('/notables/admin', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async updateNotable(id, body) {
+    return this.request(`/notables/admin/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async deleteNotable(id) {
+    return this.request(`/notables/admin/${id}`, { method: 'DELETE' });
+  }
+
+  async toggleNotable(id, data) {
+    return this.request(`/notables/admin/${id}/toggle`, { method: 'PATCH', body: JSON.stringify(data) });
+  }
+
+  // Service Providers
+  async getServiceProviders(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/service-providers?${q}`);
+  }
+
+  async getServiceProviderCities() {
+    return this.request('/service-providers/cities');
+  }
+
+  async trackServiceProviderClick(id) {
+    return this.request(`/service-providers/${id}/click`, { method: 'POST' });
+  }
+
+  // Admin Service Providers
+  async getAdminServiceProviders(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/service-providers/admin?${q}`);
+  }
+
+  async getAdminServiceProvider(id) {
+    return this.request(`/service-providers/admin/${id}`);
+  }
+
+  async createServiceProvider(body) {
+    return this.request('/service-providers/admin', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async updateServiceProvider(id, body) {
+    return this.request(`/service-providers/admin/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async deleteServiceProvider(id) {
+    return this.request(`/service-providers/admin/${id}`, { method: 'DELETE' });
+  }
+
+  async toggleServiceProvider(id, data) {
+    return this.request(`/service-providers/admin/${id}/toggle`, { method: 'PATCH', body: JSON.stringify(data) });
   }
 
   // Logout

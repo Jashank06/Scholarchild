@@ -14,6 +14,8 @@ const navSections = [
       { icon: '🎓', label: 'Scholarships', href: '/dashboard/scholarships', badge: null },
       { icon: '🏆', label: 'Competitions', href: '/dashboard/competitions', badge: null },
       { icon: '🏛️', label: 'Govt. Schemes', href: '/dashboard/schemes', badge: null },
+      { icon: '⭐', label: 'Notable', href: '/dashboard/notable', badge: null },
+      { icon: '🏪', label: 'Services', href: '/dashboard/services', badge: null },
     ],
   },
   {
@@ -21,7 +23,7 @@ const navSections = [
     items: [
       { icon: '📋', label: 'Applications', href: '/dashboard/applications', badge: null },
       { icon: '🔖', label: 'Bookmarks', href: '/dashboard/bookmarks', badge: null },
-      { icon: '🧾', label: 'Reports', href: '/dashboard/results', badge: null },
+      { icon: '🧾', label: 'Results', href: '/dashboard/results', badge: null },
       { icon: '📰', label: 'History', href: '/dashboard/history', badge: null },
       { icon: '🗂️', label: 'Files & Folders', href: '/dashboard/documents', badge: null },
       { icon: '📅', label: 'Calendar', href: '/dashboard/calendar', badge: null },
