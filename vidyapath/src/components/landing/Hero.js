@@ -62,7 +62,7 @@ function Typewriter({ words, speed = 150, delay = 2000 }) {
 
 export default function Hero() {
   const router = useRouter();
-  const words = ["Future", "Dreams", "Career", "Success"];
+  const words = ["Future", "Dreams", "Career", "Success", "Opportunity", "Potential"];
 
   const handleStart = () => {
     router.push('/auth');

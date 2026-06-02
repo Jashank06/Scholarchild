@@ -14,7 +14,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -22,6 +22,14 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
+        <script dangerouslySetInnerHTML={{ __html: `
+          document.addEventListener('mousemove', function(e) {
+            var x = (e.clientX / window.innerWidth) * 100;
+            var y = (e.clientY / window.innerHeight) * 100;
+            document.documentElement.style.setProperty('--mx', x + '%');
+            document.documentElement.style.setProperty('--my', y + '%');
+          });
+        `}} />
       </body>
     </html>
   );

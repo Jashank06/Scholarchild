@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import styles from './ImpactStats.module.css';
+import useScrollReveal from '@/hooks/useScrollReveal';
 
 function AnimCounter({ end, prefix = '', suffix = '', duration = 2500 }) {
   const [count, setCount] = useState(0);
@@ -67,6 +68,8 @@ export default function ImpactStats() {
     fetchStats();
   }, []);
 
+  const gridRef = useScrollReveal({ stagger: 0.15, y: 30 });
+
   return (
     <section className={styles.section} id="impact">
       <div className={styles.sectionHeader}>
@@ -79,7 +82,7 @@ export default function ImpactStats() {
         </p>
       </div>
 
-      <div className={styles.statsGrid}>
+      <div className={styles.statsGrid} ref={gridRef}>
         {stats.map((stat, idx) => (
           <div key={idx} className={styles.statCard}>
             <span className={styles.statIcon}>{stat.icon}</span>

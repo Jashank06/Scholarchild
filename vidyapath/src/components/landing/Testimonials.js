@@ -3,6 +3,30 @@
 import { useRef, useState, useEffect } from 'react';
 import styles from './Testimonials.module.css';
 import api from '@/lib/api';
+import useTilt from '@/hooks/useTilt';
+
+function TiltedCard({ t }) {
+  const tiltRef = useTilt({ maxTilt: 4 });
+  return (
+    <div className={styles.card} ref={tiltRef}>
+      <div className={styles.stars}>
+        {[...Array(t.rating || 5)].map((_, i) => (
+          <span key={i} className={styles.star}>★</span>
+        ))}
+      </div>
+      <p className={styles.quote}>{t.comment}</p>
+      <div className={styles.author}>
+        <div className={styles.avatar} style={{ background: 'var(--gradient-primary)' }}>
+          {t.userId?.profile?.firstName?.[0] || '👤'}
+        </div>
+        <div className={styles.authorInfo}>
+          <div className={styles.authorName}>{t.userId?.profile?.firstName} {t.userId?.profile?.lastName}</div>
+          <div className={styles.authorMeta}>Verified User • {new Date(t.createdAt).toLocaleDateString()}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Testimonials() {
   const trackRef = useRef(null);
@@ -92,23 +116,7 @@ export default function Testimonials() {
 
       <div className={styles.testimonialTrack} ref={trackRef}>
         {reviews.map((t, idx) => (
-          <div key={idx} className={styles.card}>
-            <div className={styles.stars}>
-              {[...Array(t.rating || 5)].map((_, i) => (
-                <span key={i} className={styles.star}>★</span>
-              ))}
-            </div>
-            <p className={styles.quote}>{t.comment}</p>
-            <div className={styles.author}>
-              <div className={styles.avatar} style={{ background: 'var(--gradient-primary)' }}>
-                {t.userId?.profile?.firstName?.[0] || '👤'}
-              </div>
-              <div className={styles.authorInfo}>
-                <div className={styles.authorName}>{t.userId?.profile?.firstName} {t.userId?.profile?.lastName}</div>
-                <div className={styles.authorMeta}>Verified User • {new Date(t.createdAt).toLocaleDateString()}</div>
-              </div>
-            </div>
-          </div>
+          <TiltedCard key={idx} t={t} />
         ))}
       </div>
 

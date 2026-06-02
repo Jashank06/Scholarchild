@@ -248,3 +248,18 @@
   50% { transform: scale(1.15); }
   100% { transform: scale(1); opacity: 1; }
 }
+
+/* === Morphing Gradient Background === */
+@keyframes morphGradient {
+  0% { background-position: 0% 20%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 50% 100%; }
+  75% { background-position: 0% 50%; }
+  100% { background-position: 100% 80%; }
+}
+
+/* === Card Tilt Glow === */
+@keyframes tiltGlow {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.6; }
+}

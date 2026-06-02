@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import styles from './Categories.module.css';
+import useTilt from '@/hooks/useTilt';
+import useScrollReveal from '@/hooks/useScrollReveal';
 
 const categories = [
   {
@@ -55,6 +57,9 @@ const categories = [
 ];
 
 export default function Categories() {
+  const tiltRefs = categories.map(() => useTilt({ maxTilt: 5 }));
+  const gridRef = useScrollReveal({ stagger: 0.08 });
+
   return (
     <section className={styles.section} id="categories">
       <div className={styles.sectionHeader}>
@@ -67,9 +72,9 @@ export default function Categories() {
         </p>
       </div>
 
-      <div className={styles.categoriesGrid}>
+      <div className={styles.categoriesGrid} ref={gridRef}>
         {categories.map((cat, idx) => (
-          <Link key={idx} href={cat.href} className={styles.categoryCard}>
+          <Link key={idx} href={cat.href} className={styles.categoryCard} ref={tiltRefs[idx]}>
             <div className={styles.cardIconWrap}>
               {cat.icon}
             </div>

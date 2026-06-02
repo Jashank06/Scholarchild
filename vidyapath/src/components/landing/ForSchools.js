@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import styles from './ForSchools.module.css';
+import useTilt from '@/hooks/useTilt';
+import useScrollReveal from '@/hooks/useScrollReveal';
 
 const schoolFeatures = [
   'Dedicated school counselor dashboard',
@@ -29,6 +31,8 @@ const providerFeatures = [
 
 export default function ForSchools() {
   const router = useRouter();
+  const tiltRefs = [useTilt({ maxTilt: 5 }), useTilt({ maxTilt: 5 }), useTilt({ maxTilt: 5 })];
+  const gridRef = useScrollReveal({ stagger: 0.12, y: 40 });
 
   const handleStart = () => {
     router.push('/auth');
@@ -46,9 +50,9 @@ export default function ForSchools() {
         </p>
       </div>
 
-      <div className={styles.partnersGrid}>
+      <div className={styles.partnersGrid} ref={gridRef}>
         {/* School Card */}
-        <div className={styles.partnerCard}>
+        <div className={styles.partnerCard} ref={tiltRefs[0]}>
           <div className={styles.cardHeader}>
             <span className={styles.cardEmoji}>🏫</span>
             <div className={styles.cardHeaderText}>
@@ -75,7 +79,7 @@ export default function ForSchools() {
         </div>
 
         {/* Organization Card */}
-        <div className={styles.partnerCard}>
+        <div className={styles.partnerCard} ref={tiltRefs[1]}>
           <div className={styles.cardHeader}>
             <span className={styles.cardEmoji}>🏢</span>
             <div className={styles.cardHeaderText}>
@@ -102,7 +106,7 @@ export default function ForSchools() {
         </div>
 
         {/* Service Providers Card */}
-        <div className={styles.partnerCard}>
+        <div className={styles.partnerCard} ref={tiltRefs[2]}>
           <div className={styles.cardHeader}>
             <span className={styles.cardEmoji}>📢</span>
             <div className={styles.cardHeaderText}>

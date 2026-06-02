@@ -1,6 +1,8 @@
 'use client';
 
 import styles from './HowItWorks.module.css';
+import useTilt from '@/hooks/useTilt';
+import useScrollReveal from '@/hooks/useScrollReveal';
 
 const steps = [
   {
@@ -39,6 +41,9 @@ const steps = [
 ];
 
 export default function HowItWorks() {
+  const tiltRefs = [useTilt(), useTilt(), useTilt()];
+  const gridRef = useScrollReveal({ stagger: 0.15, y: 50 });
+
   return (
     <section className={styles.section} id="how-it-works">
       <div className={styles.sectionHeader}>
@@ -51,10 +56,10 @@ export default function HowItWorks() {
         </p>
       </div>
 
-      <div className={styles.stepsContainer}>
+      <div className={styles.stepsContainer} ref={gridRef}>
         <div className={styles.connectLine}></div>
-        {steps.map((step) => (
-          <div key={step.number} className={styles.stepCard}>
+        {steps.map((step, i) => (
+          <div key={step.number} className={styles.stepCard} ref={tiltRefs[i]}>
             <div className={styles.stepNumber}>{step.number}</div>
             <span className={styles.stepIcon}>{step.icon}</span>
             <h3 className={styles.stepTitle}>{step.title}</h3>

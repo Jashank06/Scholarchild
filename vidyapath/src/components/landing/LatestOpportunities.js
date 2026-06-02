@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './LatestOpportunities.module.css';
 import api from '@/lib/api';
+import useScrollReveal from '@/hooks/useScrollReveal';
 
 const badgeClass = {
   scholarship: styles.badgeScholarship,
@@ -40,6 +41,8 @@ export default function LatestOpportunities() {
     return days;
   };
 
+  const gridRef = useScrollReveal({ stagger: 0.1, y: 40 });
+
   return (
     <section className={styles.section} id="latest">
       <div className={styles.sectionHeader}>
@@ -52,7 +55,7 @@ export default function LatestOpportunities() {
         </p>
       </div>
 
-      <div className={styles.opportunitiesRow}>
+      <div className={styles.opportunitiesRow} ref={gridRef}>
         {loading ? (
           <div style={{ padding: '40px', textAlign: 'center', color: 'white', width: '100%' }}>Loading latest opportunities...</div>
         ) : opportunities.length === 0 ? (

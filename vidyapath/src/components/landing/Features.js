@@ -1,8 +1,13 @@
 'use client';
 
 import styles from './Features.module.css';
+import useTilt from '@/hooks/useTilt';
+import useScrollReveal from '@/hooks/useScrollReveal';
 
 export default function Features() {
+  const tiltRefs = [useTilt({ maxTilt: 4 }), useTilt(), useTilt(), useTilt(), useTilt(), useTilt(), useTilt()];
+  const gridRef = useScrollReveal({ stagger: 0.08, y: 30 });
+
   return (
     <section className={styles.section} id="features">
       <div className={styles.sectionHeader}>
@@ -15,9 +20,9 @@ export default function Features() {
         </p>
       </div>
 
-      <div className={styles.bentoGrid}>
+      <div className={styles.bentoGrid} ref={gridRef}>
         {/* Card 1 — AI Smart Match (Large) */}
-        <div className={`${styles.bentoCard} ${styles.card1}`}>
+        <div className={`${styles.bentoCard} ${styles.card1}`} ref={tiltRefs[0]}>
           <div className={styles.cardIcon}>🧠</div>
           <h3 className={styles.cardTitle}>AI Smart Match</h3>
           <div className={styles.cardStat}>📈 2.4x higher win rate · 98% accuracy</div>
@@ -45,7 +50,7 @@ export default function Features() {
         </div>
 
         {/* Card 2 — Document Vault */}
-        <div className={`${styles.bentoCard} ${styles.card2}`}>
+        <div className={`${styles.bentoCard} ${styles.card2}`} ref={tiltRefs[1]}>
           <div className={styles.cardIcon}>🔐</div>
           <h3 className={styles.cardTitle}>Smart Document Vault</h3>
           <div className={styles.cardStat}>⏱️ Saves 45 mins per application</div>
@@ -61,7 +66,7 @@ export default function Features() {
         </div>
 
         {/* Card 3 — Deadline Alerts */}
-        <div className={`${styles.bentoCard} ${styles.card3}`}>
+        <div className={`${styles.bentoCard} ${styles.card3}`} ref={tiltRefs[2]}>
           <div className={styles.cardIcon}>🔔</div>
           <h3 className={styles.cardTitle}>Smart Alerts</h3>
           <div className={styles.cardStat}>✅ Zero missed deadlines guarantee</div>
@@ -77,7 +82,7 @@ export default function Features() {
         </div>
 
         {/* Card 4 — Application Tracker */}
-        <div className={`${styles.bentoCard} ${styles.card4}`}>
+        <div className={`${styles.bentoCard} ${styles.card4}`} ref={tiltRefs[3]}>
           <div className={styles.cardIcon}>📊</div>
           <h3 className={styles.cardTitle}>Application Tracker</h3>
           <div className={styles.cardStat}>🔄 100K+ applications tracked monthly</div>
@@ -92,7 +97,7 @@ export default function Features() {
         </div>
 
         {/* Card 5 — Gamification */}
-        <div className={`${styles.bentoCard} ${styles.card5}`}>
+        <div className={`${styles.bentoCard} ${styles.card5}`} ref={tiltRefs[4]}>
           <div className={styles.cardIcon}>🎮</div>
           <h3 className={styles.cardTitle}>Scholar Quest</h3>
           <div className={styles.cardStat}>🏆 50K+ badges unlocked by students</div>
@@ -108,7 +113,7 @@ export default function Features() {
         </div>
 
         {/* Card 6 — Multi-language */}
-        <div className={`${styles.bentoCard} ${styles.card6}`}>
+        <div className={`${styles.bentoCard} ${styles.card6}`} ref={tiltRefs[5]}>
           <div className={styles.cardIcon}>🌐</div>
           <h3 className={styles.cardTitle}>Multi-Language Support</h3>
           <div className={styles.cardStat}>🗣️ 80% users prefer their regional language</div>
@@ -127,7 +132,7 @@ export default function Features() {
         </div>
 
         {/* Card 7 — School Dashboard */}
-        <div className={`${styles.bentoCard} ${styles.card7}`}>
+        <div className={`${styles.bentoCard} ${styles.card7}`} ref={tiltRefs[6]}>
           <div className={styles.cardIcon}>🏫</div>
           <h3 className={styles.cardTitle}>School Dashboard</h3>
           <div className={styles.cardStat}>🏛️ 500+ partner institutions onboard</div>
