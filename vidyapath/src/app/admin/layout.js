@@ -14,8 +14,10 @@ const navSections = [
       { icon: '👥', label: 'Users', href: '/admin/users' },
       { icon: '🎓', label: 'Opportunities', href: '/admin/opportunities' },
       { icon: '🤖', label: 'AI Agent', href: '/admin/agent' },
+      { icon: '📝', label: 'Blogs', href: '/admin/blogs' },
       { icon: '🏫', label: 'Schools', href: '/admin/schools' },
       { icon: '🛠️', label: 'Support Tickets', href: '/admin/services' },
+      { icon: '📬', label: 'Contact Enquiries', href: '/admin/contact' },
     ],
   },
   {

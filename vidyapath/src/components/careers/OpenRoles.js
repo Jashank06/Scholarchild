@@ -24,7 +24,7 @@ export default function OpenRoles() {
               </div>
               <div className={styles.roleMeta}>
                 <span className={styles.typeBadge}>{role.type}</span>
-                <button className={styles.applyBtn}>Apply Now →</button>
+                <a href="https://popoal.com/register" target="_blank" rel="noopener noreferrer" className={styles.applyBtn}>Apply Now →</a>
               </div>
             </div>
           ))}

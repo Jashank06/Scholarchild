@@ -58,6 +58,29 @@
   margin-bottom: 32px;
 }
 
+/* === Walk the Talk — Real Stats === */
+.statRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(5, 150, 105, 0.06));
+  border: 1px solid rgba(16, 185, 129, 0.12);
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+
+.statIcon {
+  font-size: 16px;
+}
+
+.statText {
+  font-size: 14px;
+  font-weight: 800;
+  color: #059669;
+  letter-spacing: -0.2px;
+}
+
 .tagCloud {
   display: flex;
   gap: 12px;

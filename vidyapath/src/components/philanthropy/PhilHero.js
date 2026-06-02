@@ -7,12 +7,10 @@ export default function PhilHero() {
         <div className={styles.content}>
           <span className="section-label">🤝 Giving Back</span>
           <h1 className={styles.title}>
-            Investing in India's <span className={styles.highlight}>Human</span> Capital.
+            Philanthropy
           </h1>
           <p className={styles.subtitle}>
-            Through the Kushaagra Foundation, we provide direct financial aid, 
-            mentorship, and resources to underprivileged students who show 
-            exceptional promise.
+            Building communities, sharing knowledge, and celebrating success stories together
           </p>
         </div>
       </div>

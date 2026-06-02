@@ -21,8 +21,8 @@ export default function AboutPage() {
                 <h2 className="section-title">Bridging the Gap Between <span className={styles.highlight}>Potential</span> and Opportunity.</h2>
                 <p className={styles.missionText}>
                   India is home to millions of talented students who often miss out on life-changing opportunities 
-                  simply because they didn't know they existed. Kushaagra was born in 2024 to solve this information 
-                  asymmetry once and for all.
+                  simply because they didn&apos;t know they existed. Kushaagra, an initiative by <a href="https://venshitafoundation.org" target="_blank" rel="noopener noreferrer" style={{color: '#2563EB', fontWeight: 700, textDecoration: 'underline'}}>Venshita Foundation</a>, 
+                  was built to solve this information asymmetry once and for all.
                 </p>
                 <div className={styles.missionList}>
                   <div className={styles.missionItem}>

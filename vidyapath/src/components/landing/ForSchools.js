@@ -19,6 +19,14 @@ const orgFeatures = [
   'Free listing for NGOs & govt bodies',
 ];
 
+const providerFeatures = [
+  'Advertise your coaching & tuition services',
+  'Target students by grade, city & subject',
+  'Featured listings on opportunity pages',
+  'Direct inquiry from verified parents',
+  'Dashboard with lead analytics',
+];
+
 export default function ForSchools() {
   const router = useRouter();
 
@@ -31,7 +39,7 @@ export default function ForSchools() {
       <div className={styles.sectionHeader}>
         <span className="section-label">💎 Global Partnerships</span>
         <h2 className="section-title">
-          For <span className={styles.partnerHighlight}>Schools & Organizations</span>
+          For <span className={styles.partnerHighlight}>Schools, Organizations & Service Providers</span>
         </h2>
         <p className="section-subtitle" style={{ margin: '0 auto', opacity: 0.7 }}>
           Join the elite network of institutions empowering the next generation.
@@ -90,6 +98,33 @@ export default function ForSchools() {
           </div>
           <button className={`${styles.partnerCta} ${styles.ctaOrg}`} onClick={handleStart}>
             List Your Opportunity →
+          </button>
+        </div>
+
+        {/* Service Providers Card */}
+        <div className={styles.partnerCard}>
+          <div className={styles.cardHeader}>
+            <span className={styles.cardEmoji}>📢</span>
+            <div className={styles.cardHeaderText}>
+              <h3>For Service Providers</h3>
+              <p>Coaching, tuition, universities & training centers</p>
+            </div>
+          </div>
+          <p className={styles.cardDescription}>
+            Get your institute in front of 10L+ active students and parents. 
+            Promote your courses, test series, and coaching programs to the 
+            right audience at the right time.
+          </p>
+          <div className={styles.featureList}>
+            {providerFeatures.map((f, i) => (
+              <div key={i} className={styles.featureItem}>
+                <span className={styles.featureIcon}>✓</span>
+                {f}
+              </div>
+            ))}
+          </div>
+          <button className={`${styles.partnerCta} ${styles.ctaProvider}`} onClick={handleStart}>
+            Start Advertising →
           </button>
         </div>
       </div>

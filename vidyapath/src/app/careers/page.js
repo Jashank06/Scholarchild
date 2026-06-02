@@ -51,14 +51,17 @@ export default function CareersPage() {
               We're always looking for talented people. Drop us a mail at 
               <span style={{ color: '#2563EB', fontWeight: '700' }}> careers@kushaagra.com</span>
             </p>
-            <button style={{ 
+            <a href="https://popoal.com/register" target="_blank" rel="noopener noreferrer" style={{ 
+              display: 'inline-block',
               padding: '1.2rem 3rem', 
               background: '#0B0B1A', 
               color: 'white', 
               border: 'none', 
               borderRadius: '100px',
-              fontWeight: '800'
-            }}>Send General Application</button>
+              fontWeight: '800',
+              textDecoration: 'none',
+              cursor: 'pointer'
+            }}>Send General Application</a>
           </div>
         </section>
       </main>

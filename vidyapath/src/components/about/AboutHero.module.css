@@ -19,13 +19,22 @@
 
 .title {
   font-family: var(--font-heading);
-  font-size: 80px;
+  font-size: 76px;
   font-weight: 900;
   color: #0B0B1A;
-  line-height: 1.1;
+  line-height: 1.15;
   margin-top: 24px;
   margin-bottom: 32px;
-  letter-spacing: -4px;
+  letter-spacing: -3px;
+}
+
+.line1 {
+  display: block;
+}
+
+.line2 {
+  display: block;
+  margin-top: 4px;
 }
 
 .highlight {
@@ -33,14 +42,213 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  position: relative;
+  display: inline-block;
+}
+
+.highlightAlt {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  position: relative;
 }
 
 .subtitle {
-  font-size: 20px;
+  font-size: 22px;
   color: #4B5563;
-  line-height: 1.6;
+  line-height: 1.7;
   font-weight: 500;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
+  max-width: 720px;
+}
+
+/* === Foundation Badge / Animated Slogan === */
+.foundationBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(139,92,246,0.06));
+  border: 1px solid rgba(59,130,246,0.12);
+  border-radius: 100px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #374151;
+  position: relative;
+  overflow: hidden;
+  animation: badgeReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  box-shadow: 0 2px 20px rgba(59,130,246,0.06);
+}
+
+.foundationBadge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, rgba(59,130,246,0.08), transparent);
+  animation: badgeShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.foundationBadge::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.2), rgba(59,130,246,0.2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.foundationBadge:hover::after {
+  opacity: 1;
+}
+
+.foundationBadge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px rgba(59,130,246,0.1);
+  border-color: rgba(59,130,246,0.2);
+}
+
+.foundationIcon {
+  font-size: 26px;
+  position: relative;
+  z-index: 1;
+  animation: iconFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(59,130,246,0.2));
+}
+
+.foundationBadge > span:nth-child(2) {
+  position: relative;
+  z-index: 1;
+}
+
+.foundationLink {
+  font-size: 17px;
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  background: linear-gradient(135deg, #2563EB, #7C3AED, #2563EB);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+  animation: gradientShift 4s ease infinite;
+  transition: all 0.3s ease;
+}
+
+.foundationLink:hover {
+  background-size: 150% auto;
+  filter: brightness(1.2);
+}
+
+/* === Badge Animations === */
+@keyframes badgeReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes badgeShimmer {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(-2deg); }
+  75% { transform: translateY(3px) rotate(2deg); }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+/* === Foundation Role Section === */
+.foundationRole {
+  background: linear-gradient(135deg, #EFF6FF, #F5F3FF);
+  border: 1px solid rgba(59,130,246,0.12);
+  border-radius: 24px;
+  padding: 32px 36px;
+  margin-bottom: 40px;
+  animation: roleSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.3s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(59,130,246,0.04);
+}
+
+.foundationRole::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #2563EB, #7C3AED);
+  border-radius: 4px 0 0 4px;
+}
+
+.roleTitle {
+  font-size: 20px;
+  font-weight: 900;
+  color: #0B0B1A;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
+}
+
+.roleTitle::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #2563EB, #7C3AED);
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.roleText {
+  font-size: 16px;
+  color: #4B5563;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.roleLink {
+  color: #2563EB;
+  text-decoration: none;
+  font-weight: 700;
+  transition: opacity 0.2s ease;
+}
+
+.roleLink:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+@keyframes roleSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* === Luminous Stats Vault === */

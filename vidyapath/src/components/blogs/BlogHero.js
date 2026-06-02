@@ -1,6 +1,14 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import styles from './BlogHero.module.css';
 
-export default function BlogHero() {
+export default function BlogHero({ featured }) {
+  const router = useRouter();
+  if (!featured) return null;
+
+  const cat = featured.categories?.[0] || 'GENERAL';
+
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
@@ -10,22 +18,25 @@ export default function BlogHero() {
             Knowledge is the <span className={styles.highlight}>Greatest</span> Opportunity.
           </h1>
           <p className={styles.subtitle}>
-            Explore the latest trends in education, tips for scholarship success, 
+            Explore the latest trends in education, tips for scholarship success,
             and inspiring stories from the Kushaagra community.
           </p>
         </div>
 
-        <div className={styles.featuredCard}>
+        <div className={styles.featuredCard} onClick={() => router.push(`/blogs/${featured.slug}`)}>
           <div className={styles.featuredBadge}>FEATURED</div>
           <div className={styles.featuredContent}>
-            <span className={styles.category}>STRATEGY</span>
-            <h2>How to Secure a 100% Scholarship for your Higher Education</h2>
-            <p>A step-by-step guide to building a profile that stands out to top scholarship committees globally.</p>
+            <span className={styles.category}>{cat.toUpperCase()}</span>
+            <h2>{featured.title}</h2>
+            <p>{featured.excerpt || 'Click to read more...'}</p>
             <div className={styles.meta}>
-              <span>By Jay Kumar</span>
-              <span>• 8 min read</span>
+              <span>By {featured.author?.name || 'Kushaagra Team'}</span>
+              <span>• {featured.readTime || '5 min read'}</span>
+              <span>• 👁️ {featured.viewCount || 0}</span>
             </div>
-            <button className={styles.readBtn}>Read Article →</button>
+            <button className={styles.readBtn} onClick={(e) => { e.stopPropagation(); router.push(`/blogs/${featured.slug}`); }}>
+              Read Article →
+            </button>
           </div>
         </div>
       </div>

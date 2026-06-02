@@ -36,6 +36,8 @@ app.use('/api/school-config', require('./routes/schoolConfig'));
 app.use('/api/faqs', require('./routes/faqs'));
 app.use('/api/notables', require('./routes/notables'));
 app.use('/api/service-providers', require('./routes/serviceProviders'));
+app.use('/api/contact', require('./routes/contact'));
+app.use('/api/blogs', require('./routes/blog'));
 
 // Public stats for landing page
 app.get('/api/public-stats', async (req, res) => {

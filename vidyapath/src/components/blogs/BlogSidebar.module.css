@@ -1,0 +1,167 @@
+.sidebar {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.widget {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.widgetTitle {
+  font-size: 14px;
+  font-weight: 900;
+  color: #0B0B1A;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.3px;
+}
+
+.widgetIcon {
+  font-size: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.listItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.listDot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  border-radius: 50%;
+  background: #3B82F6;
+  margin-top: 6px;
+}
+
+.listItem div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.listTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0B0B1A;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.listDate {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9CA3AF;
+}
+
+.rankBadge {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  color: #D97706;
+  margin-top: 2px;
+}
+
+.tagCloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #F3F4F6;
+  border: none;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: #DBEAFE;
+  color: #1D4ED8;
+}
+
+.tagActive {
+  background: #2563EB;
+  color: white;
+}
+
+.tagActive .tagCount {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.tagCount {
+  background: #E5E7EB;
+  padding: 1px 8px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #6B7280;
+}
+
+.clearBtn {
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px dashed #D1D5DB;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #9CA3AF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clearBtn:hover {
+  border-color: #EF4444;
+  color: #EF4444;
+}
+
+.empty {
+  font-size: 13px;
+  color: #9CA3AF;
+  padding: 12px 0;
+}

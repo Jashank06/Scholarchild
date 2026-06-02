@@ -20,6 +20,7 @@ export default function Features() {
         <div className={`${styles.bentoCard} ${styles.card1}`}>
           <div className={styles.cardIcon}>🧠</div>
           <h3 className={styles.cardTitle}>AI Smart Match</h3>
+          <div className={styles.cardStat}>📈 2.4x higher win rate · 98% accuracy</div>
           <p className={styles.cardDescription}>
             Our AI analyzes your profile — grade, location, interests, achievements — and scores 
             every opportunity from 0-100% match. No more manual searching through thousands of listings.
@@ -47,6 +48,7 @@ export default function Features() {
         <div className={`${styles.bentoCard} ${styles.card2}`}>
           <div className={styles.cardIcon}>🔐</div>
           <h3 className={styles.cardTitle}>Smart Document Vault</h3>
+          <div className={styles.cardStat}>⏱️ Saves 45 mins per application</div>
           <p className={styles.cardDescription}>
             Upload once, use everywhere. Your Aadhaar, marksheets, income certificates — all 
             securely stored and auto-filled in every application.
@@ -62,6 +64,7 @@ export default function Features() {
         <div className={`${styles.bentoCard} ${styles.card3}`}>
           <div className={styles.cardIcon}>🔔</div>
           <h3 className={styles.cardTitle}>Smart Alerts</h3>
+          <div className={styles.cardStat}>✅ Zero missed deadlines guarantee</div>
           <p className={styles.cardDescription}>
             Never miss a deadline. Get WhatsApp, email, and push notifications for 
             upcoming deadlines and new opportunities.
@@ -77,6 +80,7 @@ export default function Features() {
         <div className={`${styles.bentoCard} ${styles.card4}`}>
           <div className={styles.cardIcon}>📊</div>
           <h3 className={styles.cardTitle}>Application Tracker</h3>
+          <div className={styles.cardStat}>🔄 100K+ applications tracked monthly</div>
           <p className={styles.cardDescription}>
             Visual timeline of all your applications. See status updates in real-time — 
             Applied, Under Review, Approved, or Rejected.
@@ -91,6 +95,7 @@ export default function Features() {
         <div className={`${styles.bentoCard} ${styles.card5}`}>
           <div className={styles.cardIcon}>🎮</div>
           <h3 className={styles.cardTitle}>Scholar Quest</h3>
+          <div className={styles.cardStat}>🏆 50K+ badges unlocked by students</div>
           <p className={styles.cardDescription}>
             Earn XP, unlock badges, climb leaderboards! Make your scholarship 
             journey fun and rewarding.
@@ -106,6 +111,7 @@ export default function Features() {
         <div className={`${styles.bentoCard} ${styles.card6}`}>
           <div className={styles.cardIcon}>🌐</div>
           <h3 className={styles.cardTitle}>Multi-Language Support</h3>
+          <div className={styles.cardStat}>🗣️ 80% users prefer their regional language</div>
           <p className={styles.cardDescription}>
             Available in Hindi, English, Marathi, Tamil, Telugu, and more regional languages. 
             Every student can use Kushaagra in their mother tongue.
@@ -124,6 +130,7 @@ export default function Features() {
         <div className={`${styles.bentoCard} ${styles.card7}`}>
           <div className={styles.cardIcon}>🏫</div>
           <h3 className={styles.cardTitle}>School Dashboard</h3>
+          <div className={styles.cardStat}>🏛️ 500+ partner institutions onboard</div>
           <p className={styles.cardDescription}>
             Schools and counselors get a dedicated dashboard to recommend opportunities, 
             track student participation, and view analytics.

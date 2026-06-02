@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import styles from './Categories.module.css';
 
 const categories = [
@@ -9,6 +10,7 @@ const categories = [
     description: 'Merit-based, need-based, and category-specific scholarships from government and private bodies.',
     count: 'Live',
     countLabel: 'Active Now',
+    href: '/scholarships',
   },
   {
     icon: '🏆',
@@ -16,6 +18,7 @@ const categories = [
     description: 'National and international olympiads in Math, Science, English, Cyber, and more.',
     count: 'Open',
     countLabel: 'Competitions',
+    href: '/olympiads',
   },
   {
     icon: '🔬',
@@ -23,6 +26,7 @@ const categories = [
     description: 'INSPIRE Awards, NCSC, IRIS, and science exhibitions from taluka to national level.',
     count: 'Open',
     countLabel: 'Events',
+    href: '/science-fairs',
   },
   {
     icon: '🎨',
@@ -30,6 +34,7 @@ const categories = [
     description: 'Drawing, painting, essay writing, debate, music, and cultural competitions.',
     count: 'Open',
     countLabel: 'Contests',
+    href: '/art-competitions',
   },
   {
     icon: '💻',
@@ -37,6 +42,7 @@ const categories = [
     description: 'Hackathons, coding competitions, robotics, and STEM challenges for young innovators.',
     count: 'Live',
     countLabel: 'Programs',
+    href: '/competitions',
   },
   {
     icon: '🏛️',
@@ -44,6 +50,7 @@ const categories = [
     description: 'Central and state government welfare schemes, fellowships, and educational aids.',
     count: 'Active',
     countLabel: 'Schemes',
+    href: '/government-schemes',
   },
 ];
 
@@ -62,7 +69,7 @@ export default function Categories() {
 
       <div className={styles.categoriesGrid}>
         {categories.map((cat, idx) => (
-          <div key={idx} className={styles.categoryCard}>
+          <Link key={idx} href={cat.href} className={styles.categoryCard}>
             <div className={styles.cardIconWrap}>
               {cat.icon}
             </div>
@@ -73,11 +80,11 @@ export default function Categories() {
                 <div className={styles.cardCount}>{cat.count}</div>
                 <div className={styles.cardCountLabel}>{cat.countLabel}</div>
               </div>
-              <button className={styles.exploreBtn}>
+              <span className={styles.exploreBtn}>
                 Explore <span className={styles.arrow}>→</span>
-              </button>
+              </span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

@@ -19,21 +19,21 @@ export default function Home() {
       <main>
         <Hero />
         <HowItWorks />
-        <SectionDivider type="marquee" />
+        <SectionDivider type="wave" color="amber" />
         <Categories />
-        <SectionDivider type="data" />
+        <SectionDivider type="wave-reverse" color="blue" />
         <ImpactStats />
-        <SectionDivider type="pulse" />
+        <SectionDivider type="wave" color="purple" />
         <Features />
-        <SectionDivider type="marquee" />
+        <SectionDivider type="wave-reverse" color="amber" />
         <LatestOpportunities />
-        <SectionDivider type="icons" />
+        <SectionDivider type="wave" color="rose" />
         <Testimonials />
-        <SectionDivider type="trust" />
+        <SectionDivider type="wave-reverse" color="emerald" />
         <ForSchools />
-        <SectionDivider type="data" />
+        <SectionDivider type="wave" color="purple" />
         <FAQ />
-        <SectionDivider type="pulse" />
+        <SectionDivider type="wave-reverse" color="blue" />
         <CTA />
       </main>
       <Footer />

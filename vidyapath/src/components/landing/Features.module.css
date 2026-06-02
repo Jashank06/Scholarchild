@@ -107,6 +107,22 @@
   box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
 }
 
+/* === Card Stat (Walk the Talk) === */
+.cardStat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(5, 150, 105, 0.06));
+  border: 1px solid rgba(16, 185, 129, 0.12);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #059669;
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.2px;
+}
+
 /* === Card Title === */
 .cardTitle {
   font-family: var(--font-heading);

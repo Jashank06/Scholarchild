@@ -14,8 +14,7 @@ export default function CareersHero() {
             accessible to every student in India. Your work will impact millions.
           </p>
           <div className={styles.ctaGroup}>
-            <button className={styles.primaryBtn}>View Open Roles</button>
-            <button className={styles.secondaryBtn}>Life at Kushaagra</button>
+            <a href="https://popoal.com/register" target="_blank" rel="noopener noreferrer" className={styles.primaryBtn}>View Open Roles</a>
           </div>
         </div>
       </div>

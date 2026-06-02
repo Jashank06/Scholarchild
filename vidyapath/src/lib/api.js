@@ -464,6 +464,59 @@ class ApiService {
     return this.request(`/service-providers/admin/${id}/toggle`, { method: 'PATCH', body: JSON.stringify(data) });
   }
 
+  // Contact Enquiries
+  async submitContact(body) {
+    return this.request('/contact', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async getContactEnquiries(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/contact?${q}`);
+  }
+
+  async updateContactEnquiry(id, body) {
+    return this.request(`/contact/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  // Blogs
+  async getBlogs(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/blogs?${q}`);
+  }
+
+  async getBlog(slug) {
+    return this.request(`/blogs/${slug}`);
+  }
+
+  async toggleBlogLike(id) {
+    return this.request(`/blogs/${id}/like`, { method: 'POST' });
+  }
+
+  async rateBlog(id, score) {
+    return this.request(`/blogs/${id}/rate`, { method: 'POST', body: JSON.stringify({ score }) });
+  }
+
+  async commentOnBlog(id, body) {
+    return this.request(`/blogs/${id}/comment`, { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  // Admin Blogs
+  async getAdminBlogs() {
+    return this.request('/blogs/admin/all');
+  }
+
+  async createBlog(body) {
+    return this.request('/blogs', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async updateBlog(id, body) {
+    return this.request(`/blogs/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async deleteBlog(id) {
+    return this.request(`/blogs/${id}`, { method: 'DELETE' });
+  }
+
   // Logout
   logout() {
     this.removeToken();

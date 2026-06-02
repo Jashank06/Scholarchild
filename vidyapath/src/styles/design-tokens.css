@@ -162,6 +162,14 @@
   --z-modal: 200;
   --z-toast: 300;
 
+  /* === Section Gradients === */
+  --gradient-section-blue: linear-gradient(180deg, #EFF6FF 0%, #DBEAFE 50%, #EFF6FF 100%);
+  --gradient-section-amber: linear-gradient(180deg, #FFFBEB 0%, #FDE68A 50%, #FFFBEB 100%);
+  --gradient-section-emerald: linear-gradient(180deg, #D1FAE5 0%, #A7F3D0 50%, #D1FAE5 100%);
+  --gradient-section-purple: linear-gradient(180deg, #EDE9FE 0%, #DDD6FE 50%, #EDE9FE 100%);
+  --gradient-section-rose: linear-gradient(180deg, #FFE4E6 0%, #FECDD3 50%, #FFE4E6 100%);
+  --gradient-section-dark: linear-gradient(180deg, #0B0B1A 0%, #1a1a3e 50%, #0B0B1A 100%);
+
   /* === Container === */
   --container-sm: 640px;
   --container-md: 768px;
