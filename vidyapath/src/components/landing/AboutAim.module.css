@@ -1,0 +1,270 @@
+.section {
+  padding: var(--space-32) 0;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.bgOrb1 {
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.bgOrb2 {
+  position: absolute;
+  bottom: -200px;
+  left: -200px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  position: relative;
+  z-index: 1;
+}
+
+/* === Header === */
+.header {
+  text-align: center;
+  margin-bottom: var(--space-20);
+}
+
+.highlight {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
+
+/* === Pillars Grid === */
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  margin-bottom: var(--space-24);
+}
+
+.pillarCard {
+  padding: var(--space-10) var(--space-8);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(59, 130, 246, 0.08);
+  border-radius: var(--radius-2xl);
+  text-align: center;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.pillarCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #2563EB, transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.pillarCard:hover {
+  transform: translateY(-12px);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow:
+    0 20px 60px rgba(59, 130, 246, 0.1),
+    0 0 40px rgba(59, 130, 246, 0.05);
+}
+
+.pillarCard:hover::before {
+  opacity: 1;
+}
+
+.pillarIconWrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-6);
+  font-size: 32px;
+  transition: all 0.5s ease;
+}
+
+.pillarCard:hover .pillarIconWrap {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+}
+
+.pillarTitle {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 800;
+  color: #0B0B1A;
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.3px;
+}
+
+.pillarDesc {
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* === Funding Section === */
+.fundingSection {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--space-12);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.08);
+  border-radius: var(--radius-2xl);
+  backdrop-filter: blur(20px);
+}
+
+.fundingLabel {
+  font-size: 13px;
+  font-weight: 800;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: var(--space-8);
+}
+
+.fundingBars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.fundingBarWrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.fundingBar {
+  flex: 1;
+  height: 44px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.fundingFillMaintenance {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #FCD34D, #F59E0B);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--space-4);
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: fit-content;
+}
+
+.fundingFillFoundation {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--space-4);
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: fit-content;
+}
+
+.fundingPercent {
+  font-size: 14px;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.fundingText {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+  white-space: nowrap;
+  min-width: 130px;
+  text-align: left;
+}
+
+.fundingLink {
+  color: #2563EB;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.fundingLink:hover {
+  color: #1D4ED8;
+}
+
+.fundingFootnote {
+  font-size: 13px;
+  color: #9CA3AF;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* === Responsive === */
+@media (max-width: 1100px) {
+  .pillarsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .pillarsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .fundingSection {
+    padding: var(--space-8) var(--space-6);
+  }
+
+  .fundingBarWrap {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fundingText {
+    text-align: center;
+    min-width: auto;
+  }
+
+  .fundingBar {
+    height: 36px;
+  }
+}

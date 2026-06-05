@@ -6,7 +6,7 @@
 const AgentScanLog = require('../models/AgentScanLog');
 const AgentOpportunity = require('../models/AgentOpportunity');
 const { SOURCES, getSourcesByStrategy, getAllEnabledSources } = require('./sourceRegistry');
-const { runRSSStrategy, OFFICIAL_RSS_FEEDS } = require('./crawlerStrategies/rssStrategy');
+const { runRSSStrategy, OFFICIAL_RSS_FEEDS, scrapePageText } = require('./crawlerStrategies/rssStrategy');
 const { runSitemapStrategy } = require('./crawlerStrategies/sitemapStrategy');
 const { runDeepLinkStrategy } = require('./crawlerStrategies/deepLinkStrategy');
 const { runPlaywrightStrategy } = require('./crawlerStrategies/playwrightStrategy');
@@ -100,14 +100,18 @@ async function runCrawlerEngine(userId = null, options = {}) {
       console.log('\n🤖 ═══ PHASE 2: Direct Cheerio Sources ═══');
       const cheerioSources = getSourcesByStrategy('cheerio');
       
-      // Use sitemap strategy for cheerio sources
-      const sitemapResults = await runSitemapStrategy(cheerioSources.slice(0, 15), processItem, { delayMs: 1000, maxPagesPerSite: 8 });
+      // Sort by priority: critical → high → medium → low
+      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
+      const sortedCheerio = [...cheerioSources].sort((a, b) => (priorityOrder[a.priority] ?? 4) - (priorityOrder[b.priority] ?? 4));
+      
+      // Use sitemap strategy for cheerio sources (increased from 15 to 30)
+      const sitemapResults = await runSitemapStrategy(sortedCheerio.slice(0, 35), processItem, { delayMs: 1000, maxPagesPerSite: 8 });
       totals.found += sitemapResults.found;
       totals.sourcesScanned += sitemapResults.sitesScanned;
       console.log(`🗺️ Sitemap: Scanned ${sitemapResults.sitesScanned} sites, Found ${sitemapResults.found}`);
 
-      // Also do deep link discovery on high-priority cheerio sources
-      const highPrioritySources = cheerioSources.filter(s => s.priority === 'critical' || s.priority === 'high').slice(0, 10);
+      // Also do deep link discovery on high-priority cheerio sources (increased from 10 to 15)
+      const highPrioritySources = cheerioSources.filter(s => s.priority === 'critical' || s.priority === 'high').slice(0, 15);
       const deepResults = await runDeepLinkStrategy(highPrioritySources, processItem, { maxDepth: 1, maxPagesPerSite: 5, delayMs: 1000 });
       totals.found += deepResults.found;
       console.log(`🕸️ DeepLink: Found ${deepResults.found}, Processed ${deepResults.processed}`);
@@ -122,8 +126,8 @@ async function runCrawlerEngine(userId = null, options = {}) {
       console.log('\n🤖 ═══ PHASE 3: Playwright Sources ═══');
       // Still fetch sources marked as 'puppeteer' in the registry
       const playwrightSources = getSourcesByStrategy('puppeteer')
-        .filter(s => s.priority === 'critical' || s.priority === 'high')
-        .slice(0, 10); // Limit to prevent long runs
+        .filter(s => s.priority === 'critical' || s.priority === 'high' || s.priority === 'medium')
+        .slice(0, 15); // Limit to prevent long runs
       
       const playwrightResults = await runPlaywrightStrategy(playwrightSources, processItem, { delayMs: 2000 });
       totals.found += playwrightResults.found;
@@ -131,6 +135,39 @@ async function runCrawlerEngine(userId = null, options = {}) {
       console.log(`🖥️ Playwright: Found ${playwrightResults.found}, Processed ${playwrightResults.processed}`);
     } catch (error) {
       console.error('Playwright Strategy failed:', error.message);
+    }
+  }
+
+  // ═══ PHASE 4: District Portals (bulk scan of all district .nic.in sites) ═══
+  if (strategies.includes('cheerio')) {
+    try {
+      console.log('\n🤖 ═══ PHASE 4: District Portals ═══');
+      const districtSources = getAllEnabledSources().filter(s => s.id.startsWith('dist-'));
+      let districtFound = 0, districtProcessed = 0;
+      for (const source of districtSources) {
+        try {
+          const pageText = await scrapePageText(source.url, 5000);
+          if (pageText && pageText.length > 100) {
+            districtFound++;
+            await processItem({
+              title: source.name + ' — Latest Updates',
+              text: pageText.substring(0, 4000),
+              url: source.url,
+              sourceType: 'district_portal',
+              organizerName: source.name,
+            });
+            districtProcessed++;
+          }
+          await new Promise(r => setTimeout(r, 500));
+        } catch (e) {
+          totals.errors++;
+        }
+      }
+      totals.found += districtFound;
+      totals.sourcesScanned += districtSources.length;
+      console.log(`🏛️ District: Scanned ${districtSources.length} portals, Found ${districtFound}, Processed ${districtProcessed}`);
+    } catch (error) {
+      console.error('District Portal phase failed:', error.message);
     }
   }
 

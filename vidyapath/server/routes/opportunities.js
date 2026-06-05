@@ -8,7 +8,7 @@ const { calculateMatchScore, getRecommendations } = require('../utils/recommenda
 // @GET /api/opportunities — List with filters
 router.get('/', async (req, res) => {
   try {
-    const { type, category, grade, state, search, status, sort, page = 1, limit = 20, free } = req.query;
+    const { type, category, grade, state, search, status, sort, page = 1, limit = 20, free, gender, categories, maxIncome, organizerType, level, mode, rewardType, deadline } = req.query;
     const filter = { status: status || 'active' };
 
     if (type) filter.type = type;
@@ -17,11 +17,27 @@ router.get('/', async (req, res) => {
     if (state) filter.$or = [{ 'eligibility.states': state }, { 'eligibility.states': { $size: 0 } }];
     if (free === 'true') filter['application.isFree'] = true;
     if (search) filter.$text = { $search: search };
+    if (gender && gender !== 'all') filter['eligibility.gender'] = gender;
+    if (categories) filter['eligibility.categories'] = { $in: categories.split(',') };
+    if (maxIncome) filter['eligibility.maxFamilyIncome'] = { $lte: parseInt(maxIncome) };
+    if (organizerType) filter['organizer.type'] = organizerType;
+    if (level) filter['organizer.level'] = level;
+    if (mode) filter['application.mode'] = mode;
+    if (rewardType) filter['rewards.type'] = rewardType;
+    if (deadline === 'urgent') {
+      filter['dates.applicationDeadline'] = {
+        $gte: new Date(),
+        $lte: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      };
+    } else if (deadline === 'upcoming') {
+      filter['dates.applicationDeadline'] = { $gte: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) };
+    }
 
     let sortObj = { 'dates.applicationDeadline': 1 };
     if (sort === 'newest') sortObj = { createdAt: -1 };
     if (sort === 'deadline') sortObj = { 'dates.applicationDeadline': 1 };
     if (sort === 'popular') sortObj = { 'stats.totalApplications': -1 };
+    if (sort === 'reward') sortObj = { 'rewards.cashAmount': -1 };
 
     const skip = (parseInt(page) - 1) * parseInt(limit);
     const total = await Opportunity.countDocuments(filter);

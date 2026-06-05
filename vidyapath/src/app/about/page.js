@@ -3,6 +3,7 @@ import Footer from '@/components/landing/Footer';
 import AboutHero from '@/components/about/AboutHero';
 import CorePillars from '@/components/about/CorePillars';
 import SectionDivider from '@/components/landing/SectionDivider';
+import AboutAim from '@/components/landing/AboutAim';
 import styles from './About.module.css';
 
 export default function AboutPage() {
@@ -61,6 +62,10 @@ export default function AboutPage() {
         <SectionDivider type="data" />
         <CorePillars />
         <SectionDivider type="pulse" />
+        
+        {/* Our Ultimate Aim Section */}
+        <AboutAim />
+        <SectionDivider type="marquee" />
         
         {/* Our Values Section */}
         <section className={styles.valuesSection}>

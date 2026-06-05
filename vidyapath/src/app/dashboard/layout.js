@@ -14,6 +14,7 @@ const navSections = [
       { icon: '🎓', label: 'Scholarships', href: '/dashboard/scholarships', badge: null },
       { icon: '🏆', label: 'Competitions', href: '/dashboard/competitions', badge: null },
       { icon: '🏛️', label: 'Govt. Schemes', href: '/dashboard/schemes', badge: null },
+      { icon: '⚽', label: 'Sports', href: '/dashboard/sports', badge: null },
       { icon: '⭐', label: 'Notable', href: '/dashboard/notable', badge: null },
       { icon: '🏪', label: 'Services', href: '/dashboard/services', badge: null },
     ],

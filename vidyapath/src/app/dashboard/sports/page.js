@@ -5,13 +5,13 @@ import styles from '../listings.module.css';
 import api from '@/lib/api';
 import FilterBar from '@/components/dashboard/FilterBar';
 
-const categories = ['All', 'olympiad', 'science', 'coding', 'quiz', 'arts', 'writing'];
+const categories = ['All', 'sports', 'general'];
 const ITEMS_PER_PAGE = 20;
 
-export default function CompetitionsPage() {
+export default function SportsPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [filters, setFilters] = useState({ sort: 'deadline' });
-  const [competitions, setCompetitions] = useState([]);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ total: 0 });
   const [bookmarked, setBookmarked] = useState(new Set());
@@ -24,18 +24,18 @@ export default function CompetitionsPage() {
   const fetchListings = async (cat, fltrs) => {
     try {
       setLoading(true);
-      const params = { type: 'competition', limit: ITEMS_PER_PAGE };
-      if (cat !== 'All') params.category = cat.toLowerCase();
+      const params = { category: 'sports', limit: ITEMS_PER_PAGE };
+      if (cat !== 'All' && cat !== 'sports') params.category = cat.toLowerCase();
       Object.entries(fltrs).forEach(([key, val]) => { if (val && val !== '') params[key] = val; });
       const res = await api.getOpportunities(params);
-      setCompetitions(res.data || []);
+      setItems(res.data || []);
       if (res.pagination) setStats({ total: res.pagination.total });
       const meRes = await api.getMe();
       if (meRes.user?.bookmarkedOpportunities) setBookmarked(new Set(meRes.user.bookmarkedOpportunities.map(b => b.toString())));
       const appRes = await api.getApplications();
       if (appRes.data) setAppliedIds(new Set(appRes.data.map(a => a.opportunityId?._id?.toString() || a.opportunityId?.toString())));
     } catch (err) {
-      console.error('Error fetching competitions:', err);
+      console.error('Error fetching sports:', err);
     } finally {
       setLoading(false);
     }
@@ -89,13 +89,13 @@ export default function CompetitionsPage() {
     <div className={styles.listingPage}>
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderLeft}>
-          <h1>🏆 Competitions <span className={styles.countBadge}>{stats.total}</span></h1>
-          <p>National and international olympiads, science fairs, quiz competitions, and more</p>
+          <h1>⚽ Sports <span className={styles.countBadge}>{stats.total}</span></h1>
+          <p>Sports scholarships, talent hunts, trials, and athletic competitions across India</p>
         </div>
       </div>
 
       <FilterBar
-        type="competition"
+        type="scholarship"
         filters={filters}
         onChange={handleFilterChange}
         onReset={resetFilters}
@@ -105,18 +105,18 @@ export default function CompetitionsPage() {
       />
 
       {loading ? (
-        <div style={{ padding: '2rem', textAlign: 'center' }}>Loading competitions...</div>
-      ) : competitions.length === 0 ? (
-        <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>No competitions found matching your filters.</div>
+        <div style={{ padding: '2rem', textAlign: 'center' }}>Loading sports opportunities...</div>
+      ) : items.length === 0 ? (
+        <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>No sports opportunities found matching your filters.</div>
       ) : (
         <div className={styles.listingGrid}>
-          {competitions.map((item) => {
+          {items.map((item) => {
             const deadline = getDaysLeft(item.dates?.applicationDeadline);
             const isUrgent = deadline && deadline.includes('days') && parseInt(deadline) <= 7;
             return (
               <div key={item._id} className={styles.listCard}>
                 <div className={styles.cardTop}>
-                  <span className={`${styles.typeBadge} ${styles[item.type]}`}>{item.type}</span>
+                  <span className={`${styles.typeBadge} ${styles[item.type] || styles.scholarship}`}>{item.type}</span>
                   <span className={`${styles.typeBadge}`} style={{background: 'var(--bg-secondary)', color: 'var(--text-secondary)'}}>{item.category}</span>
                 </div>
                 <h3 className={styles.cardTitle}>{item.title}</h3>
@@ -151,7 +151,7 @@ export default function CompetitionsPage() {
                         </svg>Linking...</span>
                       : appliedIds.has(item._id) ? <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Applied</span>
-                      : 'Register →'}
+                      : 'View Details →'}
                     </button>
                     <button className={`${styles.bookmarkSmall} ${bookmarked.has(item._id) ? styles.saved : ''}`} onClick={(e) => toggleBookmark(item._id, e)}>
                       {bookmarked.has(item._id) ? '★' : '☆'}
@@ -178,7 +178,7 @@ export default function CompetitionsPage() {
             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </div>
           <h1 style={{ fontSize: '48px', fontWeight: '900', color: '#065F46', marginBottom: '8px' }}>Applied! 🎉</h1>
-          <p style={{ fontSize: '18px', color: '#059669', fontWeight: '600' }}>Redirecting to competition portal...</p>
+          <p style={{ fontSize: '18px', color: '#059669', fontWeight: '600' }}>Redirecting to portal...</p>
         </div>
       )}
 
