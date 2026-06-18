@@ -17,26 +17,11 @@ const parser = new Parser({
 });
 
 // ═══ OFFICIAL RSS/ATOM FEEDS (actual scholarship data, NOT news) ═══
+// NOTE: Most Indian govt/edu sites don't have WP-style RSS at /feed
+// These are the proven working feeds. Buddy4Study etc handled via sitemap+cheerio.
 const OFFICIAL_RSS_FEEDS = [
-  // ─── Scholarship Aggregators (most reliable) ───
-  { url: 'https://www.buddy4study.com/feed', name: 'Buddy4Study', priority: 'critical', category: 'scholarship' },
-  { url: 'https://www.careers360.com/scholarships/feed', name: 'Careers360 Scholarships', priority: 'high', category: 'scholarship' },
-  { url: 'https://www.shiksha.com/scholarships-in-india/feed', name: 'Shiksha Scholarships', priority: 'high', category: 'scholarship' },
-  { url: 'https://www.collegedekho.com/scholarships/feed', name: 'CollegeDekho', priority: 'medium', category: 'scholarship' },
-  { url: 'https://www.jagranjosh.com/scholarships/feed', name: 'JagranJosh Scholarships', priority: 'medium', category: 'scholarship' },
-
-  // ─── Government Portals ───
-  { url: 'https://scholarships.gov.in/rss.xml', name: 'NSP Portal', priority: 'critical', category: 'scholarship' },
-  { url: 'https://www.myscheme.gov.in/feed', name: 'MyScheme Govt', priority: 'critical', category: 'scheme' },
-  { url: 'https://www.india.gov.in/rss/scholarship-educational.xml', name: 'India.gov.in Education', priority: 'high', category: 'scheme' },
-
-  // ─── Competition/Olympiad Organizations ───
-  { url: 'https://www.sofworld.org/feed', name: 'SOF Olympiads', priority: 'high', category: 'olympiad' },
-  { url: 'https://unstop.com/feed', name: 'Unstop Competitions', priority: 'critical', category: 'competition' },
-
-  // ─── Education News (curated, not generic news) ───
-  { url: 'https://www.ndtv.com/education/feed', name: 'NDTV Education', priority: 'low', category: 'scholarship' },
-  { url: 'https://indianexpress.com/section/education/feed/', name: 'IE Education', priority: 'low', category: 'scholarship' },
+  // ─── Proven Working Feeds ───
+  { url: 'https://www.buddy4study.com/blogs/feed', name: 'Buddy4Study Blog', priority: 'high', category: 'scholarship' },
 ];
 
 /**
@@ -74,6 +59,16 @@ async function scrapePageText(url, maxChars = 8000) {
       },
       maxRedirects: 3,
     });
+
+    // Try site-specific extractors first
+    try {
+      const { trySiteExtract } = require('../siteExtractors/dispatcher');
+      const siteResults = trySiteExtract(response.data, url);
+      if (siteResults && siteResults.length > 0) {
+        // Return formatted text from site-specific extractor
+        return siteResults.map(r => `${r.title}\n\n${r.text}`).join('\n\n---\n\n').substring(0, maxChars);
+      }
+    } catch { /* fall through to generic extraction */ }
 
     const $ = cheerio.load(response.data);
     $('script, style, nav, footer, header, iframe, noscript, .ad, .advertisement, .sidebar, .menu, .cookie, .popup, .modal').remove();

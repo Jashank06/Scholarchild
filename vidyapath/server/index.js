@@ -38,6 +38,30 @@ app.use('/api/notables', require('./routes/notables'));
 app.use('/api/service-providers', require('./routes/serviceProviders'));
 app.use('/api/contact', require('./routes/contact'));
 app.use('/api/blogs', require('./routes/blog'));
+app.use('/api/institutions', require('./routes/institutions'));
+app.use('/api/events', require('./routes/events'));
+
+// Auto-Enrichment endpoint
+app.post('/api/enrich/all', async (req, res) => {
+  try {
+    const { enrichAll, getTotalCount } = require('./aiAgent/entityEnricher');
+    const counts = await getTotalCount();
+    const enriched = await enrichAll();
+    res.json({ success: true, message: `Enriched ${enriched} entities`, counts });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+app.get('/api/enrich/status', async (req, res) => {
+  try {
+    const { getTotalCount } = require('./aiAgent/entityEnricher');
+    const counts = await getTotalCount();
+    res.json({ success: true, counts, threshold: 50, ready: counts.total >= 50 });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
 
 // Public stats for landing page
 app.get('/api/public-stats', async (req, res) => {

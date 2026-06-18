@@ -58,8 +58,16 @@ class ParentDrawer extends ConsumerWidget {
                           _sectionTitle(isDark, 'MANAGEMENT', const Color(0xFF6366F1)),
                           
                           _drawerItem(context, ref, Icons.notifications_active_rounded, 'Alerts & Notifications', -1, isDark, currentIndex, const Color(0xFFEF4444), route: '/notifications'),
-                          _drawerItem(context, ref, Icons.folder_special_rounded, 'Family Vault', -1, isDark, currentIndex, const Color(0xFF10B981), route: '/documents'),
+                          _drawerItem(context, ref, Icons.folder_special_rounded, 'Files & Folders', -1, isDark, currentIndex, const Color(0xFF10B981), route: '/documents'),
                           _drawerItem(context, ref, Icons.history_rounded, 'Application Activity', 1, isDark, currentIndex, const Color(0xFF3B82F6)),
+
+                          _sectionTitle(isDark, 'EXPLORE', const Color(0xFFF59E0B)),
+
+                          _drawerItem(context, ref, Icons.school_rounded, 'Schools', -1, isDark, currentIndex, const Color(0xFF667eea), route: '/schools'),
+                          _drawerItem(context, ref, Icons.account_balance_rounded, 'Institutions', -1, isDark, currentIndex, const Color(0xFF0083B0), route: '/institutions'),
+                          _drawerItem(context, ref, Icons.event_rounded, 'Events', -1, isDark, currentIndex, const Color(0xFFF5576C), route: '/events'),
+                          _drawerItem(context, ref, Icons.star_rounded, 'Notables', -1, isDark, currentIndex, const Color(0xFFF59E0B), route: '/notables'),
+                          _drawerItem(context, ref, Icons.business_rounded, 'Service Providers', -1, isDark, currentIndex, const Color(0xFF6366F1), route: '/service-providers'),
                           
                           _sectionTitle(isDark, 'PREFERENCES', const Color(0xFF7C3AED)),
                           

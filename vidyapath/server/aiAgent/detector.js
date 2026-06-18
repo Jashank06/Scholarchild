@@ -42,7 +42,18 @@ const NEGATIVE_KEYWORDS = [
   'login', 'password', 'forgot', 'cookie', 'privacy policy',
   'terms of service', 'copyright', 'advertisement', 'ad',
   'buy now', 'purchase', 'cart', 'checkout', 'subscription',
-  'unsubscribe', 'spam', 'click here',
+  'unsubscribe', 'spam', 'click here', 'breaking news',
+  'top stories', 'trending', 'latest news', 'exclusive',
+];
+
+// News-specific reject keywords (strong signal it's a news article)
+const NEWS_PATTERNS = [
+  /by\s+[A-Z][a-z]+\s+[A-Z][a-z]+/i,        // "by Author Name" — journalist credit
+  /\b(reporter|correspondent|journalist|editor|staff|agency)\b/i,
+  /\b(read\s+more|click\s+here\s+to\s+read|continue\s+reading)\b/i,
+  /published\s+(on|at|by)\s/i,
+  /\b(photo|image|picture)\s+credit\b/i,
+  /\b(all\s+rights?\s+reserved|copyright\s+\d{4})\b/i,
 ];
 
 const STRUCTURAL_PATTERNS = [
@@ -95,6 +106,27 @@ function keywordDetect(text, metadata = {}) {
   for (const kw of NEGATIVE_KEYWORDS) {
     if (normalizedText.includes(kw.toLowerCase())) score -= 3;
   }
+
+  // News article detection (-8 each, heavy penalty)
+  for (const pattern of NEWS_PATTERNS) {
+    if (pattern.test(text)) score -= 8;
+  }
+
+  // ─── Structural Validation Gate ───
+  // At least 2 of 4 structural signals must be present
+  let structuralSignals = 0;
+  const amountCheck = /(?:₹|rs\.?|inr|stipend|prize\s+money|award\s+(?:amount|of)|scholarship\s+(?:amount|worth|value))\s*[:₹\d]/i;
+  const eligibilityCheck = /(?:eligib|qualif|criteria|who\s+can\s+apply|required|must\s+(?:be|have))/i;
+  const deadlineCheck = /(?:deadline|last\s+date|closing\s+date|apply\s+(?:by|before)|due\s+date)\s*[:\\-]?\s*\d/i;
+  const applyCheck = /(?:apply|register|enroll|submit|applications?\s+(?:are|is|now|open|invited)|how\s+to\s+apply)/i;
+
+  if (amountCheck.test(normalizedText)) structuralSignals++;
+  if (eligibilityCheck.test(normalizedText)) structuralSignals++;
+  if (deadlineCheck.test(normalizedText)) structuralSignals++;
+  if (applyCheck.test(normalizedText)) structuralSignals++;
+
+  // Hard gate: require at least 2 structural signals, penalize mildly
+  if (structuralSignals < 2) score -= 5;
 
   // URL domain bonus
   if (metadata.url) {

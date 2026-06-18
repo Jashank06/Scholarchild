@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// API Configuration
 class ApiConfig {
   static const String baseUrl = 'http://148.135.136.17:5050/api';
-  static const String localUrl = 'http://localhost:5050/api';
-  static String get activeUrl => baseUrl;
+  static const String localUrl = 'http://localhost:5001/api';
+  static String get activeUrl => localUrl; // TESTING
 
   static const String login = '/auth/login';
   static const String register = '/auth/register';
@@ -31,6 +31,18 @@ class ApiConfig {
   static String schoolDetail(String id) => '/schools/$id';
   static const String services = '/services';
   static const String publicStats = '/public-stats';
+
+  // NEW: Institutions, Events, Notables, Service Providers, FileNodes
+  static const String institutions = '/institutions';
+  static String institutionDetail(String id) => '/institutions/$id';
+  static const String events = '/events';
+  static String eventDetail(String id) => '/events/$id';
+  static const String notables = '/notables';
+  static const String serviceProviders = '/service-providers';
+  static const String fileNodes = '/file-nodes';
+  static const String createFolder = '/file-nodes/folder';
+  static const String uploadFileNode = '/file-nodes/upload';
+  static String deleteFileNode(String id) => '/file-nodes/$id';
 
   // Admin Routes
   static const String adminStats = '/admin/stats';
@@ -95,6 +107,10 @@ class ApiClient {
 
   Future<Response> uploadFile(String path, FormData formData) =>
       _dio.post(path, data: formData,
+        options: Options(headers: {'Content-Type': 'multipart/form-data'}));
+
+  Future<Response> uploadFileNode(FormData formData) =>
+      _dio.post(ApiConfig.uploadFileNode, data: formData,
         options: Options(headers: {'Content-Type': 'multipart/form-data'}));
 
   String getImageUrl(String? path) {

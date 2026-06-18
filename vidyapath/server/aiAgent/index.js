@@ -30,13 +30,15 @@ const cheerio = require('cheerio');
  */
 async function processOpportunity(rawData) {
   try {
-    const { title, text, url, sourceType, rawRow } = rawData;
+    const { title, text, url, sourceType, rawRow, applyLink } = rawData;
     const combinedText = `${title || ''} ${text || ''}`;
 
     // 1. DETECT — is this actually an opportunity? (Dual: keyword + AI)
     const detection = await detect(combinedText, { url });
-    if (!detection.isOpportunity && !title) {
-      return { success: false, skipped: true, reason: 'Not detected as opportunity' };
+    if (!detection.isOpportunity) {
+      const reason = `Not detected: score=${detection.score}, confidence=${detection.confidence}, keywords=${(detection.keywords||[]).length}`;
+      if (detection.score < 8) return { success: false, skipped: true, reason };
+      return { success: false, skipped: true, reason: `AI rejected: ${detection.reasoning}` };
     }
 
     // 2. CLASSIFY — what type, category, level? (AI-powered)
@@ -79,7 +81,7 @@ async function processOpportunity(rawData) {
       },
       application: {
         mode: 'external',
-        externalLink: extracted.applicationLink || url || (extracted.urls && extracted.urls[0]) || '',
+        externalLink: applyLink || extracted.applicationLink || url || (extracted.urls && extracted.urls[0]) || '',
         isFree: extracted.isFree !== undefined ? extracted.isFree : true,
         applicationFee: extracted.applicationFee || 0,
         requiredDocuments: extracted.documents || [],
@@ -102,6 +104,16 @@ async function processOpportunity(rawData) {
       if (extracted.dates.applicationStart) oppData.dates.applicationStart = new Date(extracted.dates.applicationStart);
       if (extracted.dates.examDate) oppData.dates.examDate = new Date(extracted.dates.examDate);
       if (extracted.dates.resultDate) oppData.dates.resultDate = new Date(extracted.dates.resultDate);
+    }
+
+    // Deadline freshness check — skip if deadline is more than 6 months in the past
+    if (oppData.dates.applicationDeadline) {
+      const deadline = new Date(oppData.dates.applicationDeadline);
+      const sixMonthsAgo = new Date();
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+      if (deadline < sixMonthsAgo) {
+        return { success: false, skipped: true, reason: `Deadline expired: ${deadline.toISOString().split('T')[0]}` };
+      }
     }
 
     // 5. VALIDATE — trust & fraud scoring
@@ -144,6 +156,16 @@ async function processOpportunity(rawData) {
     oppData.enrichmentLog = enrichment.enrichmentLog;
     oppData.aiMetadata.inferredFields = enrichment.enrichmentLog.map(l => l.field);
     if (enrichment.opportunity.preparationTips) oppData.preparationTips = enrichment.opportunity.preparationTips;
+
+    // 7.5 🔗 Smart URL Discovery — OpenAI finds official website if missing
+    const { discoverOfficialWebsite } = require('./enricher');
+    if (!oppData.application.externalLink || oppData.application.externalLink.includes('buddy4study.com')) {
+      const officialUrl = await discoverOfficialWebsite(oppData);
+      if (officialUrl) {
+        oppData.application.externalLink = officialUrl;
+        oppData.enrichmentLog.push({ field: 'application.externalLink', action: 'ai_discovered', newValue: officialUrl, reasoning: 'OpenAI URL discovery' });
+      }
+    }
 
     // 8. PRIORITIZE — score the opportunity
     oppData.priorityScore = calculatePriorityScore(oppData);

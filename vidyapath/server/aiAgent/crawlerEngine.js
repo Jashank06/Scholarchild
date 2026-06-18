@@ -10,6 +10,14 @@ const { runRSSStrategy, OFFICIAL_RSS_FEEDS, scrapePageText } = require('./crawle
 const { runSitemapStrategy } = require('./crawlerStrategies/sitemapStrategy');
 const { runDeepLinkStrategy } = require('./crawlerStrategies/deepLinkStrategy');
 const { runPlaywrightStrategy } = require('./crawlerStrategies/playwrightStrategy');
+const { trySiteExtract } = require('./siteExtractors/dispatcher');
+
+// ═══ Blocked News Domains — prevents news articles from entering the pipeline ═══
+const BLOCKED_DOMAINS = [
+  'ndtv.com', 'indianexpress.com', 'timesofindia', 'hindustantimes',
+  'thehindu.com', 'economictimes', 'news18.com', 'bhaskar.com',
+  'amarujala.com', 'indiatoday.in', 'google.com/news',
+];
 
 /**
  * Check if URL was already processed recently
@@ -51,9 +59,20 @@ async function runCrawlerEngine(userId = null, options = {}) {
     processedUrls.add(item.url);
 
     try {
+      // Block known news domains
+      try {
+        const hostname = new URL(item.url).hostname;
+        if (BLOCKED_DOMAINS.some(d => hostname.includes(d))) {
+          return; // skip news articles silently
+        }
+      } catch {}
+
       if (await isUrlProcessed(item.url)) {
-        totals.duplicates++;
-        return;
+        // Skip URL dedup for site-specific evaluators — cards are fresh extractions
+        if (!item.skipUrlDedup) {
+          totals.duplicates++;
+          return;
+        }
       }
 
       const { processOpportunity } = require('./index');
@@ -63,6 +82,7 @@ async function runCrawlerEngine(userId = null, options = {}) {
         url: item.url,
         sourceType: item.sourceType || 'web_scrape',
         organizerName: item.organizerName,
+        applyLink: item.applyLink || '',
       });
 
       if (result.success) {
@@ -85,7 +105,7 @@ async function runCrawlerEngine(userId = null, options = {}) {
   if (strategies.includes('rss')) {
     try {
       console.log('\n🤖 ═══ PHASE 1: RSS Strategy ═══');
-      const rssResults = await runRSSStrategy(OFFICIAL_RSS_FEEDS, processItem, { maxPerFeed: 5, delayMs: 800 });
+      const rssResults = await runRSSStrategy(OFFICIAL_RSS_FEEDS, processItem, { maxPerFeed: 15, delayMs: 800 });
       totals.found += rssResults.found;
       totals.sourcesScanned += OFFICIAL_RSS_FEEDS.length;
       console.log(`📡 RSS: Found ${rssResults.found}, Processed ${rssResults.processed}`);
@@ -104,14 +124,14 @@ async function runCrawlerEngine(userId = null, options = {}) {
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
       const sortedCheerio = [...cheerioSources].sort((a, b) => (priorityOrder[a.priority] ?? 4) - (priorityOrder[b.priority] ?? 4));
       
-      // Use sitemap strategy for cheerio sources (increased from 15 to 30)
-      const sitemapResults = await runSitemapStrategy(sortedCheerio.slice(0, 35), processItem, { delayMs: 1000, maxPagesPerSite: 8 });
+      // Use sitemap strategy for cheerio sources (increased from 35 to 60)
+      const sitemapResults = await runSitemapStrategy(sortedCheerio.slice(0, 60), processItem, { delayMs: 1000, maxPagesPerSite: 8 });
       totals.found += sitemapResults.found;
       totals.sourcesScanned += sitemapResults.sitesScanned;
       console.log(`🗺️ Sitemap: Scanned ${sitemapResults.sitesScanned} sites, Found ${sitemapResults.found}`);
 
-      // Also do deep link discovery on high-priority cheerio sources (increased from 10 to 15)
-      const highPrioritySources = cheerioSources.filter(s => s.priority === 'critical' || s.priority === 'high').slice(0, 15);
+      // Also do deep link discovery on high-priority cheerio sources (increased from 15 to 25)
+      const highPrioritySources = cheerioSources.filter(s => s.priority === 'critical' || s.priority === 'high').slice(0, 25);
       const deepResults = await runDeepLinkStrategy(highPrioritySources, processItem, { maxDepth: 1, maxPagesPerSite: 5, delayMs: 1000 });
       totals.found += deepResults.found;
       console.log(`🕸️ DeepLink: Found ${deepResults.found}, Processed ${deepResults.processed}`);
@@ -127,7 +147,8 @@ async function runCrawlerEngine(userId = null, options = {}) {
       // Still fetch sources marked as 'puppeteer' in the registry
       const playwrightSources = getSourcesByStrategy('puppeteer')
         .filter(s => s.priority === 'critical' || s.priority === 'high' || s.priority === 'medium')
-        .slice(0, 15); // Limit to prevent long runs
+        .sort((a, b) => (a.priority === 'critical' ? -1 : a.priority === 'high' ? 0 : 1) - (b.priority === 'critical' ? -1 : b.priority === 'high' ? 0 : 1))
+        .slice(0, 40);
       
       const playwrightResults = await runPlaywrightStrategy(playwrightSources, processItem, { delayMs: 2000 });
       totals.found += playwrightResults.found;

@@ -17,9 +17,15 @@ import 'screens/opportunities/opportunity_detail_screen.dart';
 import 'screens/notifications/notifications_screen.dart';
 import 'screens/bookmarks/bookmarks_screen.dart';
 import 'screens/documents/documents_screen.dart';
+import 'screens/documents/files_folders_screen.dart';
 import 'screens/services/services_screen.dart';
 import 'screens/profile/edit_profile_screen.dart';
 import 'screens/schools/schools_screen.dart';
+import 'screens/schools/school_detail_screen.dart';
+import 'screens/institutions/institutions_screen.dart';
+import 'screens/events/events_screen.dart';
+import 'screens/notables/notables_screen.dart';
+import 'screens/service_providers/service_providers_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,13 +67,24 @@ class KushaagraApp extends ConsumerWidget {
           case '/bookmarks':
             return _slideRoute(const BookmarksScreen(), settings);
           case '/documents':
-            return _slideRoute(const DocumentsScreen(), settings);
+            return _slideRoute(const FilesFoldersScreen(), settings);
           case '/services':
             return _slideRoute(const ServicesScreen(), settings);
           case '/edit-profile':
             return _slideRoute(const EditProfileScreen(), settings);
           case '/schools':
             return _slideRoute(const SchoolsScreen(), settings);
+          case '/school-detail':
+            final schoolId = settings.arguments as String;
+            return _slideRoute(SchoolDetailScreen(schoolId: schoolId), settings);
+          case '/institutions':
+            return _slideRoute(const InstitutionsScreen(), settings);
+          case '/events':
+            return _slideRoute(const EventsScreen(), settings);
+          case '/notables':
+            return _slideRoute(const NotablesScreen(), settings);
+          case '/service-providers':
+            return _slideRoute(const ServiceProvidersScreen(), settings);
           case '/parent_home':
             return _fadeRoute(const ParentShell(), settings);
           case '/institution_home':

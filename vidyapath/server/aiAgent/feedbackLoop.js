@@ -9,7 +9,7 @@ const AgentFeedback = require('../models/AgentFeedback');
 let patternCache = {
   trustedDomains: {},      // domain → approval rate
   rejectedPatterns: [],    // common rejection reasons
-  autoApproveThreshold: parseInt(process.env.AGENT_AUTO_APPROVE_THRESHOLD) || 85,
+  autoApproveThreshold: parseInt(process.env.AGENT_AUTO_APPROVE_THRESHOLD) || 92,
   lastRefresh: 0,
 };
 

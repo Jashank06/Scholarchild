@@ -157,9 +157,9 @@ const SOURCES = [
   { id: 'nyks', name: 'Nehru Yuva Kendra', url: 'https://nyks.nic.in', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'sports', region: 'national', enabled: true },
 
   // ═══ SCHOLARSHIP AGGREGATORS ═══
-  { id: 'buddy4study', name: 'Buddy4Study', url: 'https://www.buddy4study.com/scholarships', strategy: 'puppeteer', priority: 'critical', scanInterval: 12, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'buddy4study', name: 'Buddy4Study Scholarships', url: 'https://www.buddy4study.com/scholarships', strategy: 'puppeteer', priority: 'critical', scanInterval: 12, category: 'scholarship', region: 'national', enabled: true },
   { id: 'vidyasaarathi', name: 'Vidyasaarathi', url: 'https://www.vidyasaarathi.co.in/', strategy: 'puppeteer', priority: 'high', scanInterval: 24, category: 'scholarship', region: 'national', enabled: true },
-  { id: 'unstop', name: 'Unstop', url: 'https://unstop.com/', strategy: 'puppeteer', priority: 'critical', scanInterval: 12, category: 'competition', region: 'national', enabled: true },
+  { id: 'unstop', name: 'Unstop Competitions', url: 'https://unstop.com/', strategy: 'puppeteer', priority: 'critical', scanInterval: 12, category: 'competition', region: 'national', enabled: true },
   { id: 'internshala', name: 'Internshala', url: 'https://internshala.com/', strategy: 'puppeteer', priority: 'high', scanInterval: 24, category: 'internship', region: 'national', enabled: true },
   { id: 'scholarsbox', name: 'ScholarsBox', url: 'https://scholarsbox.in/', strategy: 'cheerio', priority: 'medium', scanInterval: 24, category: 'scholarship', region: 'national', enabled: true },
   { id: 'edumithra', name: 'EduMithra', url: 'https://edumithra.com/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'national', enabled: true },
@@ -376,6 +376,72 @@ const SOURCES = [
   { id: 'dist-wardha', name: 'Wardha District', url: 'https://wardha.nic.in', strategy: 'cheerio', priority: 'low', scanInterval: 72, category: 'scheme', region: 'Maharashtra', enabled: true },
   { id: 'dist-washim', name: 'Washim District', url: 'https://washim.gov.in', strategy: 'cheerio', priority: 'low', scanInterval: 72, category: 'scheme', region: 'Maharashtra', enabled: true },
   { id: 'dist-yavatmal', name: 'Yavatmal District', url: 'https://yavatmal.gov.in', strategy: 'cheerio', priority: 'low', scanInterval: 72, category: 'scheme', region: 'Maharashtra', enabled: true },
+
+  // ═══ 🔥 NEW: Major Scholarship Aggregators & Portals ═══
+  { id: 'aicte', name: 'AICTE India', url: 'https://www.aicte-india.org/', strategy: 'cheerio', priority: 'high', scanInterval: 24, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'ugc', name: 'UGC India', url: 'https://www.ugc.gov.in/', strategy: 'cheerio', priority: 'high', scanInterval: 24, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'inspire-dst', name: 'DST INSPIRE Online', url: 'https://online-inspire.gov.in/', strategy: 'puppeteer', priority: 'high', scanInterval: 24, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'reliance-foundation', name: 'Reliance Foundation Scholarships', url: 'https://scholarships.reliancefoundation.org/', strategy: 'cheerio', priority: 'high', scanInterval: 48, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'hdfc-scholarship', name: 'HDFC Bank Scholarship', url: 'https://www.hdfcbank.com/personal/save/scholarship-programme', strategy: 'cheerio', priority: 'medium', scanInterval: 72, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'vidyasaarathi', name: 'Vidyasaarathi', url: 'https://www.vidyasaarathi.co.in/', strategy: 'cheerio', priority: 'high', scanInterval: 24, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'medhavi', name: 'Medhavi Online', url: 'https://www.medhavionline.org/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'vidyadhan', name: 'Vidyadhan Scholarship', url: 'https://www.vidyadhan.org/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'fairgaze', name: 'FairGaze Scholarships', url: 'https://www.fairgaze.com/scholarships.html', strategy: 'cheerio', priority: 'low', scanInterval: 72, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'nta', name: 'NTA Exams & Scholarships', url: 'https://nta.ac.in/', strategy: 'cheerio', priority: 'high', scanInterval: 24, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'diksha', name: 'DIKSHA Portal', url: 'https://diksha.gov.in/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'scheme', region: 'national', enabled: true },
+
+  // ═══ State Scholarship Portals (Additional) ═══
+  { id: 'punjab-scholarship', name: 'Punjab Scholarship', url: 'https://scholarships.punjab.gov.in/', strategy: 'puppeteer', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'Punjab', enabled: true },
+  { id: 'gujarat-scholarship', name: 'Gujarat Scholarship', url: 'https://www.digitalgujarat.gov.in/', strategy: 'puppeteer', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'Gujarat', enabled: true },
+  { id: 'odisha-scholarship', name: 'Odisha Scholarship', url: 'https://scholarship.odisha.gov.in/', strategy: 'puppeteer', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'Odisha', enabled: true },
+  { id: 'rajasthan-scholarship', name: 'Rajasthan Scholarship', url: 'https://hte.rajasthan.gov.in/', strategy: 'puppeteer', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'Rajasthan', enabled: true },
+  { id: 'west-bengal-scholarship', name: 'West Bengal Scholarship', url: 'https://svmcm.wb.gov.in/', strategy: 'puppeteer', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'West Bengal', enabled: true },
+  { id: 'kerala-scholarship', name: 'Kerala Scholarship', url: 'https://www.dcescholarship.kerala.gov.in/', strategy: 'puppeteer', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'Kerala', enabled: true },
+  { id: 'tamilnadu-scholarship', name: 'Tamil Nadu Scholarship', url: 'https://escholarship.tn.gov.in/', strategy: 'puppeteer', priority: 'medium', scanInterval: 48, category: 'scholarship', region: 'Tamil Nadu', enabled: true },
+  { id: 'assam-scholarship', name: 'Assam Scholarship', url: 'https://directorateschooledu.assam.gov.in/', strategy: 'cheerio', priority: 'low', scanInterval: 72, category: 'scholarship', region: 'Assam', enabled: true },
+
+  // ═══ International Scholarships ═══
+  { id: 'fulbright', name: 'Fulbright-Nehru Fellowship (USIEF)', url: 'https://www.usief.org.in/', strategy: 'cheerio', priority: 'high', scanInterval: 48, category: 'scholarship', region: 'international', enabled: true },
+  { id: 'chevening', name: 'Chevening Scholarship', url: 'https://www.chevening.org/scholarships/', strategy: 'cheerio', priority: 'medium', scanInterval: 72, category: 'scholarship', region: 'international', enabled: true },
+  { id: 'daad', name: 'DAAD Germany Scholarships', url: 'https://www.daad.de/en/study-and-research-in-germany/scholarships/', strategy: 'cheerio', priority: 'medium', scanInterval: 72, category: 'scholarship', region: 'international', enabled: true },
+  { id: 'erasmus', name: 'Erasmus Plus', url: 'https://erasmus-plus.ec.europa.eu/opportunities/opportunities-for-individuals', strategy: 'cheerio', priority: 'medium', scanInterval: 72, category: 'scholarship', region: 'international', enabled: true },
+  { id: 'commonwealth', name: 'Commonwealth Scholarships', url: 'https://cscuk.fcdo.gov.uk/scholarships/', strategy: 'cheerio', priority: 'medium', scanInterval: 72, category: 'scholarship', region: 'international', enabled: true },
+  { id: 'mext', name: 'MEXT Japan Scholarship', url: 'https://www.studyinjapan.go.jp/en/smap-stopj-applications-scholarship.html', strategy: 'cheerio', priority: 'medium', scanInterval: 72, category: 'scholarship', region: 'international', enabled: true },
+
+  // ═══ Competitions & Hackathons ═══
+  { id: 'sih', name: 'Smart India Hackathon', url: 'https://www.sih.gov.in/', strategy: 'puppeteer', priority: 'critical', scanInterval: 24, category: 'competition', region: 'national', enabled: true },
+  { id: 'codechef', name: 'CodeChef', url: 'https://www.codechef.com/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'competition', region: 'national', enabled: true },
+  { id: 'hackerrank', name: 'HackerRank Compete', url: 'https://www.hackerrank.com/contests', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'competition', region: 'international', enabled: true },
+  { id: 'leetcode', name: 'LeetCode Contests', url: 'https://leetcode.com/contest/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'competition', region: 'international', enabled: true },
+  { id: 'unstop', name: 'Unstop Competitions', url: 'https://unstop.com/competitions', strategy: 'cheerio', priority: 'critical', scanInterval: 12, category: 'competition', region: 'national', enabled: true },
+  { id: 'kaggle', name: 'Kaggle Competitions', url: 'https://www.kaggle.com/competitions', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'competition', region: 'international', enabled: true },
+  { id: 'devfolio', name: 'Devfolio Hackathons', url: 'https://devfolio.co/hackathons', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'competition', region: 'international', enabled: true },
+  { id: 'devpost', name: 'Devpost Challenges', url: 'https://devpost.com/hackathons', strategy: 'cheerio', priority: 'medium', scanInterval: 72, category: 'competition', region: 'international', enabled: true },
+  { id: 'mlh', name: 'Major League Hacking', url: 'https://mlh.io/seasons/2026/events', strategy: 'cheerio', priority: 'low', scanInterval: 72, category: 'competition', region: 'international', enabled: true },
+
+  // ═══ Olympiads ═══
+  { id: 'hbcse', name: 'HBCSE Olympiads', url: 'https://olympiads.hbcse.tifr.res.in/', strategy: 'cheerio', priority: 'high', scanInterval: 24, category: 'olympiad', region: 'national', enabled: true },
+  { id: 'sof', name: 'Science Olympiad Foundation', url: 'https://sofworld.org/', strategy: 'cheerio', priority: 'high', scanInterval: 24, category: 'olympiad', region: 'national', enabled: true },
+  { id: 'silverzone', name: 'SilverZone Olympiads', url: 'https://silverzone.org/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'olympiad', region: 'national', enabled: true },
+  { id: 'unified-council', name: 'Unified Council Olympiads', url: 'https://www.unifiedcouncil.com/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'olympiad', region: 'national', enabled: true },
+  { id: 'crest-olympiads', name: 'CREST Olympiads', url: 'https://www.crestolympiads.com/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'olympiad', region: 'national', enabled: true },
+
+  // ═══ Sports ═══
+  { id: 'sgfi', name: 'School Games Federation India', url: 'https://sgfi.org.in/', strategy: 'cheerio', priority: 'high', scanInterval: 48, category: 'sports', region: 'national', enabled: true },
+  { id: 'khelo-india', name: 'Khelo India', url: 'https://kheloindia.gov.in/', strategy: 'puppeteer', priority: 'critical', scanInterval: 24, category: 'sports', region: 'national', enabled: true },
+  { id: 'sai', name: 'Sports Authority of India', url: 'https://sportsauthorityofindia.nic.in/', strategy: 'cheerio', priority: 'high', scanInterval: 48, category: 'sports', region: 'national', enabled: true },
+  { id: 'cbse-sports', name: 'CBSE Sports', url: 'https://cbseacademic.nic.in/sports.html', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'sports', region: 'national', enabled: true },
+
+  // ═══ Science & Innovation ═══
+  { id: 'vigyan-prasar', name: 'Vigyan Prasar', url: 'https://vigyanprasar.gov.in/', strategy: 'cheerio', priority: 'medium', scanInterval: 48, category: 'academic', region: 'national', enabled: true },
+
+  // ═══ Corporate Scholarships ═══
+  { id: 'tata-trusts', name: 'Tata Trusts Education', url: 'https://www.tatatrusts.org/our-work/education', strategy: 'cheerio', priority: 'medium', scanInterval: 72, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'adanifoundation', name: 'Adani Foundation Education', url: 'https://www.adanifoundation.org/education', strategy: 'cheerio', priority: 'medium', scanInterval: 72, category: 'scholarship', region: 'national', enabled: true },
+  { id: 'infosys-foundation', name: 'Infosys Foundation', url: 'https://www.infosys.com/infosys-foundation/', strategy: 'cheerio', priority: 'low', scanInterval: 72, category: 'scholarship', region: 'national', enabled: true },
+
+  // ═══ Internship ═══
+  { id: 'internshala', name: 'Internshala', url: 'https://internshala.com/internships/', strategy: 'cheerio', priority: 'high', scanInterval: 24, category: 'internship', region: 'national', enabled: true },
 ];
 
 // ─── Removed SEARCH_QUERIES (Google News) as we now use OFFICIAL_RSS_FEEDS ───

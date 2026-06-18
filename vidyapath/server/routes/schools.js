@@ -9,6 +9,7 @@ const SchoolCategory = require('../models/SchoolCategory');
 const SchoolField = require('../models/SchoolField');
 const { sendSchoolUpdateRequest } = require('../aiAgent/notificationEngine');
 const { protect, parentOnly, institutionOnly, adminOnly, multiRole } = require('../middleware/auth');
+const ActivityLog = require('../models/ActivityLog');
 
 // @GET /api/schools — List schools with filters
 router.get('/', async (req, res) => {
@@ -57,6 +58,19 @@ router.get('/', async (req, res) => {
       data: schools,
       pagination: { total, page: parseInt(page), limit: parseInt(limit), pages: Math.ceil(total / parseInt(limit)) },
     });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @GET /api/schools/:id/history — Get activity history for a school
+router.get('/:id/history', async (req, res) => {
+  try {
+    const logs = await ActivityLog.find({ entityType: 'school', entityId: req.params.id })
+      .populate('userId', 'profile role')
+      .sort({ createdAt: -1 })
+      .limit(50);
+    res.json({ success: true, data: logs });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -352,36 +366,57 @@ router.get('/user/reviews', protect, async (req, res) => {
   }
 });
 
-// @POST /api/schools — Create school (Admin or self-registration)
+// @POST /api/schools — Create school (any authenticated user)
 router.post('/', protect, async (req, res) => {
   try {
     const { name, board, type, address, contact, customFields } = req.body;
+    
+    // Validate mandatory fields: name and location
+    if (!name || !name.trim()) {
+      return res.status(400).json({ success: false, message: 'School name is required' });
+    }
+    if (!address || (!address.city && !address.state)) {
+      return res.status(400).json({ success: false, message: 'At least city or state is required for location' });
+    }
+
     const school = await School.create({
-      name, board, type, address, contact,
+      name: name.trim(), board, type, address, contact,
       customFields: customFields || {},
       isVerified: req.user.role === 'admin',
       adminUsers: [req.user._id],
+      createdBy: req.user._id,
+    });
+    await ActivityLog.create({
+      entityType: 'school', entityId: school._id, action: 'created',
+      userId: req.user._id,
+      changes: { name, board, type, address, contact },
     });
     res.status(201).json({ success: true, data: school });
+    // Auto-trigger enrichment when total >= 50
+    require('../aiAgent/entityEnricher').checkAndEnrich().catch(() => {});
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({ success: false, message: 'A school with this UDISE code already exists' });
+    }
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// @PUT /api/schools/:id — Update school (school admin or admin)
+// @PUT /api/schools/:id — Update school (any authenticated user)
 router.put('/:id', protect, async (req, res) => {
   try {
     const school = await School.findById(req.params.id);
     if (!school) return res.status(404).json({ success: false, message: 'School not found' });
 
-    // Check authorization
-    const isSchoolAdmin = school.adminUsers.includes(req.user._id);
-    if (!isSchoolAdmin && req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, message: 'Not authorized to update this school' });
-    }
-
     const { customFields, ...rest } = req.body;
+    const oldValues = {
+      name: school.name, board: school.board, type: school.type,
+      'address.city': school.address?.city, 'address.state': school.address?.state,
+      'address.district': school.address?.district, 'address.pincode': school.address?.pincode,
+      'contact.email': school.contact?.email, 'contact.phone': school.contact?.phone, 'contact.website': school.contact?.website,
+    };
     Object.assign(school, rest);
+    school.updatedBy = req.user._id;
     if (customFields) {
       let existing = {};
       if (school.customFields) {
@@ -397,7 +432,40 @@ router.put('/:id', protect, async (req, res) => {
       school.markModified('customFields');
     }
     await school.save();
+
+    // Log activity - compare old vs new
+    const changes = {};
+    const newValues = {
+      name: school.name, board: school.board, type: school.type,
+      'address.city': school.address?.city, 'address.state': school.address?.state,
+      'address.district': school.address?.district, 'address.pincode': school.address?.pincode,
+      'contact.email': school.contact?.email, 'contact.phone': school.contact?.phone, 'contact.website': school.contact?.website,
+    };
+    for (const key of Object.keys(oldValues)) {
+      if (JSON.stringify(oldValues[key]) !== JSON.stringify(newValues[key])) {
+        changes[key] = { from: oldValues[key], to: newValues[key] };
+      }
+    }
+    if (Object.keys(changes).length > 0) {
+      await ActivityLog.create({
+        entityType: 'school', entityId: school._id, action: 'updated',
+        userId: req.user._id, changes,
+      });
+    }
+
     res.json({ success: true, data: school });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @DELETE /api/schools/:id — Delete school (admin only)
+router.delete('/:id', protect, adminOnly, async (req, res) => {
+  try {
+    const school = await School.findById(req.params.id);
+    if (!school) return res.status(404).json({ success: false, message: 'School not found' });
+    await School.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'School deleted successfully' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

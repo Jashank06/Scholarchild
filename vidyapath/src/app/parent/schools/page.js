@@ -3,12 +3,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
+import AddSchoolModal from '@/components/schools/AddSchoolModal';
 
 export default function ParentSchoolsPage() {
   const router = useRouter();
   const [schools, setSchools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ state: '', city: '', board: '', type: '', search: '', verifiedOnly: false, minRating: '' });
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const fetchSchools = useCallback(async () => {
     setLoading(true);
@@ -41,8 +43,22 @@ export default function ParentSchoolsPage() {
 
   return (
     <div>
-      <h1 style={{ fontSize: '28px', fontWeight: '900', color: '#0B0B1A', marginBottom: '8px' }}>Schools Directory 🏫</h1>
-      <p style={{ color: '#6B7280', marginBottom: '32px' }}>Browse and review schools across India.</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
+        <div>
+          <h1 style={{ fontSize: '28px', fontWeight: '900', color: '#0B0B1A', marginBottom: '8px' }}>Schools Directory 🏫</h1>
+          <p style={{ color: '#6B7280', marginBottom: '32px' }}>Browse and review schools across India.</p>
+        </div>
+        <button
+          onClick={() => setShowAddModal(true)}
+          style={{
+            padding: '12px 24px', background: '#2563EB', color: 'white',
+            border: 'none', borderRadius: '100px', fontWeight: '800', cursor: 'pointer',
+            fontSize: '14px', whiteSpace: 'nowrap',
+          }}
+        >
+          ➕ Add School
+        </button>
+      </div>
 
       {/* Filters */}
       <form onSubmit={handleSearch} style={{ display: 'flex', gap: '12px', marginBottom: '32px', flexWrap: 'wrap' }}>
@@ -164,6 +180,12 @@ export default function ParentSchoolsPage() {
           ))}
         </div>
       )}
+
+      <AddSchoolModal
+        open={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSaved={() => fetchSchools()}
+      />
     </div>
   );
 }

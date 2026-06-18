@@ -43,6 +43,8 @@ const schoolSchema = new mongoose.Schema({
   customFields: { type: Map, of: mongoose.Schema.Types.Mixed, default: {} },
   isVerified: { type: Boolean, default: false },
   adminUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   updateToken: { type: String, sparse: true, index: true },
   updateTokenExpires: { type: Date },
   updateRequestStatus: { type: String, enum: ['none', 'sent', 'visited', 'updated'], default: 'none' },

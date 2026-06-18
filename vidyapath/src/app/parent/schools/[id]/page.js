@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import StarRating from '@/components/ui/StarRating';
 import ReviewModal from '@/components/schools/ReviewModal';
+import AddSchoolModal from '@/components/schools/AddSchoolModal';
+import HistoryPanel from '@/components/schools/HistoryPanel';
 
 const ratingCategories = [
   { key: 'academics', label: 'Academics', emoji: '📚' },
@@ -26,6 +28,7 @@ export default function SchoolDetailPage() {
   const [sortBy, setSortBy] = useState('recent');
   const [userReview, setUserReview] = useState(null);
   const [user, setUser] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const fetchSchoolAndReviews = useCallback(async () => {
     setLoading(true);
@@ -187,14 +190,27 @@ export default function SchoolDetailPage() {
             <p style={{ color: '#6B7280', fontSize: '14px', marginBottom: '20px' }}>
               Help other parents make informed decisions about this school.
             </p>
-            <button onClick={() => setShowReviewModal(true)} style={{
-              padding: '14px 36px', background: userReview ? '#10B981' : '#2563EB',
-              color: 'white', border: 'none', borderRadius: '100px', 
-              fontWeight: '800', cursor: 'pointer', fontSize: '15px',
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-            }}>
-              {userReview ? '✏️ Edit Your Review' : '⭐ Write a Review'}
-            </button>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button onClick={() => setShowReviewModal(true)} style={{
+                padding: '14px 36px', background: userReview ? '#10B981' : '#2563EB',
+                color: 'white', border: 'none', borderRadius: '100px', 
+                fontWeight: '800', cursor: 'pointer', fontSize: '15px',
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+              }}>
+                {userReview ? '✏️ Edit Your Review' : '⭐ Write a Review'}
+              </button>
+              <button
+                onClick={() => setShowEditModal(true)}
+                style={{
+                  padding: '14px 36px', background: '#7C3AED',
+                  color: 'white', border: 'none', borderRadius: '100px',
+                  fontWeight: '800', cursor: 'pointer', fontSize: '15px',
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                }}
+              >
+                📝 Edit School Info
+              </button>
+            </div>
             {userReview && (
               <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '8px' }}>
                 You reviewed this school on {new Date(userReview.createdAt).toLocaleDateString('en-IN')}
@@ -492,6 +508,12 @@ export default function SchoolDetailPage() {
               )}
             </div>
           </div>
+
+          {/* Activity History */}
+          <div style={{ background: 'white', borderRadius: '20px', padding: '28px', border: '1px solid #E5E7EB', marginTop: '24px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '20px' }}>📜 Activity History</h3>
+            <HistoryPanel entityType="school" entityId={params.id} />
+          </div>
         </div>
       </div>
 
@@ -504,6 +526,14 @@ export default function SchoolDetailPage() {
           onSubmitted={handleReviewSubmitted}
         />
       )}
+
+      {/* Edit School Modal */}
+      <AddSchoolModal
+        open={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        onSaved={() => fetchSchoolAndReviews()}
+        editSchool={school}
+      />
 
       <style jsx global>{`
         @keyframes pulse {

@@ -32,7 +32,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         });
         _videoController.play();
         _videoController.setLooping(false);
-        _videoController.setVolume(1.0); // Ensure sound is audible
+        _videoController.setVolume(1.0);
+        
+        // Check stored token in parallel with animation
+        ref.read(authProvider.notifier).checkAuth();
         
         // Wait for video to reach near end before showing logo (approx 3s)
         Future.delayed(const Duration(milliseconds: 3200), () {

@@ -151,6 +151,14 @@ const SCHEMAS = {
     },
     required: ['tags', 'shortDescription', 'preparationTips'],
     additionalProperties: false
+  },
+  discoverOfficialWebsite: {
+    type: 'object',
+    properties: {
+      url: { type: 'string', description: 'The most likely official website URL, or empty string if unknown.' }
+    },
+    required: ['url'],
+    additionalProperties: false
   }
 };
 
@@ -311,10 +319,95 @@ async function callAI(prompt, options = {}) {
 
 // Define the prompts object for the pipeline to use
 const PROMPTS = {
-  detect: (text, url) => `Analyze this text and detect if it is an educational opportunity.\n\nText:\n${text}`,
-  classify: (text) => `Categorize the opportunity.\n\nText:\n${text}`,
-  extract: (text, options) => `Extract structured details.\n\nText:\n${text}`,
-  enrich: (text) => `Enrich the opportunity data.\n\nText:\n${text}`
+  detect: (text, url) => `You are an AI trained to identify REAL educational opportunities for Indian students.
+
+Analyze this web page text and determine if it describes an actual scholarship, scheme, competition, olympiad, fellowship, internship, workshop, hackathon, or camp that a student can APPLY for.
+
+A REAL opportunity MUST have:
+✅ Specific award amount, prize money, OR clear benefit description (not just "scholarships available")
+✅ Eligibility criteria (grade/age/income/category/region)
+✅ Deadline or application dates (can be a date range)
+✅ How to apply (apply link, registration URL, application process)
+
+REJECT if it is:
+❌ News article about education (has journalist name, "read more", no apply link)
+❌ Blog post, opinion, or editorial content
+❌ General informational page (no specific opportunity with deadline)
+❌ Login page, homepage, category overview, or navigation page
+❌ Past/expired opportunity (deadline older than 6 months from today)
+❌ Advertisement or sponsored content
+❌ Political news or policy announcement (not an actual scheme application)
+
+CRITICAL DISTINCTION: A news article titled "New Scholarship for SC Students" is NOT an opportunity. An actual scholarship listing with "Apply before June 30, 2026 at scholarships.gov.in" IS an opportunity.
+
+Current date: ${new Date().toISOString().split('T')[0]}
+
+Source URL: ${url || 'Unknown'}
+
+Text:
+${text}`,
+
+  classify: (text) => `Classify this educational opportunity for Indian students.
+
+Determine:
+1. Type (must be one of): scholarship, competition, scheme, fellowship, internship, camp, workshop, olympiad
+2. Category: academic, science, arts, quiz, coding, writing, debate, sports, music, general
+3. Level: school, college, national, state, international, district
+4. Mode: online, offline, hybrid
+5. Organizer type: government, private, ngo, corporate, educational_institution
+
+SCHOLARSHIP = financial aid/stipend for education
+SCHEME = government welfare/support program
+COMPETITION = contest with prizes/awards
+OLYMPIAD = academic competition (math, science, etc.)
+FELLOWSHIP = research/academic fellowship
+INTERNSHIP = work experience program
+CAMP = summer/winter/training camp
+WORKSHOP = hands-on learning event
+
+Text:
+${text}`,
+
+  extract: (text, options) => `Extract ALL structured details from this opportunity listing for Indian students.
+
+Extract EXACTLY what is mentioned (don't make up information):
+
+1. title: The exact name of the scholarship/competition/scheme
+2. description: 2-3 sentence summary of what this is
+3. amounts: List of monetary amounts (convert lakh/crore to full numbers). Include prizes, stipends, grants.
+4. deadlines: ALL dates mentioned (application, exam, result, award dates)
+5. grades: Classes/grades eligible (e.g., "9-12", "UG", "PG")
+6. ageLimit: Age range if specified
+7. eligibility: Full eligibility criteria (income, category, region, gender, etc.)
+8. rewards: What winners get (cash, certificate, trophy, recognition, laptop, etc.)
+9. organizer: Name of organizing body
+10. applicationLink: URL to apply (if found in text)
+11. officialWebsite: Main website of the organizer
+12. syllabus: Topics covered (especially for competitions/olympiads)
+13. states: Indian states where applicable
+14. gender: male, female, all
+15. category: SC/ST/OBC/General/Minority if caste-based
+
+Source title: ${options?.title || 'Unknown'}
+Source URL: ${options?.url || 'Unknown'}
+
+Text:
+${text}`,
+
+  enrich: (text) => `Enrich this opportunity with additional context for Indian students.
+
+Add:
+1. shortDescription: One-line summary (max 150 chars)
+2. tags: 3-5 relevant tags (low-income, merit-based, girl-child, rural, STEM, sports, arts, coding, medical, engineering, etc.)
+3. relevanceScore: 0-100 how relevant for Indian students
+4. benefitScore: 0-100 how beneficial (higher money = higher score)
+5. urgencyScore: 0-100 based on deadline proximity
+6. audienceScore: 0-100 based on how many could apply
+7. keyHighlights: 3 bullet points of most attractive features
+8. suggestedGrade: Most suitable grade range
+
+Text:
+${text}`
 };
 
 function getAIStats() {

@@ -119,15 +119,35 @@ class KushaagraDrawer extends ConsumerWidget {
                             Navigator.pushNamed(context, '/bookmarks');
                           }, isDark, index: 4, color: const Color(0xFFEC4899)),
                           
-                          _drawerItem(context, ref, Icons.folder_shared_rounded, 'My Documents', () {
+                          _drawerItem(context, ref, Icons.folder_shared_rounded, 'Files & Folders', () {
                             Navigator.pop(context);
                             Navigator.pushNamed(context, '/documents');
                           }, isDark, index: 5, color: const Color(0xFF10B981)),
                           
-                          _drawerItem(context, ref, Icons.school_rounded, 'Partner Schools', () {
+                          _drawerItem(context, ref, Icons.school_rounded, 'Schools', () {
                             Navigator.pop(context);
                             Navigator.pushNamed(context, '/schools');
                           }, isDark, index: 6, color: const Color(0xFF3B82F6)),
+
+                          _drawerItem(context, ref, Icons.account_balance_rounded, 'Institutions', () {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/institutions');
+                          }, isDark, index: 7, color: const Color(0xFF0083B0)),
+
+                          _drawerItem(context, ref, Icons.event_rounded, 'Events', () {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/events');
+                          }, isDark, index: 8, color: const Color(0xFFF5576C)),
+
+                          _drawerItem(context, ref, Icons.star_rounded, 'Notables', () {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/notables');
+                          }, isDark, index: 9, color: KushaagraTheme.accentGold),
+
+                          _drawerItem(context, ref, Icons.business_rounded, 'Service Providers', () {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/service-providers');
+                          }, isDark, index: 10, color: const Color(0xFF6366F1)),
                           
                           Padding(
                             padding: const EdgeInsets.fromLTRB(15, 25, 0, 10),

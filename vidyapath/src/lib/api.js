@@ -174,6 +174,71 @@ class ApiService {
     return this.request(`/schools/${id}`, { method: 'PUT', body: JSON.stringify(body) });
   }
 
+  // Institutions
+  async getInstitutions(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/institutions?${q}`);
+  }
+
+  async getInstitution(id) {
+    return this.request(`/institutions/${id}`);
+  }
+
+  async createInstitution(body) {
+    return this.request('/institutions', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async updateInstitution(id, body) {
+    return this.request(`/institutions/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async submitInstitutionReview(institutionId, review) {
+    return this.request(`/institutions/${institutionId}/review`, { method: 'POST', body: JSON.stringify(review) });
+  }
+
+  async updateInstitutionReview(institutionId, review) {
+    return this.request(`/institutions/${institutionId}/review`, { method: 'PUT', body: JSON.stringify(review) });
+  }
+
+  async getMyInstitutionReviews() {
+    return this.request('/institutions/user/reviews');
+  }
+
+  // Events
+  async getEvents(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/events?${q}`);
+  }
+
+  async getEvent(id) {
+    return this.request(`/events/${id}`);
+  }
+
+  async createEvent(body) {
+    return this.request('/events', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async updateEvent(id, body) {
+    return this.request(`/events/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async submitEventReview(eventId, review) {
+    return this.request(`/events/${eventId}/review`, { method: 'POST', body: JSON.stringify(review) });
+  }
+
+  async updateEventReview(eventId, review) {
+    return this.request(`/events/${eventId}/review`, { method: 'PUT', body: JSON.stringify(review) });
+  }
+
+  async getMyEventReviews() {
+    return this.request('/events/user/reviews');
+  }
+
+  // Activity History
+  async getActivityHistory(entityType, entityId) {
+    return this.request(`/${entityType}s/${entityId}/history`);
+  }
+
   // Notifications
   async getNotifications() {
     return this.request('/notifications');
