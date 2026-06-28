@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import styles from '../../dashboard/listings.module.css';
 import api from '@/lib/api';
+import AddOpportunityModal from '@/components/schools/AddOpportunityModal';
 
 const categories = ['All', 'academic', 'general'];
 
@@ -12,6 +13,7 @@ export default function ParentSchemesPage() {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ total: 0 });
   const [filters, setFilters] = useState({ search: '', deadlineDays: '', rewardType: '' });
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     const fetchSchemes = async () => {
@@ -60,8 +62,13 @@ export default function ParentSchemesPage() {
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderLeft}>
           <h1>🏛️ Govt. Schemes for Children <span className={styles.countBadge}>{stats.total}</span></h1>
-          <p>Verified state and central government schemes to support your child’s education.</p>
+          <p>Verified state and central government schemes to support your child's education.</p>
         </div>
+        <button onClick={() => setShowAddModal(true)} style={{
+          padding: '12px 24px', background: '#2563EB', color: 'white',
+          border: 'none', borderRadius: '100px', fontWeight: '800', cursor: 'pointer',
+          fontSize: '14px', whiteSpace: 'nowrap',
+        }}>➕ Add Scheme</button>
       </div>
 
       <div className={styles.tabPills}>
@@ -148,6 +155,13 @@ export default function ParentSchemesPage() {
           })
         )}
       </div>
+
+      <AddOpportunityModal
+        open={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSaved={() => window.location.reload()}
+        defaultType="scheme"
+      />
     </div>
   );
 }

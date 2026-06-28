@@ -1,38 +1,38 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import styles from '../../dashboard/listings.module.css';
+import styles from '../listings.module.css';
 import api from '@/lib/api';
 import AddOpportunityModal from '@/components/schools/AddOpportunityModal';
 
-const categories = ['All', 'academic', 'science', 'arts', 'coding', 'quiz', 'olympiad', 'general'];
+const examTabs = ['All', 'NEET', 'JEE', 'CUET', 'NDA', 'CLAT', 'UPSC', 'NTA'];
 
-export default function ParentCompetitionsPage() {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [competitions, setCompetitions] = useState([]);
+export default function DashboardCompetitiveExamsPage() {
+  const [activeExam, setActiveExam] = useState('All');
+  const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ total: 0 });
-  const [filters, setFilters] = useState({ search: '', deadlineDays: '', rewardType: '' });
+  const [filters, setFilters] = useState({ search: '', deadlineDays: '' });
   const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
-    const fetchCompetitions = async () => {
+    const fetchExams = async () => {
       try {
         setLoading(true);
         const params = { type: 'competition' };
-        if (activeCategory !== 'All') params.category = activeCategory.toLowerCase();
+        if (activeExam !== 'All') params.search = activeExam;
         
         const res = await api.getOpportunities(params);
-        setCompetitions(res.data || []);
+        setExams(res.data || []);
         if (res.pagination) setStats({ total: res.pagination.total });
       } catch (err) {
-        console.error('Error fetching competitions:', err);
+        console.error('Error fetching competitive exams:', err);
       } finally {
         setLoading(false);
       }
     };
-    fetchCompetitions();
-  }, [activeCategory]);
+    fetchExams();
+  }, [activeExam]);
 
   const getDaysLeft = (deadline) => {
     if (!deadline) return null;
@@ -40,7 +40,7 @@ export default function ParentCompetitionsPage() {
     return days > 0 ? `${days} days left` : 'Expired';
   };
 
-  const filteredCompetitions = competitions.filter((item) => {
+  const filteredExams = exams.filter((item) => {
     if (filters.search) {
       const query = filters.search.toLowerCase();
       const matches = [item.title, item.organizer?.name, item.category]
@@ -48,7 +48,6 @@ export default function ParentCompetitionsPage() {
         .some((val) => val.toLowerCase().includes(query));
       if (!matches) return false;
     }
-    if (filters.rewardType && (item.rewards?.type || 'cash') !== filters.rewardType) return false;
     if (filters.deadlineDays && item.dates?.applicationDeadline) {
       const daysLeft = Math.ceil((new Date(item.dates.applicationDeadline) - new Date()) / (1000 * 60 * 60 * 24));
       if (daysLeft > Number(filters.deadlineDays)) return false;
@@ -61,25 +60,25 @@ export default function ParentCompetitionsPage() {
     <div className={styles.listingPage}>
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderLeft}>
-          <h1>🏆 Competitions for Children <span className={styles.countBadge}>{stats.total}</span></h1>
-          <p>Olympiads, quizzes, science fairs, and more to challenge your child.</p>
+          <h1>🎯 Competitive Exams <span className={styles.countBadge}>{stats.total}</span></h1>
+          <p>Track important entrance exams like NEET, JEE, CUET, and NTA updates.</p>
         </div>
         <button onClick={() => setShowAddModal(true)} style={{
-          padding: '12px 24px', background: '#2563EB', color: 'white',
+          padding: '10px 20px', background: '#2563EB', color: 'white',
           border: 'none', borderRadius: '100px', fontWeight: '800', cursor: 'pointer',
-          fontSize: '14px', whiteSpace: 'nowrap',
-        }}>➕ Add Competition</button>
+          fontSize: '13px', whiteSpace: 'nowrap',
+        }}>➕ Add Exam</button>
       </div>
 
-      <div className={styles.tabPills}>
-        {categories.map(cat => (
+      <div className={styles.tabPills} style={{ overflowX: 'auto', paddingBottom: '8px' }}>
+        {examTabs.map(tab => (
           <button 
-            key={cat} 
-            className={`${styles.pill} ${activeCategory === cat ? styles.active : ''}`} 
-            onClick={() => setActiveCategory(cat)}
-            style={{ textTransform: 'capitalize' }}
+            key={tab} 
+            className={`${styles.pill} ${activeExam === tab ? styles.active : ''}`} 
+            onClick={() => setActiveExam(tab)}
+            style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}
           >
-            {cat}
+            {tab}
           </button>
         ))}
       </div>
@@ -87,21 +86,11 @@ export default function ParentCompetitionsPage() {
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}>
         <input
           type="text"
-          placeholder="Search competitions..."
+          placeholder="Filter exams..."
           value={filters.search}
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
           style={{ flex: '1', minWidth: '220px', padding: '12px 16px', border: '1px solid #E5E7EB', borderRadius: '14px', fontSize: '14px' }}
         />
-        <select
-          value={filters.rewardType}
-          onChange={(e) => setFilters({ ...filters, rewardType: e.target.value })}
-          style={{ padding: '12px 16px', border: '1px solid #E5E7EB', borderRadius: '14px', fontSize: '14px' }}
-        >
-          <option value="">All Reward Types</option>
-          <option value="cash">Cash</option>
-          <option value="in-kind">In-kind</option>
-          <option value="tuition">Tuition</option>
-        </select>
         <select
           value={filters.deadlineDays}
           onChange={(e) => setFilters({ ...filters, deadlineDays: e.target.value })}
@@ -116,28 +105,33 @@ export default function ParentCompetitionsPage() {
 
       <div className={styles.listingGrid}>
         {loading ? (
-          <div style={{ padding: '2rem', textAlign: 'center', gridColumn: '1/-1' }}>Loading competitions...</div>
-        ) : filteredCompetitions.length === 0 ? (
-          <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)', gridColumn: '1/-1' }}>No competitions found.</div>
+          <div style={{ padding: '2rem', textAlign: 'center', gridColumn: '1/-1' }}>Loading competitive exams...</div>
+        ) : filteredExams.length === 0 ? (
+          <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)', gridColumn: '1/-1' }}>No competitive exams found for this selection.</div>
         ) : (
-          filteredCompetitions.map((item) => {
+          filteredExams.map((item) => {
             const deadline = getDaysLeft(item.dates?.applicationDeadline);
             return (
               <div key={item._id} className={styles.listCard}>
                 <div className={styles.cardTop}>
-                  <span className={`${styles.typeBadge} ${styles[item.type]}`}>{item.type}</span>
+                  <span className={`${styles.typeBadge}`} style={{background: '#EEF2FF', color: '#4F46E5', fontWeight: 'bold'}}>
+                    ENTRANCE EXAM
+                  </span>
                   <span className={`${styles.typeBadge}`} style={{background: 'var(--bg-secondary)', color: 'var(--text-secondary)'}}>
                     {item.category}
                   </span>
                 </div>
                 <h3 className={styles.cardTitle}>{item.title}</h3>
                 <div className={styles.cardOrganizer}>{item.organizer?.name}</div>
-                <div className={styles.rewardRow}>
-                  <span className={styles.rewardAmount}>{item.rewards?.cashAmount ? `₹${item.rewards.cashAmount}` : item.rewards?.description || 'View details'}</span>
-                  <span className={styles.rewardType}>{item.rewards?.type || 'cash'}</span>
-                </div>
-                <div className={styles.cardBottom}>
-                  <span className={styles.deadlineText}>{deadline || 'No deadline'}</span>
+                
+                {item.dates?.examDate && (
+                  <div style={{ marginTop: '12px', fontSize: '13px', color: '#B91C1C', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span>📅</span> Exam Date: {new Date(item.dates.examDate).toLocaleDateString()}
+                  </div>
+                )}
+                
+                <div className={styles.cardBottom} style={{ marginTop: '16px' }}>
+                  <span className={styles.deadlineText}>{deadline || 'No deadline specified'}</span>
                   <button
                     className={styles.applyBtnSmall}
                     onClick={() => {

@@ -117,7 +117,7 @@ async function runSitemapStrategy(sources, processCallback, options = {}) {
           if (!text || text.length < 100) continue;
 
           await processCallback({
-            title: `${source.name || 'Opportunity'} — ${new URL(url).pathname}`,
+            title: source.name || 'Opportunity',
             text,
             url,
             sourceType: 'web_scrape',

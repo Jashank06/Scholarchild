@@ -96,10 +96,11 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// @POST /api/opportunities — Create (Admin only)
-router.post('/', protect, adminOnly, async (req, res) => {
+// @POST /api/opportunities — Create (any authenticated user)
+router.post('/', protect, async (req, res) => {
   try {
     req.body.createdBy = req.user._id;
+    req.body.adminUsers = [req.user._id];
     const opportunity = await Opportunity.create(req.body);
     res.status(201).json({ success: true, data: opportunity });
   } catch (error) {
@@ -107,9 +108,10 @@ router.post('/', protect, adminOnly, async (req, res) => {
   }
 });
 
-// @PUT /api/opportunities/:id — Update (Admin only)
-router.put('/:id', protect, adminOnly, async (req, res) => {
+// @PUT /api/opportunities/:id — Update (any authenticated user)
+router.put('/:id', protect, async (req, res) => {
   try {
+    req.body.updatedBy = req.user._id;
     const opportunity = await Opportunity.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!opportunity) return res.status(404).json({ success: false, message: 'Not found' });
     res.json({ success: true, data: opportunity });

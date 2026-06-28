@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import styles from '../listings.module.css';
 import api from '@/lib/api';
 import FilterBar from '@/components/dashboard/FilterBar';
+import AddOpportunityModal from '@/components/schools/AddOpportunityModal';
 
 const categories = ['All', 'olympiad', 'science', 'coding', 'quiz', 'arts', 'writing'];
 const ITEMS_PER_PAGE = 20;
@@ -19,6 +20,7 @@ export default function CompetitionsPage() {
   const [applying, setApplying] = useState(null);
   const [applyingSuccess, setApplyingSuccess] = useState(null);
   const [showBigApplied, setShowBigApplied] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const searchTimer = useRef(null);
 
   const fetchListings = async (cat, fltrs) => {
@@ -90,8 +92,13 @@ export default function CompetitionsPage() {
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderLeft}>
           <h1>🏆 Competitions <span className={styles.countBadge}>{stats.total}</span></h1>
-          <p>National and international olympiads, science fairs, quiz competitions, and more</p>
+          <p>Olympiads, hackathons, quizzes and coding challenges for students</p>
         </div>
+        <button onClick={() => setShowAddModal(true)} style={{
+          padding: '10px 20px', background: '#2563EB', color: 'white',
+          border: 'none', borderRadius: '100px', fontWeight: '800', cursor: 'pointer',
+          fontSize: '13px', whiteSpace: 'nowrap',
+        }}>➕ Add</button>
       </div>
 
       <FilterBar
@@ -188,6 +195,13 @@ export default function CompetitionsPage() {
         @keyframes bounce-in { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
         @keyframes spin { 100% { transform: rotate(360deg); } }
       `}</style>
+
+      <AddOpportunityModal
+        open={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSaved={() => window.location.reload()}
+        defaultType="competition"
+      />
     </div>
   );
 }

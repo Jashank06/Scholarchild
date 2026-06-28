@@ -101,6 +101,12 @@ export default function AdminOpportunitiesPage() {
     }
   };
 
+  const safeDate = (dateVal) => {
+    if (!dateVal) return '';
+    const d = new Date(dateVal);
+    return isNaN(d.getTime()) ? '' : d.toISOString().split('T')[0];
+  };
+
   const handleEdit = (opp) => {
     setEditId(opp._id);
     setForm({
@@ -108,21 +114,36 @@ export default function AdminOpportunitiesPage() {
       description: opp.description || '', shortDescription: opp.shortDescription || '',
       organizerName: opp.organizer?.name || '', organizerType: opp.organizer?.type || 'government',
       level: opp.organizer?.level || 'national',
-      grades: opp.eligibility?.grades?.join(', ') || '', states: opp.eligibility?.states?.join(', ') || '',
-      categories: opp.eligibility?.categories?.join(', ') || '',
+      grades: Array.isArray(opp.eligibility?.grades) ? opp.eligibility.grades.join(', ') : '',
+      states: Array.isArray(opp.eligibility?.states) ? opp.eligibility.states.join(', ') : '',
+      categories: Array.isArray(opp.eligibility?.categories) ? opp.eligibility.categories.join(', ') : '',
       maxFamilyIncome: opp.eligibility?.maxFamilyIncome || '', minPercentage: opp.eligibility?.minPercentage || '',
       rewardType: opp.rewards?.type || 'cash', cashAmount: opp.rewards?.cashAmount || '',
       rewardDescription: opp.rewards?.description || '',
-      applicationDeadline: opp.dates?.applicationDeadline ? new Date(opp.dates.applicationDeadline).toISOString().split('T')[0] : '',
-      applicationStart: opp.dates?.applicationStart ? new Date(opp.dates.applicationStart).toISOString().split('T')[0] : '',
-      examDate: opp.dates?.examDate ? new Date(opp.dates.examDate).toISOString().split('T')[0] : '',
-      resultDate: opp.dates?.resultDate ? new Date(opp.dates.resultDate).toISOString().split('T')[0] : '',
-      awardDate: opp.dates?.awardDate ? new Date(opp.dates.awardDate).toISOString().split('T')[0] : '',
+      applicationDeadline: safeDate(opp.dates?.applicationDeadline),
+      applicationStart: safeDate(opp.dates?.applicationStart),
+      examDate: safeDate(opp.dates?.examDate),
+      resultDate: safeDate(opp.dates?.resultDate),
+      awardDate: safeDate(opp.dates?.awardDate),
       appMode: opp.application?.mode || 'external', externalLink: opp.application?.externalLink || '',
       isFree: opp.application?.isFree !== false ? 'true' : 'false',
-      tags: opp.tags?.join(', ') || '',
+      tags: Array.isArray(opp.tags) ? opp.tags.join(', ') : '',
     });
+    
     setShowForm(true);
+    // Scroll to top so the form is visible when editing an item far down the list
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleDelete = async (id) => {
+    if (typeof window !== 'undefined' && !window.confirm('Delete this opportunity? This cannot be undone.')) return;
+    try {
+      await api.request(`/opportunities/${id}`, { method: 'DELETE' });
+      setMessage({ text: '✅ Deleted', type: 'success' });
+      fetchData();
+    } catch (e) {
+      setMessage({ text: e.message, type: 'error' });
+    }
   };
 
   const handleBulkUpload = async (e) => {
@@ -302,11 +323,11 @@ export default function AdminOpportunitiesPage() {
       </div>
 
       {/* Table */}
-      <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: '24px', overflow: 'hidden' }}>
+      <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: '24px', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ borderBottom: '1px solid #E5E7EB', background: '#F9FAFB' }}>
-              {['Title', 'Type', 'Organizer', 'Award', 'Deadline', 'Apps', 'Actions'].map(h => (
+              {['Title', 'Type', 'Organizer', 'Award', 'Deadline', 'Apps', ''].map(h => (
                 <th key={h} style={{ padding: '14px 16px', textAlign: 'left', fontSize: '11px', fontWeight: '800', color: '#6B7280', textTransform: 'uppercase' }}>{h}</th>
               ))}
             </tr>
@@ -332,9 +353,27 @@ export default function AdminOpportunitiesPage() {
                   {opp.dates?.applicationDeadline ? new Date(opp.dates.applicationDeadline).toLocaleDateString('en-IN') : '—'}
                 </td>
                 <td style={{ padding: '14px 16px', fontSize: '13px', fontWeight: '700' }}>{opp.stats?.totalApplications || 0}</td>
-                <td style={{ padding: '14px 16px' }}>
-                  <button onClick={() => handleEdit(opp)} style={{ background: '#EFF6FF', color: '#2563EB', border: 'none', padding: '6px 12px', borderRadius: '8px', fontSize: '11px', fontWeight: '800', cursor: 'pointer', marginRight: '6px' }}>Edit</button>
-                  <button onClick={() => handleDelete(opp._id)} style={{ background: '#FEF2F2', color: '#DC2626', border: 'none', padding: '6px 12px', borderRadius: '8px', fontSize: '11px', fontWeight: '800', cursor: 'pointer' }}>Delete</button>
+                <td style={{ padding: '8px 16px', minWidth: '160px' }}>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button 
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); handleEdit(opp); }}
+                      style={{ 
+                        flex: 1, padding: '10px 16px', background: '#EFF6FF', color: '#2563EB', 
+                        border: '1px solid #BFDBFE', borderRadius: '12px', fontSize: '13px', 
+                        fontWeight: '800', cursor: 'pointer', whiteSpace: 'nowrap',
+                      }}
+                    >✏️ Edit</button>
+                    <button 
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); handleDelete(opp._id); }}
+                      style={{ 
+                        flex: 1, padding: '10px 16px', background: '#FEF2F2', color: '#DC2626',
+                        border: '1px solid #FECACA', borderRadius: '12px', fontSize: '13px',
+                        fontWeight: '800', cursor: 'pointer', whiteSpace: 'nowrap',
+                      }}
+                    >🗑️ Delete</button>
+                  </div>
                 </td>
               </tr>
             ))}

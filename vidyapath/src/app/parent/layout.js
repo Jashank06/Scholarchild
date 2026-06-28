@@ -14,6 +14,7 @@ import NotificationCenter from '@/components/dashboard/NotificationCenter';
 			{ icon: '🎓', label: 'Scholarships', href: '/parent/scholarships' },
 			{ icon: '🏛️', label: 'Govt. Schemes', href: '/parent/schemes' },
 			{ icon: '🏆', label: 'Competitions', href: '/parent/competitions' },
+			{ icon: '🎯', label: 'Competitive Exams', href: '/parent/competitive-exams' },
 		{ icon: '🏫', label: 'Schools', href: '/parent/schools' },
 		{ icon: '🎓', label: 'Institutions', href: '/parent/institutions' },
 		{ icon: '🎪', label: 'Events', href: '/parent/events' },

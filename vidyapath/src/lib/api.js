@@ -126,6 +126,18 @@ class ApiService {
     return this.request('/opportunities/user/bookmarks');
   }
 
+  async createOpportunity(body) {
+    return this.request('/opportunities', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async updateOpportunity(id, body) {
+    return this.request(`/opportunities/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async deleteOpportunity(id) {
+    return this.request(`/opportunities/${id}`, { method: 'DELETE' });
+  }
+
 
   // Applications
   async apply(body) {

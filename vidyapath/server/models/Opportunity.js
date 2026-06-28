@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const opportunitySchema = new mongoose.Schema({
-  type: { type: String, enum: ['scholarship', 'competition', 'scheme', 'fellowship', 'internship', 'camp', 'workshop', 'other'], required: true },
+  type: { type: String, enum: ['scholarship', 'competition', 'scheme', 'fellowship', 'internship', 'camp', 'workshop', 'exam', 'other'], required: true },
   status: { type: String, enum: ['active', 'inactive', 'draft', 'expired'], default: 'active' },
 
   title: { type: String, required: true, trim: true },
@@ -82,8 +82,10 @@ const opportunitySchema = new mongoose.Schema({
 
   // Admin
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   verifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   isVerified: { type: Boolean, default: false },
+  adminUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
 }, { timestamps: true });
 

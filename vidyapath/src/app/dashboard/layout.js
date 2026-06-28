@@ -13,6 +13,7 @@ const navSections = [
       { icon: '🏠', label: 'Dashboard', href: '/dashboard', badge: null },
       { icon: '🎓', label: 'Scholarships', href: '/dashboard/scholarships', badge: null },
       { icon: '🏆', label: 'Competitions', href: '/dashboard/competitions', badge: null },
+      { icon: '🎯', label: 'Competitive Exams', href: '/dashboard/competitive-exams', badge: null },
       { icon: '🏫', label: 'Schools', href: '/dashboard/schools', badge: null },
       { icon: '🎓', label: 'Institutions', href: '/dashboard/institutions', badge: null },
       { icon: '🎪', label: 'Events', href: '/dashboard/events', badge: null },

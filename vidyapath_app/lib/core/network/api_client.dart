@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// API Configuration
 class ApiConfig {
   static const String baseUrl = 'http://148.135.136.17:5050/api';
-  static const String localUrl = 'http://localhost:5001/api';
-  static String get activeUrl => localUrl; // TESTING
+  static const String localUrl = 'http://192.168.31.123:5001/api'; // Mac IP for phone testing
+  static String get activeUrl => baseUrl; // PRODUCTION
 
   static const String login = '/auth/login';
   static const String register = '/auth/register';

@@ -121,7 +121,7 @@ async function runDeepLinkStrategy(sources, processCallback, options = {}) {
 
         results.found++;
         await processCallback({
-          title: `${source.name || 'Opportunity'} — Discovery`,
+          title: source.name || 'Opportunity',
           text,
           url,
           sourceType: 'web_scrape',

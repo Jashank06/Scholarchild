@@ -2,12 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import api from '@/lib/api';
+import AddOpportunityModal from '@/components/schools/AddOpportunityModal';
 
 export default function ParentScholarshipsPage() {
   const [opportunities, setOpportunities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ type: 'scholarship', category: '', grade: '', search: '', organizer: '', deadlineDays: '' });
   const [activeTab, setActiveTab] = useState('scholarship');
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -48,12 +50,21 @@ export default function ParentScholarshipsPage() {
 
   return (
     <div>
-      <h1 style={{ fontSize: '28px', fontWeight: '900', color: '#0B0B1A', marginBottom: '8px' }}>
-        Opportunities for Your Child 🎓
-      </h1>
-      <p style={{ color: '#6B7280', marginBottom: '32px' }}>
-        Browse scholarships, competitions, and government schemes across India.
-      </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
+        <div>
+          <h1 style={{ fontSize: '28px', fontWeight: '900', color: '#0B0B1A', marginBottom: '8px' }}>
+            Opportunities for Your Child 🎓
+          </h1>
+          <p style={{ color: '#6B7280', marginBottom: '32px' }}>
+            Browse scholarships, competitions, and government schemes across India.
+          </p>
+        </div>
+        <button onClick={() => setShowAddModal(true)} style={{
+          padding: '12px 24px', background: '#2563EB', color: 'white',
+          border: 'none', borderRadius: '100px', fontWeight: '800', cursor: 'pointer',
+          fontSize: '14px', whiteSpace: 'nowrap',
+        }}>➕ Add Opportunity</button>
+      </div>
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
@@ -202,6 +213,13 @@ export default function ParentScholarshipsPage() {
           })}
         </div>
       )}
+
+      <AddOpportunityModal
+        open={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSaved={() => fetchData()}
+        defaultType={activeTab}
+      />
     </div>
   );
 }
