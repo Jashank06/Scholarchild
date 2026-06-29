@@ -8,36 +8,32 @@ import NotificationCenter from '@/components/dashboard/NotificationCenter';
 
 	const navSections = [
 	{
-		label: 'Main',
+		label: 'Discover',
 		items: [
 			{ icon: '🏠', label: 'Dashboard', href: '/parent' },
+			{ icon: '🏫', label: 'Schools', href: '/parent/schools' },
+			{ icon: '🎓', label: 'Colleges', href: '/parent/institutions' },
 			{ icon: '🎓', label: 'Scholarships', href: '/parent/scholarships' },
-			{ icon: '🏛️', label: 'Govt. Schemes', href: '/parent/schemes' },
 			{ icon: '🏆', label: 'Competitions', href: '/parent/competitions' },
 			{ icon: '🎯', label: 'Competitive Exams', href: '/parent/competitive-exams' },
-		{ icon: '🏫', label: 'Schools', href: '/parent/schools' },
-		{ icon: '🎓', label: 'Institutions', href: '/parent/institutions' },
-		{ icon: '🎪', label: 'Events', href: '/parent/events' },
-			{ icon: '⭐', label: 'Notable', href: '/parent/notable' },
-			{ icon: '🏪', label: 'Service Provider', href: '/parent/service-providers' },
+			{ icon: '🎪', label: 'Events', href: '/parent/events' },
+			{ icon: '🏛️', label: 'Govt Schemes', href: '/parent/schemes' },
 		],
 	},
 	{
-		label: 'Tracking',
+		label: 'Track',
 		items: [
-			{
-				icon: '📌',
-				label: 'Application Status',
-				href: '/parent/application-status',
-			},
-			{ icon: '🗂️', label: 'Files & Folders', href: '/parent/files-folders' },
+			{ icon: '⭐', label: 'Notables', href: '/parent/notable' },
+			{ icon: '🏪', label: 'Service Providers', href: '/parent/service-providers' },
+			{ icon: '📌', label: 'Application Status', href: '/parent/application-status' },
 			{ icon: '🏆', label: 'Results', href: '/parent/results' },
 			{ icon: '📰', label: 'History', href: '/parent/history' },
 		],
 	},
 	{
-		label: 'Activity',
+		label: 'Resources',
 		items: [
+			{ icon: '🗂️', label: 'Files & Folders', href: '/parent/files-folders' },
 			{ icon: '🛠️', label: 'Support Center', href: '/parent/services' },
 			{ icon: '🔔', label: 'Notifications', href: '/parent/notifications' },
 			{ icon: '❓', label: 'FAQ\'s', href: '/parent/faqs' },

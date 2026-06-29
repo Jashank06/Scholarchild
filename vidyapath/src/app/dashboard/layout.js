@@ -8,37 +8,40 @@ import NotificationCenter from '@/components/dashboard/NotificationCenter';
 
 const navSections = [
   {
-    label: 'Main',
+    label: 'Discover',
     items: [
       { icon: '🏠', label: 'Dashboard', href: '/dashboard', badge: null },
+      { icon: '🏫', label: 'Schools', href: '/dashboard/schools', badge: null },
+      { icon: '🎓', label: 'Colleges', href: '/dashboard/institutions', badge: null },
       { icon: '🎓', label: 'Scholarships', href: '/dashboard/scholarships', badge: null },
       { icon: '🏆', label: 'Competitions', href: '/dashboard/competitions', badge: null },
       { icon: '🎯', label: 'Competitive Exams', href: '/dashboard/competitive-exams', badge: null },
-      { icon: '🏫', label: 'Schools', href: '/dashboard/schools', badge: null },
-      { icon: '🎓', label: 'Institutions', href: '/dashboard/institutions', badge: null },
       { icon: '🎪', label: 'Events', href: '/dashboard/events', badge: null },
-      { icon: '🏛️', label: 'Govt. Schemes', href: '/dashboard/schemes', badge: null },
-      { icon: '⚽', label: 'Sports', href: '/dashboard/sports', badge: null },
-      { icon: '⭐', label: 'Notable', href: '/dashboard/notable', badge: null },
-      { icon: '🏪', label: 'Services', href: '/dashboard/services', badge: null },
+      { icon: '🏛️', label: 'Govt Schemes', href: '/dashboard/schemes', badge: null },
     ],
   },
   {
-    label: 'My Activity',
+    label: 'Track',
     items: [
+      { icon: '⭐', label: 'Notables', href: '/dashboard/notable', badge: null },
+      { icon: '🏪', label: 'Service Providers', href: '/dashboard/service-providers', badge: null },
       { icon: '📋', label: 'Applications', href: '/dashboard/applications', badge: null },
       { icon: '🔖', label: 'Bookmarks', href: '/dashboard/bookmarks', badge: null },
       { icon: '🧾', label: 'Results', href: '/dashboard/results', badge: null },
       { icon: '📰', label: 'History', href: '/dashboard/history', badge: null },
+    ],
+  },
+  {
+    label: 'Resources',
+    items: [
       { icon: '🗂️', label: 'Files & Folders', href: '/dashboard/documents', badge: null },
-      { icon: '📅', label: 'Calendar', href: '/dashboard/calendar', badge: null },
+      { icon: '💁', label: 'Support Center', href: '/dashboard/services', badge: null },
     ],
   },
   {
     label: 'Account',
     items: [
       { icon: '👤', label: 'My Profile', href: '/dashboard/profile', badge: null },
-      { icon: '💁', label: 'Support Center', href: '/dashboard/services', badge: null },
       { icon: '⚙️', label: 'Settings', href: '/dashboard/settings', badge: null },
     ],
   },
